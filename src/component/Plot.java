@@ -1,13 +1,15 @@
 package component;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.StringJoiner;
 
 public class Plot implements DrawComponent {
     private static Type type = Type.PLOT;
-    private Point2D.Float point1, point2;
+    private Point point1;
+    private Point2D.Float point2;
 
-    public Plot (Point2D.Float point1, Point2D.Float point2){
+    public Plot (Point point1, Point2D.Float point2){
         this.point1 = point1;
         this.point2 = point2;
     }
@@ -20,10 +22,8 @@ public class Plot implements DrawComponent {
         // Construct string with space after each variable
         StringJoiner output = new StringJoiner(" ");
         output.add(getType().toString())
-                .add(Double.toString(point1.getX()))
-                .add(Double.toString(point1.getY()))
-                .add(Double.toString(point2.getX()))
-                .add(Double.toString(point2.getY()));
+                .add(point1.toString())
+                .add(point2.toString());
 
         return output.toString();
     }

@@ -1,5 +1,6 @@
 package component;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringJoiner;
@@ -7,10 +8,10 @@ import java.util.StringJoiner;
 public class Polygon implements DrawComponent{
 
     private static Type type = Type.POLYGON;
-    private ArrayList<Point2D.Float> pointsList;
+    private ArrayList<Point> pointsList;
 
     // Constructor
-    public Polygon(ArrayList<Point2D.Float> pointsList){
+    public Polygon(ArrayList<Point> pointsList){
         this.pointsList = pointsList;
     }
 
@@ -23,9 +24,8 @@ public class Polygon implements DrawComponent{
         // Add type to command
         joiner.add(type.toString());
         // For each point in list, add X coord, a space,  Y coord
-        for (Point2D.Float point : pointsList){
-            joiner.add(Double.toString(point.getX()));
-            joiner.add(Double.toString(point.getY()));
+        for (Point point : pointsList){
+            joiner.add(point.toString());
         }
 
         return joiner.toString();
