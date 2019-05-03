@@ -6,12 +6,10 @@ import java.util.StringJoiner;
 
 public class Plot implements DrawComponent {
     private static Type type = Type.PLOT;
-    private Point point1;
-    private Point2D.Float point2;
+    private Point point;
 
-    public Plot (Point point1, Point2D.Float point2){
-        this.point1 = point1;
-        this.point2 = point2;
+    public Plot (Point point){
+        this.point = point;
     }
 
     public Type getType(){
@@ -22,8 +20,7 @@ public class Plot implements DrawComponent {
         // Construct string with space after each variable
         StringJoiner output = new StringJoiner(" ");
         output.add(getType().toString())
-                .add(point1.toString())
-                .add(point2.toString());
+                .add(point.toString());
 
         return output.toString();
     }

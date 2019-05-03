@@ -24,10 +24,9 @@ public abstract class Shape implements DrawComponent {
     public String toString(){
         StringJoiner output = new StringJoiner(" ");
         output.add(getType().toString())
-                .add(Double.toString(point1.getX()))
-                .add(Double.toString(point1.getY()))
-                .add(Double.toString(point2.getX()))
-                .add(Double.toString(point2.getY()));
+                .add(point1.toString())
+                .add(point2.toString());
+
 
         return output.toString();
     }
