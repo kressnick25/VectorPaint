@@ -1,6 +1,6 @@
 package component;
 
-import component.Polygon;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +25,12 @@ class PolygonTest {
     }
     @Test
     void constructorTest(){
+        ArrayList<VectorPoint> arrayPoint = new ArrayList<VectorPoint>();
 
         VectorPoint pointTest = new VectorPoint(0.6,0.5);
         arrayPoint.add(pointTest);
 
-        //polygenTest = new Polygon(arrayPoint);
-        assertEquals(1, 1);
+        polygenTest = new Polygon(arrayPoint);
+        assertEquals(arrayPoint, polygenTest.getArrayPointsList());
     }
 }
