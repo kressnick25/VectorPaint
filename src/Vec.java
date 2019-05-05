@@ -22,7 +22,8 @@ public class Vec {
      * @param filename
      * @param commands
      */
-    public Vec(String filename, PriorityQueue<String> commands){
+    public Vec(String filename, Queue<String> commands){
+        this.filename = filename;
         // Convert PQ to LinkedList and store in private var
         this.commands = new ArrayList<>(commands);
     }
@@ -33,8 +34,11 @@ public class Vec {
             FileWriter file = new FileWriter(filename);
             PrintWriter writer = new PrintWriter(file);
 
-            // Write each command, print adds newline automatically
-            commands.forEach((a) -> writer.print(a));
+            // Write each command, print adds newline
+            commands.forEach((a) -> writer.printf(a + "\n"));
+
+            //close file connection
+            writer.close();
 
         } catch (Exception e){
             // Print exception
@@ -76,5 +80,4 @@ public class Vec {
     public ArrayList<String> get(){
         return commands;
     }
-
 }
