@@ -1,13 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Vec {
     // PQ == ArrayList with first in last out
-    // Linked list == Array list with FIFO structure
-    private Queue<String> commands = new LinkedList<>();
+    private ArrayList<String> commands = new ArrayList<>();
     private String filename;
 
     /**
@@ -25,19 +24,30 @@ public class Vec {
      */
     public Vec(String filename, PriorityQueue<String> commands){
         // Convert PQ to LinkedList and store in private var
-        this.commands = new LinkedList<String>(commands);
+        this.commands = new ArrayList<>(commands);
     }
 
     public void save(){
-        // TODO for each in commands, write to file with newline
+        try {
+            // Open file
+            FileWriter file = new FileWriter(filename);
+            PrintWriter writer = new PrintWriter(file);
 
+            // Write each command, print adds newline automatically
+            commands.forEach((a) -> writer.print(a));
+
+        } catch (Exception e){
+            // Print exception
+            System.err.format("Error trying to write to '%s'.", filename);
+            e.printStackTrace();
+        }
     }
 
     /**
      * Reads from filename stream to private variable;
      */
     public void read(){
-        Queue<String> lines = new LinkedList<>();
+        ArrayList<String> lines = new ArrayList<>();
 
         try {
             // Open file to new reader
@@ -63,7 +73,7 @@ public class Vec {
      *
      * @return Queue of commands
      */
-    public Queue<String> get(){
+    public ArrayList<String> get(){
         return commands;
     }
 
