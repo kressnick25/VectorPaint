@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Line extends Shape {
 
-    private static DrawComponent.Type type = DrawComponent.Type.LINE;
+    private static Drawable.Type type = Drawable.Type.LINE;
 
     public Line(Point point1, Point point2) {
         super (point1, point2);

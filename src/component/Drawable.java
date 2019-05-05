@@ -1,12 +1,12 @@
 package component;
 
-public interface DrawComponent {
+public interface Drawable {
     enum Type{
         PLOT,
         POLYGON,
         LINE,
         RECTANGLE,
-        ECLIPSE,
+        ELLIPSE,
     }
     /**
      *

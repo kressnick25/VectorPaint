@@ -1,10 +1,9 @@
 package component;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.StringJoiner;
 
-public class Plot implements DrawComponent {
+public class Plot implements Drawable {
     private static Type type = Type.PLOT;
     private Point point;
 

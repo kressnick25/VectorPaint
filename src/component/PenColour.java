@@ -2,11 +2,11 @@ package component;
 
 import java.awt.*;
 
-public class Pen implements ColourTool {
+public class PenColour implements ColourTool {
     private static ToolType type = ToolType.PEN;
     private Color colour;
 
-    public Pen(Color colour){
+    public PenColour(Color colour){
         this.colour = colour;
     }
 

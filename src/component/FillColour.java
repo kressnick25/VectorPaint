@@ -2,11 +2,11 @@ package component;
 
 import java.awt.*;
 
-public class Fill implements  ColourTool {
+public class FillColour implements  ColourTool {
     private static ToolType type = ToolType.FILL;
     private Color colour;
 
-    public Fill(Color colour){
+    public FillColour(Color colour){
         this.colour = colour;
     }
 
