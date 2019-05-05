@@ -1,11 +1,12 @@
 package component;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class Rectangle extends Shape{
     private static Drawable.Type type = Drawable.Type.RECTANGLE;
 
-    public Rectangle(Point point1, Point point2) {
+    public Rectangle(VectorPoint point1, VectorPoint point2) {
         super (point1, point2);
     }
 
