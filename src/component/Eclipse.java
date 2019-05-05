@@ -3,7 +3,7 @@ package component;
 import java.awt.*;
 
 public class Eclipse extends Shape {
-    private static DrawComponent.Type type = DrawComponent.Type.ECLIPSE;
+    private static Drawable.Type type = Drawable.Type.ECLIPSE;
 
     public Eclipse(Point point1, Point point2) {
         super (point1, point2);

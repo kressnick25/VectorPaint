@@ -3,7 +3,7 @@ package component;
 import java.awt.*;
 import java.util.StringJoiner;
 
-public abstract class Shape implements DrawComponent {
+public abstract class Shape implements Drawable {
     private Point point1;
     private Point point2;
 

@@ -1,11 +1,10 @@
 package component;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-public class Polygon implements DrawComponent{
+public class Polygon implements Drawable {
 
     private static Type type = Type.POLYGON;
     private ArrayList<Point> pointsList;
