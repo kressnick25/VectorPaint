@@ -6,7 +6,7 @@ public interface Drawable {
         POLYGON,
         LINE,
         RECTANGLE,
-        ECLIPSE,
+        ELLIPSE,
     }
     /**
      *
