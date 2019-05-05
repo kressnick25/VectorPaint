@@ -5,11 +5,11 @@ class DecimalOutOfRangeException extends Exception {
 }
 
 
-public class Point {
+public class VectorPoint {
 
     private float x, y;
 
-    public Point(float x, float y) throws DecimalOutOfRangeException{
+    public VectorPoint(float x, float y) throws DecimalOutOfRangeException{
         assertDecimal(x);
         assertDecimal(y);
 

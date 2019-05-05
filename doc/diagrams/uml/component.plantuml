@@ -100,7 +100,7 @@ title __COMPONENT's Class Diagram__\n
     package component {
       class Plot {
           {static} - type : Type
-          - point : Point
+          - point : VectorPoint
           + Plot()
           + getType()
           + toString()
@@ -113,7 +113,7 @@ title __COMPONENT's Class Diagram__\n
     package component {
       class Polygon {
           {static} - type : Type
-          - pointsList : ArrayList<Point>
+          - pointsList : ArrayList<VectorPoint>
           + Polygon()
           + getType()
           + toString()
@@ -136,8 +136,8 @@ title __COMPONENT's Class Diagram__\n
   package  {
     package component {
       abstract class Shape {
-          - point1 : Point
-          - point2 : Point
+          - point1 : VectorPoint
+          - point2 : VectorPoint
           + Shape()
           + Shape()
           + toString()
