@@ -65,7 +65,7 @@ title __REPO's Class Diagram__\n
   
 
   package  {
-    class Point {
+    class VectorPoint {
     }
   }
   

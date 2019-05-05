@@ -10,10 +10,10 @@ title __SRC's Class Diagram__\n
   
 
   package  {
-    class Point {
+    class VectorPoint {
         - x : float
         - y : float
-        + Point()
+        + VectorPoint()
         - assertDecimal()
         + getX()
         + getY()
