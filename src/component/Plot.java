@@ -5,9 +5,9 @@ import java.util.StringJoiner;
 
 public class Plot implements Drawable {
     private static Type type = Type.PLOT;
-    private Point point;
+    private VectorPoint point;
 
-    public Plot (Point point){
+    public Plot (VectorPoint point){
         this.point = point;
     }
 
