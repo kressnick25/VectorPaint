@@ -4,15 +4,15 @@ import java.awt.*;
 import java.util.StringJoiner;
 
 public abstract class Shape implements Drawable {
-    private Point point1;
-    private Point point2;
+    private VectorPoint point1;
+    private VectorPoint point2;
 
     // Default constructor
     public Shape(){
 
     }
 
-    public Shape(Point point1, Point point2){
+    public Shape(VectorPoint point1, VectorPoint point2){
         this.point1 = point1;
         this.point2 = point2;
     }

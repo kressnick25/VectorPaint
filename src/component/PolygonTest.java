@@ -1,4 +1,4 @@
-package tests;
+package component;
 
 import component.Polygon;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PolygonTest {
     private Polygon polygenTest;
-    private Point pointTest;
+    private VectorPoint pointTest;
     private Throwable thrown;
-    private ArrayList<Point> arrayPoint;
+    private ArrayList<VectorPoint> arrayPoint;
 
     @BeforeEach
     void setUp(){
@@ -26,7 +26,7 @@ class PolygonTest {
     @Test
     void constructorTest(){
 
-        Point pointTest = new Point(0.6,0.5);
+        VectorPoint pointTest = new VectorPoint(0.6,0.5);
         arrayPoint.add(pointTest);
 
         //polygenTest = new Polygon(arrayPoint);

@@ -6,7 +6,7 @@ public class Line extends Shape {
 
     private static Drawable.Type type = Drawable.Type.LINE;
 
-    public Line(Point point1, Point point2) {
+    public Line(VectorPoint point1, VectorPoint point2) {
         super (point1, point2);
     }
 
