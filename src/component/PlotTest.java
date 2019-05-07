@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +23,16 @@ class PlotTest {
 
     }
 
+    @Test
+    public void testToString(){
+        plotTest = new Plot(pointTestLocation);
+        typeTest = Drawable.Type.PLOT;
 
+        StringJoiner testOutput = new StringJoiner(" ");
+        String testString = testOutput.toString();
+
+        assertEquals(testString,plotTest.toString());
+    }
 
 
 
