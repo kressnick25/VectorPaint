@@ -82,26 +82,53 @@ public class Vec {
         ArrayList<Drawable> commands = new ArrayList<Drawable>();
         // Parse each component in line to local vars
         for (String line : lines){
-            String myClass, x1, y1, x2, y2;
-
             // split line into compontents ie PLOT, 0.0, 0.1
-            String[] components = line.split("\\s+");
-            // parse componenents to local vars
-            myClass = components[0];
-            x1 = components[1];
-            y1 = components[2];
-            x2 = components[3];
-            y2 = components[4];
-
+            String[] components = line.split("\\s+"); // TODO arrayList?
+            Object command; //TODO refactor colourtool and drawable under one interface
             // Initialise new object from vars
-            try {
-                Class cls = Class.forName("component" + myClass);
-
-
-            } catch (Exception e){
-                // TODO error message here
+            switch(components[0]){
+                case "RECTANGLE": // TODO convert to comparison to enum
+                    command = new Rectangle(
+                                    new VectorPoint(
+                                            Double.parseDouble( components[1] ),
+                                            Double.parseDouble( components[2] ) ),
+                                    new VectorPoint(
+                                            Double.parseDouble( components[3] ),
+                                            Double.parseDouble( components[4] )
+                                    ));
+                case "PLOT":
+                    command = new Plot(
+                            new VectorPoint(
+                                    Double.parseDouble( components[1] ),
+                                    Double.parseDouble( components[2] ) ));
+                case "LINE":
+                    command = new Line(
+                            new VectorPoint(
+                                    Double.parseDouble( components[1] ),
+                                    Double.parseDouble( components[2] ) ),
+                            new VectorPoint(
+                                    Double.parseDouble( components[3] ),
+                                    Double.parseDouble( components[4] )
+                                    ));
+                case "ELLIPSE":
+                    command = new Ellipse(
+                            new VectorPoint(
+                                    Double.parseDouble( components[1] ),
+                                    Double.parseDouble( components[2] ) ),
+                            new VectorPoint(
+                                    Double.parseDouble( components[3] ),
+                                    Double.parseDouble( components[4] )
+                            ));
+                case "POLYGON":
+                    //TODO
+                case "PEN":
+                    //TODO
+                case "FILL":
+                    //TODO
             }
+
             // add object to array
+            commands.add(command);
 
         }
 
