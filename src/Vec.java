@@ -1,12 +1,15 @@
+import component.Drawable;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import component.*;
 
 public class Vec {
     // PQ == ArrayList with first in last out
-    private ArrayList<String> commands = new ArrayList<>();
+    private ArrayList<Drawable> commands = new ArrayList<>();
     private String filename;
 
     /**
@@ -63,21 +66,55 @@ public class Vec {
             }
             // Close file connection
             reader.close();
-            // Assign lines to private var
-            this.commands = lines;
         }
         catch (Exception e){
             // Print exception
             System.err.format("Error trying to read '%s'.", filename);
             e.printStackTrace();
         }
+
+        this.commands = parseLinesToCommands(lines);
+    }
+
+    // TODO try catch
+    // TODO test components against enum
+    private ArrayList<Drawable> parseLinesToCommands(ArrayList<String> lines) {
+        ArrayList<Drawable> commands = new ArrayList<Drawable>();
+        // Parse each component in line to local vars
+        for (String line : lines){
+            String myClass, x1, y1, x2, y2;
+
+            // split line into compontents ie PLOT, 0.0, 0.1
+            String[] components = line.split("\\s+");
+            // parse componenents to local vars
+            myClass = components[0];
+            x1 = components[1];
+            y1 = components[2];
+            x2 = components[3];
+            y2 = components[4];
+
+            // Initialise new object from vars
+            try {
+                Class cls = Class.forName("component" + myClass);
+
+
+            } catch (Exception e){
+                // TODO error message here
+            }
+            // add object to array
+
+        }
+
+
+        //return array
+        return commands;
     }
 
     /**
      *
      * @return Queue of commands
      */
-    public ArrayList<String> get(){
+    public ArrayList<Drawable> get(){
         return commands;
     }
 }

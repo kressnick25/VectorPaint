@@ -13,6 +13,7 @@ public class Polygon implements Drawable {
     public Polygon(ArrayList<Point> pointsList){
         this.pointsList = pointsList;
     }
+
     public ArrayList getArrayPointsList(){ return pointsList; }
 
     public Type getType(){
