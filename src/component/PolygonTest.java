@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class PolygonTest {
@@ -30,6 +31,14 @@ class PolygonTest {
         VectorPoint pointTest = new VectorPoint(0.6,0.5);
         arrayPoint.add(pointTest);
 
+        polygenTest = new Polygon(arrayPoint);
+        assertEquals(arrayPoint, polygenTest.getArrayPointsList());
+    }
+    @Test
+    void getArrayPointsListTest(){
+        ArrayList<VectorPoint> arrayPoint = new ArrayList<VectorPoint>();
+        VectorPoint pointTest = new VectorPoint(0.6,0.5);
+        arrayPoint.add(pointTest);
         polygenTest = new Polygon(arrayPoint);
         assertEquals(arrayPoint, polygenTest.getArrayPointsList());
     }
