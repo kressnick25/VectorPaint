@@ -1,15 +1,25 @@
 package component;
 
-public interface ColourTool {
-    enum ToolType{
-        PEN,
-        FILL,
+import java.awt.*;
+
+public abstract class ColourTool implements Drawable {
+    private Color colour;
+
+    // Default constructor
+    public ColourTool(){
+
     }
 
-    String toString();
+    public ColourTool(Color colour){
+        this.colour = colour;
+    }
 
-    String Code();
+    public String Code() {
+        return colour.toString();
+    }
 
-    ToolType getType();
+    public String toString(){
+        return this.getType().toString() + " " + this.Code();
+    }
 
 }
