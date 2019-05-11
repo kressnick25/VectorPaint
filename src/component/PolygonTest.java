@@ -26,7 +26,7 @@ class PolygonTest {
         arrayPoint = null;
     }
     ArrayList arrayInitializer(){
-        ArrayList<VectorPoint> arrayPoint = new ArrayList<VectorPoint>();
+        ArrayList<VectorPoint> arrayPoint = new ArrayList<>();
 
         VectorPoint pointTest = new VectorPoint(0.6,0.5);
         arrayPoint.add(pointTest);
