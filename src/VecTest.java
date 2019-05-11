@@ -1,3 +1,4 @@
+import component.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class VecTest {
 
     // Setup
-    private Queue<String> pq = new PriorityQueue<>();
-    private String filename = "VecTest.txt";
+    private ArrayList<Drawable> pq = new ArrayList<>();
+
+    private String filename = "VecTest.vec";
     @BeforeEach
     void Setup(){
-        pq.add("LINE 0.1 0.2 0.3 0.4");
-        pq.add("RECTANGLE 0.1 0.2 0.3 0.4");
-        pq.add("PLOT 0.1 0.2 0.3 0.4");
-        pq.add("ELLIPSE 0.1 0.2 0.3 0.4");
+        pq.add(new Rectangle(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
+        pq.add(new Plot(new VectorPoint(0.1, 0.2)));
+        pq.add(new Ellipse(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
     }
 
     @Test
@@ -36,12 +37,13 @@ class VecTest {
         vec.save();
     }
 
+    // FIXME
     @Test
     void testRead(){
-        ArrayList<String> base = new ArrayList<>(pq);
+        ArrayList<Drawable> base = new ArrayList<>(pq);
         Vec vec = new Vec(filename);
         vec.read();
-        ArrayList<String> list = vec.get();
+        ArrayList<Drawable> list = vec.get();
 
         assertEquals(base, list);
     }

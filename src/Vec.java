@@ -26,7 +26,7 @@ public class Vec {
      * @param filename
      * @param commands
      */
-    public Vec(String filename, Queue<Drawable> commands){
+    public Vec(String filename, ArrayList<Drawable> commands){
         this.filename = filename;
         // Convert PQ to LinkedList and store in private var
         this.commands = new ArrayList<>(commands);
@@ -51,6 +51,7 @@ public class Vec {
         }
     }
 
+    // FIXME
     /**
      * Reads from filename stream to private variable;
      */
