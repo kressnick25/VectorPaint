@@ -144,7 +144,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         //Get event source
         Object src = e.getSource();
         //Consider the alternatives - not all active at once.
-        if (src == Load) {
+        if (src == ImageButton) {
             JButton btn = ((JButton) src);
             display.setText(btn.getText().trim());
         }
