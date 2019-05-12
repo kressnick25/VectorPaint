@@ -15,3 +15,4 @@ public class Rectangle extends Shape{
     }
 
 }
+//do we need a toString() method?

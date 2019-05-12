@@ -16,7 +16,7 @@ class PlotTest {
     private static Drawable.Type typeTest;
 
     @Test
-    public void testgetType() {
+    public void testGetType() {
         plotTest = new Plot(pointTestLocation);
 
 
