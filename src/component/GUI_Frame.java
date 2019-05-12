@@ -1,12 +1,4 @@
 package component;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-
 
 //This is work in progress, needs to be moved into seperate files,
 //this can be the frame of the GUI
@@ -38,9 +30,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton Switch;
     private JButton ImageButton;
 
-    private JButton image = new JButton(new ImageIcon(getClass().getClassLoader()
-            .getResource("Fill.png")));
-
     private JTextArea display;
 
     public GUI_Frame(String title) throws HeadlessException {
@@ -59,7 +48,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     private JButton createButton(String str) {
         JButton newBtn = new JButton();
-        newBtn.setText(str);
+        //newBtn.setText(str);
         newBtn.addActionListener(this);
         return newBtn;
     }
@@ -83,12 +72,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         addToPanel(pnlBtn, Load, constraints, 0, 0, 2, 1);
         addToPanel(pnlBtn, Unload, constraints, 3, 0, 2, 1);
-        addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
+        //addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
         addToPanel(pnlBtn, Switch, constraints, 3, 2, 2, 1);
         addToPanel(pnlBtn, ImageButton, constraints, 0, 2, 3, 1);
-
-        addToPanel(pnlBtn, image, constraints, 4, 2, 2, 1);
-
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints
@@ -122,11 +108,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         pnlFou = createPanel(Color.GRAY);
         pnlDisplay = createPanel(Color.WHITE);
 
-
+        Load = createButton("Load");
         Find = createButton("Find");
         Switch = createButton("Switch");
         Unload = createButton("Unload");
-        ImageButton = JButtonImage("ImageButton");
+        ImageButton = JButtonImage(" ");
 
         layoutButtonPanel();
 
