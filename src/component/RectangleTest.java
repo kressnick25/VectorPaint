@@ -2,8 +2,6 @@ package component;
 import component.Rectangle;
 import org.junit.jupiter.api.*;
 import java.util.Random;
-import java.util.StringJoiner;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RectangleTest {
