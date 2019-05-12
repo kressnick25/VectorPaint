@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,6 +18,7 @@ class PolygonTest {
     private Point pointTest;
     private Throwable thrown;
     private ArrayList<VectorPoint> arrayPoint;
+    private static Drawable.Type typeTest;
 
     @BeforeEach
     void setUp(){
@@ -53,15 +55,18 @@ class PolygonTest {
         polygenTest = new Polygon(arrayPoint);
         assertEquals(Drawable.Type.POLYGON, polygenTest.getType());
     }
+
     @Test
-    void toStringTest() {
+    void testToString(){
         ArrayList<VectorPoint> arrayPoint = arrayInitializer();
-        //TODO Need to confirm if Point or VectorPoint
+
         polygenTest = new Polygon(arrayPoint);
 
+        typeTest = Drawable.Type.POLYGON;
 
+        String testString = "POLYGON 0.6 0.5";
 
-        assertEquals(1, 1);
+        assertEquals(testString, polygenTest.toString());
     }
 
 }
