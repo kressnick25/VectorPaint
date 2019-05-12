@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
@@ -24,6 +28,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton Unload;
     private JButton Find;
     private JButton Switch;
+    private JButton ImageButton;
 
     private JTextArea display;
 
@@ -47,6 +52,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         newBtn.addActionListener(this);
         return newBtn;
     }
+    private JButton JButtonImage(String str){
+        JButton newBtn = new JButton(new ImageIcon(getClass().getClassLoader()
+                .getResource("component/Line.png")));
+        newBtn.setText(str);
+        newBtn.addActionListener(this);
+        return newBtn;
+
+    }
 
     private void layoutButtonPanel() {
         GridBagLayout layout = new GridBagLayout();
@@ -61,7 +74,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         addToPanel(pnlBtn, Unload, constraints, 3, 0, 2, 1);
         addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
         addToPanel(pnlBtn, Switch, constraints, 3, 2, 2, 1);
-
+        addToPanel(pnlBtn, ImageButton, constraints, 0, 2, 3, 1);
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints
@@ -99,6 +112,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         Find = createButton("Find");
         Switch = createButton("Switch");
         Unload = createButton("Unload");
+        ImageButton = JButtonImage("ImageButton");
 
         layoutButtonPanel();
 
