@@ -1,6 +1,7 @@
 package component;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 
 public abstract class Shape implements Drawable {
@@ -17,6 +18,14 @@ public abstract class Shape implements Drawable {
         this.point2 = point2;
     }
 
+    public ArrayList VectorPointGetter(){
+        ArrayList<VectorPoint> arrayPoint = new ArrayList<>();
+        arrayPoint.add(point1);
+        arrayPoint.add(point2);
+
+
+        return arrayPoint;
+    }
     /**
      *
      * @return Command as a string.

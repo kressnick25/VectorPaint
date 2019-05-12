@@ -15,16 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PolygonTest {
     private Polygon polygenTest;
-    private Point pointTest;
-    private Throwable thrown;
     private ArrayList<VectorPoint> arrayPoint;
     private static Drawable.Type typeTest;
 
     @BeforeEach
     void setUp(){
         polygenTest = null;
-        pointTest = null;
-        thrown = null;
         arrayPoint = null;
     }
     ArrayList arrayInitializer(){
