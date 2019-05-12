@@ -1,4 +1,4 @@
-package guiExploration;
+package component;
 
 //This is work in progress, needs to be moved into seperate files,
 //this can be the frame of the GUI
