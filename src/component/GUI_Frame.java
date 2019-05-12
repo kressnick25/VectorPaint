@@ -55,7 +55,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton JButtonImage(String str){
         JButton newBtn = new JButton(new ImageIcon(getClass().getClassLoader()
                 .getResource("component/Line.png")));
-        newBtn.setText(str);
+        newBtn.setText("");
         newBtn.addActionListener(this);
         return newBtn;
 
@@ -70,10 +70,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.weightx = 100;
         constraints.weighty = 100;
 
-        addToPanel(pnlBtn, Load, constraints, 0, 0, 2, 1);
-        addToPanel(pnlBtn, Unload, constraints, 3, 0, 2, 1);
-        addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
-        addToPanel(pnlBtn, Switch, constraints, 3, 2, 2, 1);
+        //addToPanel(pnlBtn, Load, constraints, 0, 0, 2, 1);
+        //addToPanel(pnlBtn, Unload, constraints, 3, 0, 2, 1);
+        //addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
+        //addToPanel(pnlBtn, Switch, constraints, 3, 2, 2, 1);
         addToPanel(pnlBtn, ImageButton, constraints, 0, 2, 3, 1);
     }
 
@@ -109,10 +109,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         pnlFou = createPanel(Color.GRAY);
         pnlDisplay = createPanel(Color.WHITE);
 
-        Load = createButton("Load");
-        Find = createButton("Find");
-        Switch = createButton("Switch");
-        Unload = createButton("Unload");
+        //Load = createButton("Load");
+        //Find = createButton("Find");
+        //Switch = createButton("Switch");
+        //Unload = createButton("Unload");
         ImageButton = JButtonImage("ImageButton");
 
         layoutButtonPanel();
