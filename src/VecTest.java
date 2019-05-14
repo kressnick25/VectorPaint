@@ -3,10 +3,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+
 
 class VecTest {
 
@@ -37,7 +40,7 @@ class VecTest {
         vec.save();
     }
 
-    // FIXME
+    // FIXME assert equals failing because of object reference comparison
     @Test
     void testRead(){
         ArrayList<Drawable> base = new ArrayList<>(pq);
@@ -45,7 +48,9 @@ class VecTest {
         vec.read();
         ArrayList<Drawable> list = vec.get();
 
-        assertEquals(base, list);
+        for (Drawable obj : base) {
+            assertEquals(obj, list.iterator().next());
+        }
     }
 
 }

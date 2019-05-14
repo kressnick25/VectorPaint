@@ -9,7 +9,6 @@ import component.Polygon;
 import component.Rectangle;
 
 public class Vec {
-    // PQ == ArrayList with first in last out
     private ArrayList<Drawable> commands = new ArrayList<>();
     private String filename;
 
@@ -28,7 +27,6 @@ public class Vec {
      */
     public Vec(String filename, ArrayList<Drawable> commands){
         this.filename = filename;
-        // Convert PQ to LinkedList and store in private var
         this.commands = new ArrayList<>(commands);
     }
 
@@ -51,11 +49,20 @@ public class Vec {
         }
     }
 
-    // FIXME
     /**
      * Reads from filename stream to private variable;
      */
     public void read(){
+        ArrayList<String> lines = readLinesFromFile();
+
+        try {
+            this.commands = parseLinesToCommands(lines);
+        } catch(Exception e){
+            // TODO popup window here
+        }
+    }
+
+    private ArrayList<String> readLinesFromFile() {
         ArrayList<String> lines = new ArrayList<>();
 
         try {
@@ -75,12 +82,7 @@ public class Vec {
             System.err.format("Error trying to read '%s'.", filename);
             e.printStackTrace();
         }
-
-        try {
-            this.commands = parseLinesToCommands(lines);
-        } catch(Exception e){
-            // TODO popup window here
-        }
+        return lines;
     }
 
     // TODO more specific exception
@@ -98,20 +100,24 @@ public class Vec {
                     VectorPoint point1 = parsePoint(components[1], components[2]);
                     VectorPoint point2 = parsePoint(components[3], components[4]);
                     commands.add( new Rectangle(point1, point2) );
+                    break;
                 }
                 case "PLOT": {
                     VectorPoint point1 = parsePoint(components[1], components[2]);
                     commands.add( new Plot(point1) );
+                    break;
                 }
                 case "LINE": {
                     VectorPoint point1 = parsePoint(components[1], components[2]);
                     VectorPoint point2 = parsePoint(components[3], components[4]);
                     commands.add( new Line(point1, point2) );
+                    break;
                 }
                 case "ELLIPSE": {
                     VectorPoint point1 = parsePoint(components[1], components[2]);
                     VectorPoint point2 = parsePoint(components[3], components[4]);
                     commands.add( new Ellipse(point1, point2) );
+                    break;
                 }
                 case "POLYGON": {
                     ArrayList<VectorPoint> points = new ArrayList<>();
@@ -122,14 +128,17 @@ public class Vec {
                     }
 
                     commands.add( new Polygon(points) );
+                    break;
                 }
                 case "PEN": {
                     Color myPenColour = hexToRgb(components[1]);
                     commands.add( new PenColour(myPenColour) );
+                    break;
                 }
                 case "FILL": {
                     Color myFillColour = hexToRgb(components[1]);
                     commands.add( new PenColour(myFillColour) );
+                    break;
                 }
                 default:
                     throw new Exception("Command was not valid: " + line);
