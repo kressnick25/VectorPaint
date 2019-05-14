@@ -2,24 +2,16 @@ package component;
 
 import java.awt.*;
 
-public class PenColour implements ColourTool {
-    private static ToolType type = ToolType.PEN;
-    private Color colour;
+public class PenColour extends ColourTool {
+    private static Type type = Type.PEN;
 
     public PenColour(Color colour){
-        this.colour = colour;
+        super(colour);
     }
 
-    public ToolType getType() {
+    public Type getType() {
         return type;
     }
 
-    public String Code() {
 
-        return colour.toString();
-    }
-
-    public String toString(){
-        return type.toString() + " " + colour.toString();
-    }
 }
