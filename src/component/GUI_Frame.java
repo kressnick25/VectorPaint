@@ -31,6 +31,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton ImageButton;
 
     private JTextArea display;
+    private JMenuBar mb;
+    private JMenu file,edit,help;
+    private JMenuItem cut,copy,paste,selectAll;
+
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -96,6 +100,32 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 //        return display;
 //    }
     //dsfsdfsjdfgvasdfjasasjdfhj
+    private void createTopMenu(){
+
+
+
+        cut=new JMenuItem("cut");
+        copy=new JMenuItem("copy");
+        paste=new JMenuItem("paste");
+        selectAll=new JMenuItem("selectAll");
+        cut.addActionListener(this);
+        copy.addActionListener(this);
+        paste.addActionListener(this);
+        selectAll.addActionListener(this);
+        mb=new JMenuBar();
+        file=new JMenu("File");
+        edit=new JMenu("Edit");
+        help=new JMenu("Help");
+        edit.add(cut);edit.add(copy);edit.add(paste);edit.add(selectAll);
+        mb.add(file);mb.add(edit);mb.add(help);
+        //display.setBounds(5,5,360,320);
+        add(mb);
+        //add(ta);
+        setJMenuBar(mb);
+        //setLayout(null);
+        setSize(400,400);
+        setVisible(true);
+        }
 
     private void createGUI() {
 
@@ -115,6 +145,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         //Unload = createButton("Unload");
         ImageButton = JButtonImage("ImageButton");
 
+
+
         layoutButtonPanel();
 
         getContentPane().add(pnlOne, BorderLayout.EAST);
@@ -122,13 +154,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         getContentPane().add(pnlBtn, BorderLayout.SOUTH);
         getContentPane().add(pnlFou, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
-
         display = new JTextArea();
-        display.setEditable(false);
+
+        createTopMenu();
+
+        display.setEditable(true);
         display.setLineWrap(true);
         display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setBorder(BorderFactory.createEtchedBorder());
-
+        display.setBounds(5,5,360,320);
         add(display, BorderLayout.CENTER);
 
 //        areDisplay();
@@ -148,8 +182,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             JButton btn = ((JButton) src);
             display.setText(btn.getText().trim());
         }
+        if(src==cut)
+            display.cut();
+        if(src==paste)
+            display.paste();
+        if(src==copy)
+            display.copy();
+        if(src==selectAll)
+            display.selectAll();
 
-    }
+
+}
 
     @Override
     public void run() {
@@ -159,7 +202,35 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
+
 //        PanelsAndWidgets gui = new PanelsAndWidgets("bull");
 
     }
 }
+//class MenuExample
+//{
+//    JMenu menu, submenu;
+//    JMenuItem i1, i2, i3, i4, i5;
+//    MenuExample(){
+//        //JFrame f= new JFrame("Menu and MenuItem Example");
+//        JMenuBar mb=new JMenuBar();
+//        menu=new JMenu("Menu");
+//        submenu=new JMenu("Sub Menu");
+//        i1=new JMenuItem("Item 1");
+//        i2=new JMenuItem("Item 2");
+//        i3=new JMenuItem("Item 3");
+//        i4=new JMenuItem("Item 4");
+//        i5=new JMenuItem("Item 5");
+//        menu.add(i1); menu.add(i2); menu.add(i3);
+//        submenu.add(i4); submenu.add(i5);
+//        menu.add(submenu);
+//        mb.add(menu);
+//        setJMenuBar(mb);
+//        setSize(400,400);
+//        setLayout(null);
+//        setVisible(true);
+//    }
+//    public static void main(String args[])
+//    {
+//        new MenuExample();
+//    }}
