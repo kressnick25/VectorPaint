@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
-    public static final int WIDTH = 300;
-    public static final int HEIGHT = 200;
+    public static final int WIDTH = 1250;
+    public static final int HEIGHT = 1000;
 
 
     private JPanel pnlBtn;
@@ -46,12 +46,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         return newPnl;
     }
 
-    private JButton createButton(String str) {
-        JButton newBtn = new JButton();
-        newBtn.setText(str);
-        newBtn.addActionListener(this);
-        return newBtn;
-    }
+
     private JButton JButtonImageInitializer(JButton newBtn){
         newBtn.setText("");
         newBtn.addActionListener(this);
@@ -102,7 +97,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "PenButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Fill.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Pen.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -167,14 +162,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         mb.add(file);mb.add(edit);mb.add(help);
         add(mb);
         setJMenuBar(mb);
-        setSize(400,400);
         setVisible(true);
         }
 
     private void createGUI() {
-
         setSize(WIDTH, HEIGHT);
+        //setPreferredSize(new Dimension(1000, 3000));
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setLayout(new BorderLayout());
 
         pnlBtn = createPanel(Color.GRAY);
@@ -194,7 +190,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         layoutButtonPanel();
 
 
-          getContentPane().add(pnlBtn, BorderLayout.WEST);
+        getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         display = new JTextArea();
 
@@ -211,6 +207,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         repaint();
         setVisible(true);
+
 
 
     }
@@ -262,10 +259,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     @Override
     public void run() {
         createGUI();
+
     }
 
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
+
     }
 }
