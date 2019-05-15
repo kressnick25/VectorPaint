@@ -8,7 +8,7 @@ import component.*;
 import component.Polygon;
 import component.Rectangle;
 
-public class Vec {
+public class Vec{
     private ArrayList<Drawable> commands = new ArrayList<>();
     private String filename;
 
@@ -123,7 +123,7 @@ public class Vec {
                     ArrayList<VectorPoint> points = new ArrayList<>();
                     // start at 1 to avoid command in component[0], iterating +2 for each coord
                     for (int i = 1; i < components.length; i += 2) {
-                        VectorPoint point = parsePoint(components[i], components[i + 2]);
+                        VectorPoint point = parsePoint(components[i], components[i + 1]);
                         points.add(point);
                     }
 
@@ -180,4 +180,6 @@ public class Vec {
     public ArrayList<Drawable> get(){
         return commands;
     }
+
+
 }

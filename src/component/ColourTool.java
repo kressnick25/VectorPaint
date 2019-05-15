@@ -15,11 +15,11 @@ public abstract class ColourTool implements Drawable {
     }
 
     public String Code() {
-        return colour.toString();
+        return Integer.toString(colour.hashCode());
     }
 
     public String toString(){
-        return this.getType().toString() + " " + this.Code();
+        return this.getType().toString() + " #" + Integer.toHexString(colour.getRGB()).substring(2).toUpperCase();
     }
 
 }
