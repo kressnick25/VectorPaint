@@ -23,6 +23,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton RectangleButton;
     private JButton EclipseButton;
     private JButton PolygonButton;
+    private JButton FillButton;
+    private JButton PenButton;
+
 
 
     private JTextArea display;
@@ -90,6 +93,22 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
             return newBtn;
         }
+        if (str == "FillButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Fill.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+
+            return newBtn;
+        }
+        if (str == "PenButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Fill.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+
+            return newBtn;
+        }
 
 
         return null;
@@ -111,6 +130,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
         addToPanel(pnlBtn, EclipseButton, constraints, 0, 4, 2, 1);
         addToPanel(pnlBtn, PolygonButton, constraints, 0, 6, 2, 1);
+        addToPanel(pnlBtn, FillButton, constraints, 0, 8, 2, 1);
+        addToPanel(pnlBtn, PenButton, constraints, 0, 10, 2, 1);
+
+
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints
@@ -163,6 +186,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         RectangleButton = JButtonImage("RectangleButton");
         EclipseButton = JButtonImage("EclipseButton");
         PolygonButton = JButtonImage("PolygonButton");
+        FillButton = JButtonImage("FillButton");
+        PenButton = JButtonImage("PenButton");
 
 
 
@@ -208,6 +233,16 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         }
         if (src == PolygonButton) {
+            //TODO Do stuff
+
+
+        }
+        if (src == FillButton) {
+            //TODO Do stuff
+
+
+        }
+        if (src == PenButton) {
             //TODO Do stuff
 
 
