@@ -58,14 +58,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         JButton newBtn;
         if (str == "LineButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Line.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Line.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
             return newBtn;
         }
         if (str == "RectangleButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Rectangle.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Rectangle.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -73,7 +73,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "EclipseButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Eclipse.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Eclipse.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -81,15 +81,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "PolygonButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Polygon.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Polygon.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
-
-
             return newBtn;
         }
         if (str == "FillButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Fill.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Fill.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -97,7 +95,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "PenButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Pen.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Pen.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
