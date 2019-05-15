@@ -24,4 +24,3 @@ public class Plot implements Drawable {
         return output.toString();
     }
 }
-//test for callum
