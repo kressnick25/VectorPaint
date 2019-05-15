@@ -1,8 +1,5 @@
 package component;
 
-//This is work in progress, needs to be moved into seperate files,
-//this can be the frame of the GUI
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,17 +15,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 200;
 
-    private JPanel pnlOne;
-    private JPanel pnlTwo;
+
     private JPanel pnlBtn;
-    private JPanel pnlFou;
     private JPanel pnlDisplay;
 
-    private JButton Load;
-    private JButton Unload;
-    private JButton Find;
-    private JButton Switch;
-    private JButton ImageButton;
+    private JButton LineButton;
+    private JButton RectangleButton;
+    private JButton EclipseButton;
+    private JButton PolygonButton;
+
 
     private JTextArea display;
     private JMenuBar mb;
@@ -42,9 +37,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
     private JPanel createPanel(Color c) {
-        //Create a JPanel object and store it in a local var
-        //set the background colour to that passed in c
-        //Return the JPanel object
+
         JPanel newPnl = new JPanel();
         newPnl.setBackground(c);
         return newPnl;
@@ -56,12 +49,51 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         newBtn.addActionListener(this);
         return newBtn;
     }
-    private JButton JButtonImage(String str){
-        JButton newBtn = new JButton(new ImageIcon(getClass().getClassLoader()
-                .getResource("component/Line.png")));
+    private JButton JButtonImageInitializer(JButton newBtn){
         newBtn.setText("");
         newBtn.addActionListener(this);
         return newBtn;
+    }
+
+    private JButton JButtonImage(String str){
+        //TODO resize all images
+
+        JButton newBtn;
+        if (str == "LineButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Line.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+            return newBtn;
+        }
+        if (str == "RectangleButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Rectangle.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+
+            return newBtn;
+        }
+        if (str == "EclipseButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Eclipse.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+
+            return newBtn;
+        }
+        if (str == "PolygonButton") {
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/Polygon.png")));
+            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.setPreferredSize(new Dimension(70, 60));
+
+
+            return newBtn;
+        }
+
+
+        return null;
+
 
     }
 
@@ -74,11 +106,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.weightx = 100;
         constraints.weighty = 100;
 
-        //addToPanel(pnlBtn, Load, constraints, 0, 0, 2, 1);
-        //addToPanel(pnlBtn, Unload, constraints, 3, 0, 2, 1);
-        //addToPanel(pnlBtn, Find, constraints, 0, 2, 2, 1);
-        //addToPanel(pnlBtn, Switch, constraints, 3, 2, 2, 1);
-        addToPanel(pnlBtn, ImageButton, constraints, 0, 2, 3, 1);
+
+        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
+        addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
+        addToPanel(pnlBtn, EclipseButton, constraints, 0, 4, 2, 1);
+        addToPanel(pnlBtn, PolygonButton, constraints, 0, 6, 2, 1);
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints
@@ -87,19 +119,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.gridy = y;
         constraints.gridwidth = w;
         constraints.gridheight = h;
+        System.out.println("sdfsfdsfsfd");
         jp.add(c, constraints);
     }
 
-//    private JTextArea areDisplay() {
-//        display = new JTextArea();
-//        display.setEditable(false);
-//        display.setLineWrap(true);
-//        display.setFont(new Font("Arial", Font.BOLD, 24));
-//        display.setBorder(BorderFactory.createEtchedBorder());
-//
-//        return display;
-//    }
-    //dsfsdfsjdfgvasdfjasasjdfhj
+
     private void createTopMenu(){
 
 
@@ -118,11 +142,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         help=new JMenu("Help");
         edit.add(cut);edit.add(copy);edit.add(paste);edit.add(selectAll);
         mb.add(file);mb.add(edit);mb.add(help);
-        //display.setBounds(5,5,360,320);
         add(mb);
-        //add(ta);
         setJMenuBar(mb);
-        //setLayout(null);
         setSize(400,400);
         setVisible(true);
         }
@@ -133,26 +154,22 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        pnlOne = createPanel(Color.GRAY);
-        pnlTwo = createPanel(Color.GRAY);
         pnlBtn = createPanel(Color.GRAY);
-        pnlFou = createPanel(Color.GRAY);
+
         pnlDisplay = createPanel(Color.WHITE);
 
-        //Load = createButton("Load");
-        //Find = createButton("Find");
-        //Switch = createButton("Switch");
-        //Unload = createButton("Unload");
-        ImageButton = JButtonImage("ImageButton");
+
+        LineButton = JButtonImage("LineButton");
+        RectangleButton = JButtonImage("RectangleButton");
+        EclipseButton = JButtonImage("EclipseButton");
+        PolygonButton = JButtonImage("PolygonButton");
 
 
 
         layoutButtonPanel();
 
-        getContentPane().add(pnlOne, BorderLayout.EAST);
-        getContentPane().add(pnlTwo, BorderLayout.WEST);
-        getContentPane().add(pnlBtn, BorderLayout.SOUTH);
-        getContentPane().add(pnlFou, BorderLayout.NORTH);
+
+          getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         display = new JTextArea();
 
@@ -178,9 +195,22 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         //Get event source
         Object src = e.getSource();
         //Consider the alternatives - not all active at once.
-        if (src == ImageButton) {
-            JButton btn = ((JButton) src);
-            display.setText(btn.getText().trim());
+        if (src == LineButton) {
+            //TODO Do stuff
+
+        }
+        if (src == RectangleButton) {
+            //TODO Do stuff
+
+        }
+        if (src == EclipseButton) {
+            //TODO Do stuff
+
+        }
+        if (src == PolygonButton) {
+            //TODO Do stuff
+
+
         }
         if(src==cut)
             display.cut();
@@ -202,35 +232,5 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
-
-//        PanelsAndWidgets gui = new PanelsAndWidgets("bull");
-
     }
 }
-//class MenuExample
-//{
-//    JMenu menu, submenu;
-//    JMenuItem i1, i2, i3, i4, i5;
-//    MenuExample(){
-//        //JFrame f= new JFrame("Menu and MenuItem Example");
-//        JMenuBar mb=new JMenuBar();
-//        menu=new JMenu("Menu");
-//        submenu=new JMenu("Sub Menu");
-//        i1=new JMenuItem("Item 1");
-//        i2=new JMenuItem("Item 2");
-//        i3=new JMenuItem("Item 3");
-//        i4=new JMenuItem("Item 4");
-//        i5=new JMenuItem("Item 5");
-//        menu.add(i1); menu.add(i2); menu.add(i3);
-//        submenu.add(i4); submenu.add(i5);
-//        menu.add(submenu);
-//        mb.add(menu);
-//        setJMenuBar(mb);
-//        setSize(400,400);
-//        setLayout(null);
-//        setVisible(true);
-//    }
-//    public static void main(String args[])
-//    {
-//        new MenuExample();
-//    }}
