@@ -121,12 +121,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.weighty = 1;
 
 
-        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 0);
-        addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 0);
-        addToPanel(pnlBtn, EclipseButton, constraints, 0, 2, 2, 0);
-        addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 0);
-        addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 0);
-        addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 0);
+        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
+        addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 1);
+        addToPanel(pnlBtn, EclipseButton, constraints, 0, 2, 2, 1);
+        addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 1);
+        addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 1);
+        addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 1);
 
 
     }
