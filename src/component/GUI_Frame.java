@@ -118,15 +118,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
-        constraints.weighty = 100;
+        constraints.weighty = 1;
 
 
-        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
-        addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
-        addToPanel(pnlBtn, EclipseButton, constraints, 0, 4, 2, 1);
-        addToPanel(pnlBtn, PolygonButton, constraints, 0, 6, 2, 1);
-        addToPanel(pnlBtn, FillButton, constraints, 0, 8, 2, 1);
-        addToPanel(pnlBtn, PenButton, constraints, 0, 10, 2, 1);
+        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 0);
+        addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 0);
+        addToPanel(pnlBtn, EclipseButton, constraints, 0, 2, 2, 0);
+        addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 0);
+        addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 0);
+        addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 0);
 
 
     }
@@ -137,7 +137,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         constraints.gridy = y;
         constraints.gridwidth = w;
         constraints.gridheight = h;
-        System.out.println("sdfsfdsfsfd");
         jp.add(c, constraints);
     }
 
