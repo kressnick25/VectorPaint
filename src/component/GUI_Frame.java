@@ -27,12 +27,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton PenButton;
 
 
-
     private JTextArea display;
     private JMenuBar mb;
-    private JMenu file,edit,help;
-    private JMenuItem cut,copy,paste,selectAll;
-
+    private JMenu file, edit, help;
+    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -47,13 +45,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
 
-    private JButton JButtonImageInitializer(JButton newBtn){
+    private JButton JButtonImageInitializer(JButton newBtn) {
         newBtn.setText("");
         newBtn.addActionListener(this);
         return newBtn;
     }
 
-    private JButton JButtonImage(String str){
+    private JButton JButtonImage(String str) {
         //TODO resize all images
 
         JButton newBtn;
@@ -139,28 +137,46 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
 
-    private void createTopMenu(){
+    private void createTopMenu() {
+        cut = new JMenuItem("Cut");
+        copy = new JMenuItem("Copy");
+        paste = new JMenuItem("Paste");
+        fileNew = new JMenuItem("New");
+        fileOpen = new JMenuItem("Open");
+        fileSave = new JMenuItem("Save");
+        fileSaveAs = new JMenuItem("Save As");
+        selectAll = new JMenuItem("Select All");
 
-
-
-        cut=new JMenuItem("cut");
-        copy=new JMenuItem("copy");
-        paste=new JMenuItem("paste");
-        selectAll=new JMenuItem("selectAll");
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
         selectAll.addActionListener(this);
-        mb=new JMenuBar();
-        file=new JMenu("File");
-        edit=new JMenu("Edit");
-        help=new JMenu("Help");
-        edit.add(cut);edit.add(copy);edit.add(paste);edit.add(selectAll);
-        mb.add(file);mb.add(edit);mb.add(help);
+        fileNew.addActionListener(this);
+        fileOpen.addActionListener(this);
+        fileSave.addActionListener(this);
+        fileSaveAs.addActionListener(this);
+
+        mb = new JMenuBar();
+        file = new JMenu("File");
+        edit = new JMenu("Edit");
+        help = new JMenu("Help");
+        file.add(fileOpen);
+        file.add(fileSave);
+        file.add(fileSaveAs);
+
+        edit.add(cut);
+        edit.add(copy);
+        edit.add(paste);
+        edit.add(selectAll);
+
+        mb.add(file);
+        mb.add(edit);
+        mb.add(help);
+
         add(mb);
         setJMenuBar(mb);
         setVisible(true);
-        }
+    }
 
     private void createGUI() {
         setSize(WIDTH, HEIGHT);
@@ -183,7 +199,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         PenButton = JButtonImage("PenButton");
 
 
-
         layoutButtonPanel();
 
 
@@ -197,14 +212,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         display.setLineWrap(true);
         display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setBorder(BorderFactory.createEtchedBorder());
-        display.setBounds(5,5,360,320);
+        display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
 
 //        areDisplay();
 
         repaint();
         setVisible(true);
-
 
 
     }
@@ -241,17 +255,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
 
         }
-        if(src==cut)
+        if (src == cut)
             display.cut();
-        if(src==paste)
+        if (src == paste)
             display.paste();
-        if(src==copy)
+        if (src == copy)
             display.copy();
-        if(src==selectAll)
+        if (src == selectAll)
             display.selectAll();
 
 
-}
+    }
 
     @Override
     public void run() {
