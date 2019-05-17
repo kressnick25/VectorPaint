@@ -11,13 +11,12 @@ public class GraphicsCanvas extends JPanel {
     public GraphicsCanvas() {
         setSize(500, 500);
         setVisible(true);
-        shapes.add(new Rectangle2D.Double(1, 1, 100, 100));
-        shapes.add(new Rectangle2D.Double(100, 100, 100, 100));
-        shapes.add(new Rectangle2D.Double(200, 200, 100, 100));
     }
 
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         shapes.forEach((shape) -> g2d.draw(shape));
     }
 

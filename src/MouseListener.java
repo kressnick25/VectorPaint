@@ -26,7 +26,9 @@ public class MouseListener extends MouseInputAdapter {
         try {
             switch (type) {
                 case Plot:
-                    // TODO
+                    shape = new Ellipse2D.Double(x, y, 5, 5);
+                    display.add(shape);
+                    shape = null;
                     break;
                 case Rectangle:
                     shape = new Rectangle2D.Double(x, y, 0, 0);
@@ -36,7 +38,7 @@ public class MouseListener extends MouseInputAdapter {
                     break;
                 case Line:
                     // initalise line with no length. current pos to current pos
-                    shape = new Line2D.Double(x, x, y, y);
+                    shape = new Line2D.Double(x, y, x, y);
                     break;
                 case Polygon:
                     shape = new Polygon();
@@ -50,11 +52,11 @@ public class MouseListener extends MouseInputAdapter {
     }
 
     public void mouseDragged(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        mouseUpdateSelector(x, y);
-        display.clearLast();
-        display.add(shape);
+            int x = e.getX();
+            int y = e.getY();
+            mouseUpdateSelector(x, y);
+            display.clearLast();
+            display.add(shape);
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -105,7 +107,7 @@ public class MouseListener extends MouseInputAdapter {
 
     void updateLine(int x, int y){
         Line2D.Double line = (Line2D.Double) shape;
-        line.setLine(line.getX1(), x, line.getY1(), y);
+        line.setLine(line.getX1(), line.getY1(), x, y);
 
         shape = line;
     }

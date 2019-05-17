@@ -251,8 +251,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             mouseDraw.setType(ShapeType.Ellipse);
         }
         if (src == PolygonButton) {
-            repaint();
-            //mouseDraw.setType(ShapeType.Polygon);
+            mouseDraw.setType(ShapeType.Polygon);
         }
         if (src == FillButton) {
             //TODO Do stuff
@@ -321,6 +320,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {}
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
 
     }
