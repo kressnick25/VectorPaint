@@ -12,6 +12,7 @@ enum ShapeType {
     Ellipse,
     Line,
     Polygon,
+    Plot,
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
@@ -34,7 +35,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
 
     // mouse movement
-    //MouseListener mouseDraw = new MouseListener();
+    MouseListener mouseDraw = new MouseListener();
     private ShapeType currentShape;
     private Color currentFill;
     private Color currentStroke;
@@ -212,8 +213,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         createTopMenu();
 
         // add mouse listener
-        //addMouseListener(mouseDraw);
-        //addMouseMotionListener(mouseDraw);
+        addMouseListener(mouseDraw);
+        addMouseMotionListener(mouseDraw);
 
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
@@ -233,16 +234,16 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         Object src = e.getSource();
         //Consider the alternatives - not all active at once.
         if (src == LineButton) {
-            //mouseDraw.setType(ShapeType.Line);
+            mouseDraw.setType(ShapeType.Line);
         }
         if (src == RectangleButton) {
-            //mouseDraw.setType(ShapeType.Rectangle);
+            mouseDraw.setType(ShapeType.Rectangle);
         }
         if (src == EllipseButton) {
-            //mouseDraw.setType(ShapeType.Ellipse);
+            mouseDraw.setType(ShapeType.Ellipse);
         }
         if (src == PolygonButton) {
-            //mouseDraw.setType(ShapeType.Polygon);
+            mouseDraw.setType(ShapeType.Polygon);
         }
         if (src == FillButton) {
             //TODO Do stuff
