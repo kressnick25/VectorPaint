@@ -18,12 +18,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JPanel pnlDisplay;
     private JPanel display;
 
-    private JButton LineButton;
-    private JButton RectangleButton;
-    private JButton EclipseButton;
-    private JButton PolygonButton;
-    private JButton FillButton;
-    private JButton PenButton;
+    private JButton LineButton, RectangleButton, EllipseButton,
+                    PolygonButton, FillButton, PenButton,
+                    DrawCurrentShape;
 
     private JMenuBar mb;
     private JMenu file, edit, help;
@@ -69,7 +66,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
             return newBtn;
         }
-        if (str == "EclipseButton") {
+        if (str == "EllipseButton") {
             newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Eclipse.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
@@ -118,10 +115,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 1);
-        addToPanel(pnlBtn, EclipseButton, constraints, 0, 2, 2, 1);
+        addToPanel(pnlBtn, EllipseButton, constraints, 0, 2, 2, 1);
         addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 1);
         addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 1);
         addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 1);
+        addToPanel(pnlBtn, DrawCurrentShape, constraints, 0, 6, 2, 1);
 
 
     }
@@ -192,10 +190,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         LineButton = JButtonImage("LineButton");
         RectangleButton = JButtonImage("RectangleButton");
-        EclipseButton = JButtonImage("EclipseButton");
+        EllipseButton = JButtonImage("EllipseButton");
         PolygonButton = JButtonImage("PolygonButton");
         FillButton = JButtonImage("FillButton");
         PenButton = JButtonImage("PenButton");
+        DrawCurrentShape = JButtonImage("PolygonButton");
 
 
         layoutButtonPanel();
@@ -233,7 +232,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             currentShape =  new Rectangle2D.Double(1, 1, 1, 1);
 
         }
-        if (src == EclipseButton) {
+        if (src == EllipseButton) {
             //TODO Do stuff
 
         }
@@ -253,6 +252,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         }
 
+        if (src == DrawCurrentShape) {
+
+        }
 
 
     }
