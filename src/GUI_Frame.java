@@ -301,7 +301,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
                 System.out.println(selectedFile.getAbsolutePath());
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
                 vec.read();
-                vec.get().forEach(s -> this.display.add(s));
+                display.load(vec.get());
                 this.display.repaint();
             }
         }
