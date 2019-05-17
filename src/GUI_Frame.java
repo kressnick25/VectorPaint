@@ -30,7 +30,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     private JMenuBar mb;
     private JMenu file, edit, help;
-    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
+    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn;
 
 
     // mouse movement
@@ -154,7 +154,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
         selectAll = new JMenuItem("Select All");
-
+        helpBtn = new JMenuItem("Help");
+        helpBtn.addActionListener(this);
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -176,7 +177,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         edit.add(copy);
         edit.add(paste);
         edit.add(selectAll);
-
+        help.add(helpBtn);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
@@ -255,6 +256,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             //TODO Do stuff
             Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
             System.out.println(colorPen);
+
+
+        }
+        if (src == helpBtn) {
+            //TODO Do stuff
+            JOptionPane.showMessageDialog(pnlBtn,
+                    "Me too Bro",
+                    "Me too",
+                    JOptionPane.ERROR_MESSAGE);
+
+            System.out.println("dfd");
+
 
         }
     }
