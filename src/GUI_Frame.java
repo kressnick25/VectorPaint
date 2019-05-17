@@ -20,6 +20,7 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
+    Timer timer=new Timer(10, this);
 
     private static final int WIDTH = 1250;
     private static final int HEIGHT = 1000;
@@ -48,10 +49,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
+        timer.start();
     }
 
     private JPanel createPanel(Color c) {
-
         JPanel newPnl = new JPanel();
         newPnl.setBackground(c);
         return newPnl;
@@ -307,6 +308,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
                 display.load(vec.get());
                 this.display.repaint();
             }
+        }
+
+        if (e.getSource()==timer){
+            repaint(); // repait every timer expiry
         }
     }
 
