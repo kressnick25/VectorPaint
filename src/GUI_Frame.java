@@ -1,12 +1,10 @@
-package component;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -27,10 +25,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton FillButton;
     private JButton PenButton;
 
-
     private JMenuBar mb;
     private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
+
+    private Shape currentShape;
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -56,14 +55,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         JButton newBtn;
         if (str == "LineButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Line.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Line.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
             return newBtn;
         }
         if (str == "RectangleButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Rectangle.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Rectangle.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -71,7 +70,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "EclipseButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Eclipse.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Eclipse.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -79,13 +78,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "PolygonButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Polygon.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Polygon.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
             return newBtn;
         }
         if (str == "FillButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Fill.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Fill.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -93,7 +92,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             return newBtn;
         }
         if (str == "PenButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("component/GUIButtons/Pen.png")));
+            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Pen.png")));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
@@ -231,7 +230,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         }
         if (src == RectangleButton) {
-            //TODO Do stuff
+            currentShape =  new Rectangle2D.Double(1, 1, 1, 1);
 
         }
         if (src == EclipseButton) {
