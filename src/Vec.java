@@ -1,15 +1,12 @@
-import component.Drawable;
-
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.util.*;
 
-import component.*;
-import component.Polygon;
-import component.Rectangle;
-
 public class Vec{
-    private ArrayList<Drawable> commands = new ArrayList<>();
+    private ArrayList<Shape> shapes = new ArrayList<>();
     private String filename;
 
     /**
@@ -23,11 +20,11 @@ public class Vec{
     /**
      * Construct new Vec class to write curent data to file.
      * @param filename
-     * @param commands
+     * @param shapes
      */
-    public Vec(String filename, ArrayList<Drawable> commands){
+    public Vec(String filename, ArrayList<Shape> shapes){
         this.filename = filename;
-        this.commands = new ArrayList<>(commands);
+        this.shapes = new ArrayList<>(shapes);
     }
 
     public void save(){
@@ -37,7 +34,7 @@ public class Vec{
             PrintWriter writer = new PrintWriter(file);
 
             // Write each command, print adds newline
-            commands.forEach((a) -> writer.printf(a + "\n"));
+            shapes.forEach((a) -> writer.printf(this.parseShapeToString(a) + "\n"));
 
             //close file connection
             writer.close();
@@ -54,10 +51,11 @@ public class Vec{
      */
     public void read(){
         ArrayList<String> lines = readLinesFromFile();
-
+        System.out.print(lines);
         try {
-            this.commands = parseLinesToCommands(lines);
-        } catch(Exception e){
+            this.shapes = parseLinesToShapes(lines);
+            System.out.print(shapes);
+        } catch(Exception e) {
             // TODO popup window here
         }
     }
@@ -85,67 +83,101 @@ public class Vec{
         return lines;
     }
 
+    private String parseShapeToString(Shape shape) {
+        int WIDTH = 1250;
+        int HEIGHT = 1000;
+        if (shape instanceof Rectangle2D.Double) {
+            Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
+            return String.format("RECTANGLE %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, (rectangle.x + rectangle.width) / WIDTH, (rectangle.y + rectangle.height) / HEIGHT);
+        }
+        if (shape instanceof Line2D.Double) {
+            Line2D.Double line = (Line2D.Double) shape;
+            return String.format("LINE %f %f %f %f", line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
+        }
+
+        if (shape instanceof Ellipse2D.Double) {
+            Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
+            return String.format("ELLIPSE %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, (ellipse.x + ellipse.width) / WIDTH, (ellipse.y + ellipse.height) / HEIGHT);
+        }
+
+        System.out.println(String.format("UNsupported type: %s", shape.getClass().toString()));
+
+        return null;
+    }
+
     // TODO more specific exception
     // TODO test components against Type enum
-    private ArrayList<Drawable> parseLinesToCommands(ArrayList<String> lines) throws Exception{
-        ArrayList<Drawable> commands = new ArrayList<Drawable>();
+    private ArrayList<Shape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
+        int WIDTH = 1250;
+        int HEIGHT = 1000;
+        ArrayList<Shape> shapes = new ArrayList<Shape>();
         // Parse each component in line to local vars
         for (String line : lines){
-            // split line into compontents ie PLOT, 0.0, 0.1
+            // split line into shapes ie PLOT, 0.0, 0.1
             String[] components = line.split("\\s+"); // TODO arrayList?
             // Initialise new object from vars
             switch(components[0]){
                 // Use brackets in switch statement to manage scope
                 case "RECTANGLE": {// TODO convert to comparison to enum
-                    VectorPoint point1 = parsePoint(components[1], components[2]);
-                    VectorPoint point2 = parsePoint(components[3], components[4]);
-                    commands.add( new Rectangle(point1, point2) );
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
+
+                    shapes.add( new Rectangle.Double(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
-                case "PLOT": {
-                    VectorPoint point1 = parsePoint(components[1], components[2]);
-                    commands.add( new Plot(point1) );
-                    break;
-                }
+//                case "PLOT": {
+//                    VectorPoint point1 = parsePoint(components[1], components[2]);
+//                    shapes.add( new Plot(point1) );
+//                    break;
+//                }
                 case "LINE": {
-                    VectorPoint point1 = parsePoint(components[1], components[2]);
-                    VectorPoint point2 = parsePoint(components[3], components[4]);
-                    commands.add( new Line(point1, point2) );
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
+
+                    shapes.add( new Line2D.Double(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
                 case "ELLIPSE": {
-                    VectorPoint point1 = parsePoint(components[1], components[2]);
-                    VectorPoint point2 = parsePoint(components[3], components[4]);
-                    commands.add( new Ellipse(point1, point2) );
-                    break;
-                }
-                case "POLYGON": {
-                    ArrayList<VectorPoint> points = new ArrayList<>();
-                    // start at 1 to avoid command in component[0], iterating +2 for each coord
-                    for (int i = 1; i < components.length; i += 2) {
-                        VectorPoint point = parsePoint(components[i], components[i + 1]);
-                        points.add(point);
-                    }
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    commands.add( new Polygon(points) );
+                    shapes.add( new Ellipse2D.Double(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
-                case "PEN": {
-                    Color myPenColour = hexToRgb(components[1]);
-                    commands.add( new PenColour(myPenColour) );
-                    break;
-                }
-                case "FILL": {
-                    Color myFillColour = hexToRgb(components[1]);
-                    commands.add( new PenColour(myFillColour) );
-                    break;
-                }
+//                case "POLYGON": {
+//                    ArrayList<VectorPoint> points = new ArrayList<>();
+//                    // start at 1 to avoid command in component[0], iterating +2 for each coord
+//                    for (int i = 1; i < components.length; i += 2) {
+//                        VectorPoint point = parsePoint(components[i], components[i + 1]);
+//                        points.add(point);
+//                    }
+//
+//                    shapes.add( new Polygon(points) );
+//                    break;
+//                }
+//                case "PEN": {
+//                    Color myPenColour = hexToRgb(components[1]);
+//                    shapes.add( new PenColour(myPenColour) );
+//
+//                    break;
+//                }
+//                case "FILL": {
+//                    Color myFillColour = hexToRgb(components[1]);
+//                    shapes.add( new PenColour(myFillColour) );
+//                    break;
+//                }
                 default:
                     throw new Exception("Command was not valid: " + line);
             }
         }
 
-        return commands;
+        return shapes;
     }
 
     /**
@@ -161,24 +193,11 @@ public class Vec{
     }
 
     /**
-     * Parses String coords to Doubles and constructs a new VectorPoint
-     * @param coord1 1st decimal coord as string
-     * @param coord2 2nd decimal coord as string
-     * @return VectorPoint with prescribed coords
-     */
-    private VectorPoint parsePoint(String coord1, String coord2){
-        // Parse Strings to double
-        double x1 = Double.parseDouble( coord1 );
-        double y1 = Double.parseDouble( coord2 );
-
-        return new VectorPoint(x1, y1);
-    }
-    /**
      *
      * @return Queue of commands
      */
-    public ArrayList<Drawable> get(){
-        return commands;
+    public ArrayList<Shape> get(){
+        return shapes;
     }
 
 

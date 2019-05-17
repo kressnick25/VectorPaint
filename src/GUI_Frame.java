@@ -4,8 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 
 enum ShapeType {
     Rectangle,
@@ -31,7 +35,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     private JMenuBar mb;
     private JMenu file, edit, help;
-    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
+    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn;
 
 
     // mouse movement
@@ -155,7 +159,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
         selectAll = new JMenuItem("Select All");
-
+        helpBtn = new JMenuItem("Help");
+        helpBtn.addActionListener(this);
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -177,7 +182,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         edit.add(copy);
         edit.add(paste);
         edit.add(selectAll);
-
+        help.add(helpBtn);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
@@ -257,6 +262,48 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
             System.out.println(colorPen);
 
+
+        }
+        if (src == helpBtn) {
+            //TODO Do stuff
+            JOptionPane.showMessageDialog(pnlBtn,
+                    "Me too Bro",
+                    "Me too",
+                    JOptionPane.ERROR_MESSAGE);
+
+            System.out.println("dfd");
+
+
+        }
+
+        if (src == fileSave || src == fileSaveAs) {
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            int returnValue = jfc.showSaveDialog(this);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+
+                ArrayList<Shape> shapes = this.display.getShapes();
+                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
+                vec.save();
+            }
+        }
+
+        if (src == fileOpen) {
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            int returnValue = jfc.showOpenDialog(this);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                this.display.clear();
+                File selectedFile = jfc.getSelectedFile();
+                System.out.println(selectedFile.getAbsolutePath());
+                Vec vec = new Vec(selectedFile.getAbsolutePath());
+                vec.read();
+                vec.get().forEach(s -> this.display.add(s));
+                this.display.repaint();
+            }
         }
     }
 

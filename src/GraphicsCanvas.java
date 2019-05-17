@@ -21,6 +21,8 @@ public class GraphicsCanvas extends JPanel {
         shapes.forEach((shape) -> g2d.draw(shape));
     }
 
+    public ArrayList<Shape> getShapes() { return this.shapes; }
+
     public void load(ArrayList<Shape> shapes){
         this.shapes = shapes;
     }
