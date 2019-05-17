@@ -88,16 +88,16 @@ public class Vec{
         int HEIGHT = 1000;
         if (shape instanceof Rectangle2D.Double) {
             Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
-            return String.format("RECTANGLE: %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, (rectangle.x + rectangle.width) / WIDTH, (rectangle.y + rectangle.height) / HEIGHT);
+            return String.format("RECTANGLE %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, (rectangle.x + rectangle.width) / WIDTH, (rectangle.y + rectangle.height) / HEIGHT);
         }
         if (shape instanceof Line2D.Double) {
             Line2D.Double line = (Line2D.Double) shape;
-            return String.format("LINE: %f %f %f %f", line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
+            return String.format("LINE %f %f %f %f", line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
         }
 
         if (shape instanceof Ellipse2D.Double) {
             Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
-            return String.format("ELLIPSE: %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, (ellipse.x + ellipse.width) / WIDTH, (ellipse.y + ellipse.height) / HEIGHT);
+            return String.format("ELLIPSE %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, (ellipse.x + ellipse.width) / WIDTH, (ellipse.y + ellipse.height) / HEIGHT);
         }
 
         System.out.println(String.format("UNsupported type: %s", shape.getClass().toString()));
