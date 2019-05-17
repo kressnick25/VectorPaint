@@ -8,6 +8,8 @@ import java.util.*;
 public class Vec{
     private ArrayList<Shape> shapes = new ArrayList<>();
     private String filename;
+    private int WIDTH = 1250;
+    private int HEIGHT = 1000;
 
     /**
      * Construct new Vec class to read data from file.
@@ -84,11 +86,9 @@ public class Vec{
     }
 
     private String parseShapeToString(Shape shape) {
-        int WIDTH = 1250;
-        int HEIGHT = 1000;
         if (shape instanceof Rectangle2D.Double) {
             Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
-            return String.format("RECTANGLE %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, (rectangle.x + rectangle.width) / WIDTH, (rectangle.y + rectangle.height) / HEIGHT);
+            return String.format("RECTANGLE %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
         }
         if (shape instanceof Line2D.Double) {
             Line2D.Double line = (Line2D.Double) shape;
@@ -97,10 +97,10 @@ public class Vec{
 
         if (shape instanceof Ellipse2D.Double) {
             Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
-            return String.format("ELLIPSE %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, (ellipse.x + ellipse.width) / WIDTH, (ellipse.y + ellipse.height) / HEIGHT);
+            return String.format("ELLIPSE %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
         }
 
-        System.out.println(String.format("UNsupported type: %s", shape.getClass().toString()));
+        System.out.println(String.format("Unsupported type: %s", shape.getClass().toString()));
 
         return null;
     }
@@ -108,8 +108,6 @@ public class Vec{
     // TODO more specific exception
     // TODO test components against Type enum
     private ArrayList<Shape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
-        int WIDTH = 1250;
-        int HEIGHT = 1000;
         ArrayList<Shape> shapes = new ArrayList<Shape>();
         // Parse each component in line to local vars
         for (String line : lines){
