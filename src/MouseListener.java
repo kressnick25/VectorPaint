@@ -9,6 +9,7 @@ public class MouseListener extends MouseInputAdapter {
     private Shape shape;
     // default as plot
     private ShapeType type = ShapeType.Plot;
+    private GraphicsCanvas display;
     private Color fill;
     private Color pen;
 
@@ -16,6 +17,9 @@ public class MouseListener extends MouseInputAdapter {
         this.type = type;
     }
 
+    public void setCanvas(GraphicsCanvas gc){
+        this.display = gc;
+    }
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
@@ -49,6 +53,8 @@ public class MouseListener extends MouseInputAdapter {
         int x = e.getX();
         int y = e.getY();
         mouseUpdateSelector(x, y);
+        display.clearLast();
+        display.add(shape);
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -56,7 +62,8 @@ public class MouseListener extends MouseInputAdapter {
         int y = e.getY();
 
         mouseUpdateSelector(x, y);
-        // TODO write shape to Grapics canvas and delete shape
+        display.add(shape);
+        shape = null;
     }
     void mouseUpdateSelector(int x, int y){
         switch (type){
@@ -98,7 +105,7 @@ public class MouseListener extends MouseInputAdapter {
 
     void updateLine(int x, int y){
         Line2D.Double line = (Line2D.Double) shape;
-        line.setLine(line.getX1(), line.getX2(), x, y);
+        line.setLine(line.getX1(), x, line.getY1(), y);
 
         shape = line;
     }

@@ -40,6 +40,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     // mouse movement
     MouseListener mouseDraw = new MouseListener();
+
     private ShapeType currentShape;
     private Color currentFill;
     private Color currentStroke;
@@ -218,6 +219,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         createTopMenu();
 
         // add mouse listener
+        mouseDraw.setCanvas(display);
         addMouseListener(mouseDraw);
         addMouseMotionListener(mouseDraw);
 
@@ -248,7 +250,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             mouseDraw.setType(ShapeType.Ellipse);
         }
         if (src == PolygonButton) {
-            mouseDraw.setType(ShapeType.Polygon);
+            repaint();
+            //mouseDraw.setType(ShapeType.Polygon);
         }
         if (src == FillButton) {
             //TODO Do stuff
@@ -314,6 +317,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
+
     }
 }
 
