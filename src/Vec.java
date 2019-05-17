@@ -108,6 +108,8 @@ public class Vec{
     // TODO more specific exception
     // TODO test components against Type enum
     private ArrayList<Shape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
+        int WIDTH = 1250;
+        int HEIGHT = 1000;
         ArrayList<Shape> shapes = new ArrayList<Shape>();
         // Parse each component in line to local vars
         for (String line : lines){
@@ -117,10 +119,10 @@ public class Vec{
             switch(components[0]){
                 // Use brackets in switch statement to manage scope
                 case "RECTANGLE": {// TODO convert to comparison to enum
-                    Double xOne = Double.parseDouble( components[1] );
-                    Double yOne = Double.parseDouble( components[2] );
-                    Double xTwo = Double.parseDouble( components[3] );
-                    Double yTwo = Double.parseDouble( components[4] );
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
                     shapes.add( new Rectangle.Double(xOne, yOne, xTwo, yTwo) );
                     break;
@@ -131,19 +133,19 @@ public class Vec{
 //                    break;
 //                }
                 case "LINE": {
-                    Double xOne = Double.parseDouble( components[1] );
-                    Double yOne = Double.parseDouble( components[2] );
-                    Double xTwo = Double.parseDouble( components[3] );
-                    Double yTwo = Double.parseDouble( components[4] );
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
                     shapes.add( new Line2D.Double(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
                 case "ELLIPSE": {
-                    Double xOne = Double.parseDouble( components[1] );
-                    Double yOne = Double.parseDouble( components[2] );
-                    Double xTwo = Double.parseDouble( components[3] );
-                    Double yTwo = Double.parseDouble( components[4] );
+                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
+                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
+                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
                     shapes.add( new Ellipse2D.Double(xOne, yOne, xTwo, yTwo) );
                     break;

@@ -279,7 +279,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showSaveDialog(this);
-            // int returnValue = jfc.showSaveDialog(null);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
@@ -294,13 +293,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showOpenDialog(this);
-            // int returnValue = jfc.showSaveDialog(null);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
+                this.display.clear();
                 File selectedFile = jfc.getSelectedFile();
                 System.out.println(selectedFile.getAbsolutePath());
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
                 vec.read();
+                vec.get().forEach(s -> this.display.add(s));
+                this.display.repaint();
             }
         }
     }
