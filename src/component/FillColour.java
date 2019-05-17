@@ -2,25 +2,14 @@ package component;
 
 import java.awt.*;
 
-public class FillColour implements  ColourTool {
-    private static ToolType type = ToolType.FILL;
-    private Color colour;
+public class FillColour extends  ColourTool {
+    private static Type type = Type.FILL;
 
     public FillColour(Color colour){
-        this.colour = colour;
+        super(colour);
     }
 
-    public ToolType getType() {
+    public Type getType() {
         return type;
     }
-
-    public String Code() {
-
-        return colour.toString();
-    }
-
-    public String toString() {
-        return type.toString() + " " + colour.toString();
-    }
-
 }

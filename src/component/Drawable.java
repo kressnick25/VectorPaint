@@ -7,6 +7,8 @@ public interface Drawable {
         LINE,
         RECTANGLE,
         ELLIPSE,
+        PEN,
+        FILL,
     }
     /**
      *
