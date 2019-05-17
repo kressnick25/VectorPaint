@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class GraphicsCanvas extends JPanel {
-    private Graphics2D draw;
     private ArrayList<Shape> shapes = new ArrayList<>();
 
     public GraphicsCanvas() {

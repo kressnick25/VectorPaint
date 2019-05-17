@@ -4,14 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 enum ShapeType {
-    Rectangle2D,
-    Ellipse2D,
-    Line2D,
+    Rectangle,
+    Ellipse,
+    Line,
     Polygon,
 }
 
@@ -33,10 +32,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
 
-    private ShapeType currentShape;
-    private Color currentFill;
-    private Color currentStroke;
 
+    // mouse movement
+    //MouseListener mouseDraw = new MouseListener();
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -209,6 +207,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         createTopMenu();
 
+        // add mouse listener
+        //addMouseListener(mouseDraw);
+        //addMouseMotionListener(mouseDraw);
+
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
@@ -227,22 +229,19 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         Object src = e.getSource();
         //Consider the alternatives - not all active at once.
         if (src == LineButton) {
-            currentShape = ShapeType.Line2D;
+            //mouseDraw.setType(ShapeType.Line);
         }
         if (src == RectangleButton) {
-            currentShape = ShapeType.Rectangle2D;
-
+            //mouseDraw.setType(ShapeType.Rectangle);
         }
         if (src == EllipseButton) {
-            currentShape = ShapeType.Ellipse2D;
-
+            //mouseDraw.setType(ShapeType.Ellipse);
         }
         if (src == PolygonButton) {
-            currentShape = ShapeType.Polygon;
+            //mouseDraw.setType(ShapeType.Polygon);
         }
         if (src == FillButton) {
             //TODO Do stuff
-
 
         }
         if (src == PenButton) {
@@ -255,12 +254,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     @Override
     public void run() {
         createGUI();
-
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
-
     }
 }
