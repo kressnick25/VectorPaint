@@ -8,15 +8,22 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+enum ShapeType {
+    Rectangle2D,
+    Ellipse2D,
+    Line2D,
+    Polygon,
+}
+
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
-    public static final int WIDTH = 1250;
-    public static final int HEIGHT = 1000;
+    private static final int WIDTH = 1250;
+    private static final int HEIGHT = 1000;
 
 
     private JPanel pnlBtn;
     private JPanel pnlDisplay;
-    private JPanel display;
+    private GraphicsCanvas display;
 
     private JButton LineButton, RectangleButton, EllipseButton,
                     PolygonButton, FillButton, PenButton,
@@ -26,11 +33,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
 
-    private Shape currentShape;
+    private ShapeType currentShape;
+    private Color currentFill;
+    private Color currentStroke;
+
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
-
     }
 
     private JPanel createPanel(Color c) {
@@ -107,11 +116,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         GridBagLayout layout = new GridBagLayout();
         pnlBtn.setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
+
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 1;
-
 
         addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 1);
@@ -120,12 +129,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 1);
         addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 1);
         addToPanel(pnlBtn, DrawCurrentShape, constraints, 0, 6, 2, 1);
-
-
     }
 
-    private void addToPanel(JPanel jp, Component c, GridBagConstraints
-            constraints, int x, int y, int w, int h) {
+    private void addToPanel(JPanel jp, Component c,
+                            GridBagConstraints constraints,
+                            int x, int y, int w, int h)
+    {
         constraints.gridx = x;
         constraints.gridy = y;
         constraints.gridwidth = w;
@@ -178,15 +187,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private void createGUI() {
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         setLayout(new BorderLayout());
 
         pnlBtn = createPanel(Color.GRAY);
-
         pnlDisplay = createPanel(Color.WHITE);
-
 
         LineButton = JButtonImage("LineButton");
         RectangleButton = JButtonImage("RectangleButton");
@@ -196,17 +201,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         PenButton = JButtonImage("PenButton");
         DrawCurrentShape = JButtonImage("PolygonButton");
 
-
         layoutButtonPanel();
-
 
         getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
-        display = new JPanel();
+        display = new GraphicsCanvas();
 
         createTopMenu();
 
-        display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
@@ -215,9 +217,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         repaint();
         setVisible(true);
-
-
     }
+
+    // TODO mouse event here using current shape, add to GraphicsCanvas
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -225,21 +227,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         Object src = e.getSource();
         //Consider the alternatives - not all active at once.
         if (src == LineButton) {
-            //TODO Do stuff
-
+            currentShape = ShapeType.Line2D;
         }
         if (src == RectangleButton) {
-            currentShape =  new Rectangle2D.Double(1, 1, 1, 1);
+            currentShape = ShapeType.Rectangle2D;
 
         }
         if (src == EllipseButton) {
-            //TODO Do stuff
+            currentShape = ShapeType.Ellipse2D;
 
         }
         if (src == PolygonButton) {
-            //TODO Do stuff
-
-
+            currentShape = ShapeType.Polygon;
         }
         if (src == FillButton) {
             //TODO Do stuff
@@ -251,12 +250,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
 
         }
-
-        if (src == DrawCurrentShape) {
-
-        }
-
-
     }
 
     @Override
