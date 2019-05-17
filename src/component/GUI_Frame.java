@@ -18,6 +18,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     private JPanel pnlBtn;
     private JPanel pnlDisplay;
+    private JPanel display;
 
     private JButton LineButton;
     private JButton RectangleButton;
@@ -27,7 +28,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     private JButton PenButton;
 
 
-    private JTextArea display;
     private JMenuBar mb;
     private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew;
@@ -204,12 +204,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
-        display = new JTextArea();
+        display = new JPanel();
 
         createTopMenu();
 
-        display.setEditable(true);
-        display.setLineWrap(true);
         display.setFont(new Font("Arial", Font.BOLD, 24));
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
@@ -255,14 +253,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
 
         }
-        if (src == cut)
-            display.cut();
-        if (src == paste)
-            display.paste();
-        if (src == copy)
-            display.copy();
-        if (src == selectAll)
-            display.selectAll();
+
 
 
     }
