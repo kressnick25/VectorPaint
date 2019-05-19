@@ -33,7 +33,9 @@ public class GraphicsCanvas extends JPanel {
     //remove last element in list
     // TODO convert use datatype that natively supports this
     public void clearLast(){
-        shapes.remove(shapes.size() - 1);
+        if (shapes.size() != 0) {
+            shapes.remove(shapes.size() - 1);
+        }
     }
 
     public void clear(){

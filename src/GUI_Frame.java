@@ -221,8 +221,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
         // add mouse listener
         mouseDraw.setCanvas(display);
-        addMouseListener(mouseDraw);
-        addMouseMotionListener(mouseDraw);
+        display.addMouseListener(mouseDraw);
+        display.addMouseMotionListener(mouseDraw);
 
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);

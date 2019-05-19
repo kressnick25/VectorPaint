@@ -87,6 +87,7 @@ public class MouseListener extends MouseInputAdapter {
             // TODO default exception
         }
     }
+    // TODO combine this and ellipse method, new object rather than set frame
     void updateRectangleSize(int x, int y){
         Rectangle2D.Double rect = (Rectangle2D.Double) shape;
         double width = x - rect.getX();
