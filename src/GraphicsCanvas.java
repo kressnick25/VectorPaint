@@ -42,4 +42,8 @@ public class GraphicsCanvas extends JPanel {
         shapes.clear();
     }
 
+    public Shape getLatest() {
+        if(shapes.size() == 0) return null;
+        return shapes.get(shapes.size() - 1);
+    }
 }

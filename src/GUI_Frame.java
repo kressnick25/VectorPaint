@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -36,7 +35,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
     private JMenuBar mb;
     private JMenu file, edit, help;
-    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn;
+    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn, undo;
 
 
     // mouse movement
@@ -156,16 +155,19 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         cut = new JMenuItem("Cut");
         copy = new JMenuItem("Copy");
         paste = new JMenuItem("Paste");
+        undo = new JMenuItem("Undo");
         fileNew = new JMenuItem("New");
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
         selectAll = new JMenuItem("Select All");
         helpBtn = new JMenuItem("Help");
+
         helpBtn.addActionListener(this);
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
+        undo.addActionListener(this);
         selectAll.addActionListener(this);
         fileNew.addActionListener(this);
         fileOpen.addActionListener(this);
@@ -184,6 +186,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         edit.add(copy);
         edit.add(paste);
         edit.add(selectAll);
+        edit.add(undo);
         help.add(helpBtn);
         mb.add(file);
         mb.add(edit);
@@ -267,6 +270,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
 
 
         }
+        // MENU ITEMS
         if (src == helpBtn) {
             //TODO Do stuff
             JOptionPane.showMessageDialog(pnlBtn,
@@ -275,8 +279,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
                     JOptionPane.ERROR_MESSAGE);
 
             System.out.println("dfd");
-
-
         }
 
         if (src == fileSave || src == fileSaveAs) {
@@ -309,6 +311,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             }
         }
 
+        if (src == undo){
+            Shape latest = display.getLatest();
+            while (display.getLatest() == latest){
+                display.clearLast();
+            }
+
+        }
+
+        // WINDOW REFRESH
         if (e.getSource()==timer){
             repaint(); // repait every timer expiry
         }
