@@ -34,8 +34,25 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     public void updateSize(int x, int y){
-        double width = x - this.getX();
-        double height = y - this.getY();
+        double width;
+        double height;
+
+        if(getBounds2D().getX() >= x){
+
+             width = -(x - this.getX());
+             height = y - this.getY();
+            System.out.println(width);
+        }
+        else{
+             width = x - this.getX();
+             height = y - this.getY();
+        }
+
+
+            //System.out.println(y);
+
+
+
         this.setRect(this.getX(), this.getY(), width, height );
     }
 
