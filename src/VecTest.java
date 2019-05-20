@@ -1,6 +1,6 @@
 //import component.*;
 //import component.Polygon;
-//import component.Rectangle;
+//import component.AdvancedShape;
 //import component.Shape;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@
 //    private String filename = "VecTest.vec";
 //    @BeforeEach
 //    void Setup(){
-//        pq.add(new Rectangle(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
+//        pq.add(new AdvancedShape(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
 //        pq.add(new Plot(new VectorPoint(0.1, 0.2)));
 //        pq.add(new Ellipse(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
 //        pq.add(new PenColour(new Color(255, 200, 200)) );

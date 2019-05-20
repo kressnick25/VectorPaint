@@ -1,3 +1,5 @@
+import AdvancedShape.*;
+
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -26,7 +28,7 @@ public class MouseListener extends MouseInputAdapter {
         try {
             switch (type) {
                 case Plot:
-                    shape = new Ellipse2D.Double(x, y, 5, 5);
+                    shape = new Ellipse(x, y, 5, 5);
                     display.add(shape);
                     shape = null;
                     break;
