@@ -21,31 +21,23 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
-    Timer timer=new Timer(5, this);
-    private String imgPath = "./img/";
+    private Timer timer=new Timer(5, this);
     private static final int WIDTH = 1250;
     private static final int HEIGHT = 1000;
 
-
     private JPanel pnlBtn;
-    private JPanel pnlDisplay;
     private GraphicsCanvas display;
-
+    private JMenu file, edit, help;
     private JButton LineButton, RectangleButton, EllipseButton,
                     PolygonButton, FillButton, PenButton;
-
-    private JMenuBar mb;
-    private JMenu file, edit, help;
-    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn, undo;
+    private JMenuItem   cut, copy, paste, selectAll,
+                        fileOpen, fileSave, fileSaveAs,
+                        fileNew, helpBtn, undo;
 
 
     // mouse movement
-    MouseListener mouseDraw = new MouseListener();
-
-    private ShapeType currentShape;
-    private Color currentFill;
-    private Color currentStroke;
-    Color initialcolor = Color.RED;
+    private MouseListener mouseDraw = new MouseListener();
+    private Color initialcolor = Color.RED;
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -133,7 +125,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
 
-        mb = new JMenuBar();
+        JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
         help = new JMenu("Help");
@@ -157,13 +149,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
     private void createGUI() {
+        String imgPath = "./img/";
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         pnlBtn = createPanel(Color.GRAY);
-        pnlDisplay = createPanel(Color.WHITE);
+        JPanel pnlDisplay = createPanel(Color.WHITE);
 
         LineButton = JButtonImage(imgPath + "buttons/line.png");
         RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
