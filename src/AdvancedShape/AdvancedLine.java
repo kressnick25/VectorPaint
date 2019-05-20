@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class AdvancedLine extends Line2D.Double implements AdvancedShape {
-    private Color penColor = new Color(255,255,255);
+    private Color penColor = new Color(0, 0, 0);
     private boolean isTransparent = true;
 
     public AdvancedLine(double x1, double y1, double x2, double y2) {

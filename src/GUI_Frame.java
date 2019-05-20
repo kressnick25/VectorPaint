@@ -21,7 +21,7 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
-    Timer timer=new Timer(10, this);
+    Timer timer=new Timer(5, this);
 
     private static final int WIDTH = 1250;
     private static final int HEIGHT = 1000;
@@ -259,16 +259,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             mouseDraw.setType(ShapeType.Polygon);
         }
         if (src == FillButton) {
-            //TODO Do stuff
             Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setFillColor(ColorFill);
 
 
         }
         if (src == PenButton) {
-            //TODO Do stuff
             Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
-            System.out.println(colorPen);
+            mouseDraw.setPenColor(colorPen);
 
 
         }

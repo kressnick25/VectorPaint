@@ -5,7 +5,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
-    private Color penColor = new Color(255,255,255);
+    private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
 
