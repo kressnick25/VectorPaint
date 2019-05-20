@@ -261,7 +261,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         if (src == FillButton) {
             //TODO Do stuff
             Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
-            System.out.println(ColorFill);
+            mouseDraw.setFillColor(ColorFill);
 
 
         }

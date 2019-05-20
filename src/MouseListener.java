@@ -12,8 +12,8 @@ public class MouseListener extends MouseInputAdapter {
     // default as plot
     private ShapeType type = ShapeType.Plot;
     private GraphicsCanvas display;
-    private Color fill;
-    private Color pen;
+    private Color fillColor = new Color(0xD11B59);
+    private Color penColor;
 
     public void setType(ShapeType type) {
         this.type = type;
@@ -48,6 +48,7 @@ public class MouseListener extends MouseInputAdapter {
                 default:
                     throw new Exception("Invalid shape type.");
             }
+            shape.setFillColor(fillColor);
         } catch (Exception e1){
             // TODO popup
         }
@@ -69,4 +70,14 @@ public class MouseListener extends MouseInputAdapter {
         display.add(shape);
         shape = null;
     }
+
+    public void setPenColor(Color penColor) {
+        this.penColor = penColor;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
+
 }

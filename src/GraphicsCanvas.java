@@ -22,6 +22,7 @@ public class GraphicsCanvas extends JPanel {
                         g2d.draw(shape);
                     }
                     else {
+                        g2d.setPaint(shape.getFillColor());
                         g2d.fill(shape);
                     }
                 }
