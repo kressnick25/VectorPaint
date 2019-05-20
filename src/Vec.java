@@ -13,6 +13,9 @@ public class Vec{
     private int WIDTH = 1250;
     private int HEIGHT = 1000;
 
+    private Color recentPenColor = Color.black;
+    private Color recentFillColor = Color.white;
+
     /**
      * Construct new Vec class to read data from file.
      * @param filename String file
@@ -87,19 +90,26 @@ public class Vec{
         return lines;
     }
 
-    private String parseShapeToString(Shape shape) {
+    private String parseShapeToString(AdvancedShape shape) {
+        Color penColor = shape.getPenColor();
+        Color fillColor = shape.getFillColor();
+        // https://stackoverflow.com/questions/3607858/convert-a-rgb-color-value-to-a-hexadecimal-string
+        String penHex = String.format("#%02x%02x%02x", penColor.getRed(), penColor.getGreen(), penColor.getBlue());
+        String fillHex = String.format("#%02x%02x%02x", fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue());
+
+        String prefixShapeString = String.format("PEN %s\nFILL %s\n", penHex, fillHex);
         if (shape instanceof Rectangle2D.Double) {
             Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
-            return String.format("RECTANGLE %f %f %f %f", rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
+            return String.format("%sRECTANGLE %f %f %f %f",prefixShapeString, rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
         }
         if (shape instanceof Line2D.Double) {
             Line2D.Double line = (Line2D.Double) shape;
-            return String.format("LINE %f %f %f %f", line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
+            return String.format("%sLINE %f %f %f %f", prefixShapeString, line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
         }
 
         if (shape instanceof Ellipse2D.Double) {
             Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
-            return String.format("ELLIPSE %f %f %f %f", ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
+            return String.format("%sELLIPSE %f %f %f %f", prefixShapeString, ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
         }
 
         System.out.println(String.format("Unsupported type: %s", shape.getClass().toString()));
@@ -123,8 +133,10 @@ public class Vec{
                     Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
-
-                    shapes.add( new AdvancedRectangle(xOne, yOne, xTwo, yTwo ));
+                    AdvancedShape nShape = new AdvancedRectangle(xOne, yOne, xTwo, yTwo );
+                    nShape.setFillColor(this.recentFillColor);
+                    nShape.setPenColor(this.recentPenColor);
+                    shapes.add(nShape);
                     break;
                 }
 //                case "PLOT": {
@@ -138,7 +150,9 @@ public class Vec{
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    shapes.add( new AdvancedLine(xOne, yOne, xTwo, yTwo) );
+                    AdvancedShape nShape = new AdvancedLine(xOne, yOne, xTwo, yTwo);
+                    nShape.setPenColor(this.recentPenColor);
+                    shapes.add(nShape);
                     break;
                 }
                 case "ELLIPSE": {
@@ -147,7 +161,10 @@ public class Vec{
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    shapes.add( new AdvancedEllipse(xOne, yOne, xTwo, yTwo) );
+                    AdvancedShape nShape = new AdvancedEllipse(xOne, yOne, xTwo, yTwo);
+                    nShape.setFillColor(this.recentFillColor);
+                    nShape.setPenColor(this.recentPenColor);
+                    shapes.add(nShape);
                     break;
                 }
 //                case "POLYGON": {
@@ -161,17 +178,17 @@ public class Vec{
 //                    shapes.add( new Polygon(points) );
 //                    break;
 //                }
-//                case "PEN": {
-//                    Color myPenColour = hexToRgb(components[1]);
-//                    shapes.add( new PenColour(myPenColour) );
-//
-//                    break;
-//                }
-//                case "FILL": {
-//                    Color myFillColour = hexToRgb(components[1]);
-//                    shapes.add( new PenColour(myFillColour) );
-//                    break;
-//                }
+                case "PEN": {
+                    Color myPenColour = hexToRgb(components[1]);
+                    this.recentPenColor = myPenColour;
+
+                    break;
+                }
+                case "FILL": {
+                    Color myFillColour = hexToRgb(components[1]);
+                    this.recentFillColor = myFillColour;
+                    break;
+                }
                 default:
                     throw new Exception("Command was not valid: " + line);
             }
