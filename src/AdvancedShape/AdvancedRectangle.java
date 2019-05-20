@@ -7,6 +7,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
+    double startx = 0;
+    double starty = 0;
 
     public AdvancedRectangle(double x, double y, double w, double h) {
         super(x, y, w, h);
@@ -34,18 +36,24 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     public void updateSize(int x, int y){
-        double width;
-        double height;
+        double width = 0;
+        double height = 0;
 
-        if(getBounds2D().getX() >= x){
+        if(getBounds2D().getX() >= x && getBounds2D().getY() >= y){
 
-             width = -(x - this.getX());
-             height = y - this.getY();
-            System.out.println(width);
+//            width = x - this.getX();
+//            height = y - this.getY();
+            width = startx-x;
+            height = starty-y;
+            this.setRect(x, y, width, height);
+            System.out.println(getBounds2D().getX());
         }
         else{
+             startx = this.getX();
+             starty = this.getY();
              width = x - this.getX();
              height = y - this.getY();
+            this.setRect(this.getX(), this.getY(), width, height );
         }
 
 
@@ -53,7 +61,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
 
 
 
-        this.setRect(this.getX(), this.getY(), width, height );
+
     }
 
 }
