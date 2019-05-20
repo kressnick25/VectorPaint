@@ -1,23 +1,21 @@
 package AdvancedShape;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
-public class Polygon extends java.awt.Polygon implements AdvancedShape {
+public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     private Color penColor = new Color(255,255,255);
-    private Color fillColor = new Color(255,255,255);
-    private boolean isTransparent = false;
+    private boolean isTransparent = true;
 
-    public Polygon(int[] xpoints, int[] ypoints, int npoints) {
-        super(xpoints, ypoints, npoints);
+    public AdvancedLine(double x1, double y1, double x2, double y2) {
+        super(x1, y1, x2, y2);
     }
-
 
     public Color getFillColor() {
-        return fillColor;
+        return null;
     }
     public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-        this.isTransparent = false;
+
     }
     public Color getPenColor() {
         return penColor;
@@ -29,11 +27,10 @@ public class Polygon extends java.awt.Polygon implements AdvancedShape {
         return isTransparent;
     }
     public void setTransparent(boolean transparent) {
-        isTransparent = transparent;
-        this.fillColor = null;
+
     }
 
     public void updateSize(int x, int y){
-        this.addPoint(x, y);
+        this.setLine(this.getX1(), this.getY1(), x, y);
     }
 }

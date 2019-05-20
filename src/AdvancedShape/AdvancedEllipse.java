@@ -1,14 +1,15 @@
 package AdvancedShape;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle extends Rectangle2D.Double implements AdvancedShape {
+public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(255,255,255);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
 
-    public Rectangle(double x, double y, double w, double h) {
+    public AdvancedEllipse(double x, double y, double w, double h) {
         super(x, y, w, h);
     }
 
@@ -36,7 +37,6 @@ public class Rectangle extends Rectangle2D.Double implements AdvancedShape {
     public void updateSize(int x, int y){
         double width = x - this.getX();
         double height = y - this.getY();
-        this.setRect(this.getX(), this.getY(), width, height );
+        this.setFrame(this.getX(), this.getY(), width, height );
     }
-
 }

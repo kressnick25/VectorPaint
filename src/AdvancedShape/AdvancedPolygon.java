@@ -1,17 +1,20 @@
 package AdvancedShape;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
-public class Ellipse extends Ellipse2D.Double implements AdvancedShape{
+public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
     private Color penColor = new Color(255,255,255);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
 
-    public Ellipse(double x, double y, double w, double h) {
-        super(x, y, w, h);
+
+    public AdvancedPolygon(int[] xpoints, int[] ypoints, int npoints) {
+        super(xpoints, ypoints, npoints);
     }
+
+    public AdvancedPolygon() {
+    }
+
 
     public Color getFillColor() {
         return fillColor;
@@ -35,8 +38,6 @@ public class Ellipse extends Ellipse2D.Double implements AdvancedShape{
     }
 
     public void updateSize(int x, int y){
-        double width = x - this.getX();
-        double height = y - this.getY();
-        this.setFrame(this.getX(), this.getY(), width, height );
+        this.addPoint(x, y);
     }
 }

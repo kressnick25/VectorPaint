@@ -22,7 +22,7 @@
 //    void Setup(){
 //        pq.add(new AdvancedShape(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
 //        pq.add(new Plot(new VectorPoint(0.1, 0.2)));
-//        pq.add(new Ellipse(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
+//        pq.add(new AdvancedEllipse(new VectorPoint(0.1, 0.2), new VectorPoint(0.5, 0.9)));
 //        pq.add(new PenColour(new Color(255, 200, 200)) );
 //        pq.add(new FillColour(new Color(100, 200, 201)));
 //        ArrayList<VectorPoint> points = new ArrayList<>();

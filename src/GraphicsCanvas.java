@@ -1,4 +1,4 @@
-import component.Drawable;
+import AdvancedShape.AdvancedShape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class GraphicsCanvas extends JPanel {
-    private ArrayList<Shape> shapes = new ArrayList<>();
+    private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
     public GraphicsCanvas() {
         setSize(500, 500);
@@ -17,16 +17,24 @@ public class GraphicsCanvas extends JPanel {
         Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        shapes.forEach((shape) -> g2d.draw(shape));
+        shapes.forEach((shape) -> {
+                    if (shape.isTransparent()){
+                        g2d.draw(shape);
+                    }
+                    else {
+                        g2d.fill(shape);
+                    }
+                }
+        );
     }
 
-    public ArrayList<Shape> getShapes() { return this.shapes; }
+    public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
 
-    public void load(ArrayList<Shape> shapes){
+    public void load(ArrayList<AdvancedShape> shapes){
         this.shapes = shapes;
     }
 
-    public void add(Shape shape){
+    public void add(AdvancedShape shape){
         shapes.add(shape);
     }
 

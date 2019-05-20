@@ -1,3 +1,5 @@
+import AdvancedShape.*;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -6,7 +8,7 @@ import java.io.*;
 import java.util.*;
 
 public class Vec{
-    private ArrayList<Shape> shapes = new ArrayList<>();
+    private ArrayList<AdvancedShape> shapes = new ArrayList<>();
     private String filename;
     private int WIDTH = 1250;
     private int HEIGHT = 1000;
@@ -24,9 +26,9 @@ public class Vec{
      * @param filename
      * @param shapes
      */
-    public Vec(String filename, ArrayList<Shape> shapes){
+    public Vec(String filename, ArrayList<AdvancedShape> shapes){
         this.filename = filename;
-        this.shapes = new ArrayList<>(shapes);
+        this.shapes = new ArrayList<AdvancedShape>(shapes);
     }
 
     public void save(){
@@ -107,8 +109,8 @@ public class Vec{
 
     // TODO more specific exception
     // TODO test components against Type enum
-    private ArrayList<Shape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
-        ArrayList<Shape> shapes = new ArrayList<Shape>();
+    private ArrayList<AdvancedShape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
+        ArrayList<AdvancedShape> shapes = new ArrayList<AdvancedShape>();
         // Parse each component in line to local vars
         for (String line : lines){
             // split line into shapes ie PLOT, 0.0, 0.1
@@ -122,7 +124,7 @@ public class Vec{
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    shapes.add( new Rectangle.Double(xOne, yOne, xTwo, yTwo) );
+                    shapes.add( new AdvancedRectangle(xOne, yOne, xTwo, yTwo ));
                     break;
                 }
 //                case "PLOT": {
@@ -136,7 +138,7 @@ public class Vec{
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    shapes.add( new Line2D.Double(xOne, yOne, xTwo, yTwo) );
+                    shapes.add( new AdvancedLine(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
                 case "ELLIPSE": {
@@ -145,7 +147,7 @@ public class Vec{
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
                     Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
 
-                    shapes.add( new Ellipse2D.Double(xOne, yOne, xTwo, yTwo) );
+                    shapes.add( new AdvancedEllipse(xOne, yOne, xTwo, yTwo) );
                     break;
                 }
 //                case "POLYGON": {
@@ -194,7 +196,7 @@ public class Vec{
      *
      * @return Queue of commands
      */
-    public ArrayList<Shape> get(){
+    public ArrayList<AdvancedShape> get(){
         return shapes;
     }
 

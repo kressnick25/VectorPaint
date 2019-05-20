@@ -1,3 +1,5 @@
+import AdvancedShape.AdvancedShape;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -289,7 +291,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
 
-                ArrayList<Shape> shapes = this.display.getShapes();
+                ArrayList<AdvancedShape> shapes = this.display.getShapes();
                 Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
                 vec.save();
             }
