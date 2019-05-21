@@ -21,32 +21,23 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable {
-    Timer timer=new Timer(5, this);
-
+    private Timer timer=new Timer(5, this);
     private static final int WIDTH = 1250;
     private static final int HEIGHT = 1000;
 
-
     private JPanel pnlBtn;
-    private JPanel pnlDisplay;
     private GraphicsCanvas display;
-
-    private JButton LineButton, RectangleButton, EllipseButton,
-                    PolygonButton, FillButton, PenButton,
-                    DrawCurrentShape;
-
-    private JMenuBar mb;
     private JMenu file, edit, help;
-    private JMenuItem cut, copy, paste, selectAll, fileOpen, fileSave, fileSaveAs, fileNew, helpBtn, undo;
+    private JButton LineButton, RectangleButton, EllipseButton,
+                    PolygonButton, FillButton, PenButton;
+    private JMenuItem   cut, copy, paste, selectAll,
+                        fileOpen, fileSave, fileSaveAs,
+                        fileNew, helpBtn, undo;
 
 
     // mouse movement
-    MouseListener mouseDraw = new MouseListener();
-
-    private ShapeType currentShape;
-    private Color currentFill;
-    private Color currentStroke;
-    Color initialcolor = Color.RED;
+    private MouseListener mouseDraw = new MouseListener();
+    private Color initialcolor = Color.RED;
 
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
@@ -66,61 +57,20 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         return newBtn;
     }
 
-    private JButton JButtonImage(String str) {
+    private JButton JButtonImage(String imagePath) {
         //TODO resize all images
-
-        JButton newBtn;
-        if (str == "LineButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Line.png")));
+        try {
+            JButton newBtn = new JButton(new ImageIcon(imagePath));
             newBtn = JButtonImageInitializer(newBtn);
             newBtn.setPreferredSize(new Dimension(70, 60));
 
             return newBtn;
+        } catch(Exception e) {
+
+            return null;
         }
-        if (str == "RectangleButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Rectangle.png")));
-            newBtn = JButtonImageInitializer(newBtn);
-            newBtn.setPreferredSize(new Dimension(70, 60));
-
-
-            return newBtn;
-        }
-        if (str == "EllipseButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Eclipse.png")));
-            newBtn = JButtonImageInitializer(newBtn);
-            newBtn.setPreferredSize(new Dimension(70, 60));
-
-
-            return newBtn;
-        }
-        if (str == "PolygonButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Polygon.png")));
-            newBtn = JButtonImageInitializer(newBtn);
-            newBtn.setPreferredSize(new Dimension(70, 60));
-            return newBtn;
-        }
-        if (str == "FillButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Fill.png")));
-            newBtn = JButtonImageInitializer(newBtn);
-            newBtn.setPreferredSize(new Dimension(70, 60));
-
-
-            return newBtn;
-        }
-        if (str == "PenButton") {
-            newBtn = new JButton(new ImageIcon(getClass().getClassLoader().getResource("GUIButtons/Pen.png")));
-            newBtn = JButtonImageInitializer(newBtn);
-            newBtn.setPreferredSize(new Dimension(70, 60));
-
-
-            return newBtn;
         }
 
-
-        return null;
-
-
-    }
 
     private void layoutButtonPanel() {
         GridBagLayout layout = new GridBagLayout();
@@ -138,7 +88,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 1);
         addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 1);
         addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 1);
-        addToPanel(pnlBtn, DrawCurrentShape, constraints, 0, 6, 2, 1);
     }
 
     private void addToPanel(JPanel jp, Component c,
@@ -176,7 +125,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
 
-        mb = new JMenuBar();
+        JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
         help = new JMenu("Help");
@@ -200,21 +149,21 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     }
 
     private void createGUI() {
+        String imgPath = "./img/";
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         pnlBtn = createPanel(Color.GRAY);
-        pnlDisplay = createPanel(Color.WHITE);
+        JPanel pnlDisplay = createPanel(Color.WHITE);
 
-        LineButton = JButtonImage("LineButton");
-        RectangleButton = JButtonImage("RectangleButton");
-        EllipseButton = JButtonImage("EllipseButton");
-        PolygonButton = JButtonImage("PolygonButton");
-        FillButton = JButtonImage("FillButton");
-        PenButton = JButtonImage("PenButton");
-        DrawCurrentShape = JButtonImage("PolygonButton");
+        LineButton = JButtonImage(imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage(imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage(imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage(imgPath + "buttons/fill.png");
+        PenButton = JButtonImage(imgPath + "buttons/pen.png");
 
         layoutButtonPanel();
 
