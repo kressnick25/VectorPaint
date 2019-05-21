@@ -8,9 +8,12 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
-
+    double startx;
+    double starty;
     public AdvancedEllipse(double x, double y, double w, double h) {
         super(x, y, w, h);
+        this.startx = x;
+        this.starty = y;
     }
 
     public Color getFillColor() {
@@ -34,9 +37,30 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         this.fillColor = null;
     }
 
-    public void updateSize(int x, int y){
-        double width = x - this.getX();
-        double height = y - this.getY();
-        this.setFrame(this.getX(), this.getY(), width, height );
+    public void updateSize(int x, int y) {
+//        double width = x - this.getX();
+//        double height = y - this.getY();
+//        this.setFrame(this.getX(), this.getY(), width, height );
+        double width = 0;
+        double height = 0;
+
+        if (startx >= x && starty >= y) {
+            width = startx - x;
+            height = starty - y;
+            this.setFrame(x, y, width, height);
+        } else if (startx >= x) {
+            width = startx - x;
+            height = y - this.getY();
+            this.setFrame(x, this.getY(), width, height);
+        } else if (starty >= y) {
+            width = x - this.getX();
+            height = starty - y;
+            this.setFrame(this.getX(), y, width, height);
+        } else {
+
+            width = x - this.getX();
+            height = y - this.getY();
+            this.setFrame(this.getX(), this.getY(), width, height);
+        }
     }
 }
