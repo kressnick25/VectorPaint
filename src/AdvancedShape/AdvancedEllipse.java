@@ -71,4 +71,13 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         }
         g2d.draw(this);
     }
+
+    public String toString(int screenWidth, int screenHeight) {
+        return String.format(
+                "ELLIPSE %f %f %f %f",
+                this.x / screenWidth,
+                this.y / screenHeight,
+                this.width / screenWidth,
+                this.height / screenHeight);
+    }
 }

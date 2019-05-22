@@ -107,33 +107,31 @@ public class Vec{
      */
 
     private String parseShapeToString(AdvancedShape shape) {
+        StringBuilder outString = new StringBuilder();
         Color penColor = shape.getPenColor();
         Color fillColor = shape.getFillColor();
         // referenced from
         // https://stackoverflow.com/questions/3607858/convert-a-rgb-color-value-to-a-hexadecimal-string
-        String penHex = String.format("#%02x%02x%02x", penColor.getRed(), penColor.getGreen(), penColor.getBlue());
-        String fillHex = String.format("#%02x%02x%02x", fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue());
+        // PenColor
+        if (!penColor.equals(recentPenColor)){
+            String penHex = String.format(
+                    "PEN #%02x%02x%02x\n", penColor.getRed(),
+                    penColor.getGreen(), penColor.getBlue());
+            recentPenColor = fillColor;
+            outString.append(penHex);
+        }
+        // FillColor
+        if (!fillColor.equals(recentFillColor)){
+            String fillHex = String.format(
+                    "FILL #%02x%02x%02x\n", fillColor.getRed(),
+                    fillColor.getGreen(), fillColor.getBlue());
+            recentFillColor = fillColor;
+            outString.append(fillHex);
+        }
+        //Shape
+        outString.append( shape.toString(WIDTH, HEIGHT) );
 
-        //rectangle
-        String prefixShapeString = String.format("PEN %s\nFILL %s\n", penHex, fillHex);
-        if (shape instanceof Rectangle2D.Double) {
-            Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
-            return String.format("%sRECTANGLE %f %f %f %f",prefixShapeString, rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
-        }
-        //line
-        if (shape instanceof Line2D.Double) {
-            Line2D.Double line = (Line2D.Double) shape;
-            return String.format("%sLINE %f %f %f %f", prefixShapeString, line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
-        }
-        // ellipse
-        if (shape instanceof Ellipse2D.Double) {
-            Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
-            return String.format("%sELLIPSE %f %f %f %f", prefixShapeString, ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
-        }
-        //error, none of the above
-        System.out.println(String.format("Unsupported type: %s", shape.getClass().toString()));
-
-        return null;
+        return outString.toString();
     }
 
     // TODO more specific exception
@@ -187,21 +185,34 @@ public class Vec{
                     shapes.add(nShape);
                     break;
                 }
-//                case "POLYGON": {
-//                    ArrayList<VectorPoint> points = new ArrayList<>();
-//                    // start at 1 to avoid command in component[0], iterating +2 for each coord
-//                    for (int i = 1; i < components.length; i += 2) {
-//                        VectorPoint point = parsePoint(components[i], components[i + 1]);
-//                        points.add(point);
-//                    }
-//
-//                    shapes.add( new Polygon(points) );
-//                    break;
-//                }
+                case "POLYGON": {
+                    ArrayList<Integer> xpoints = new ArrayList<>();
+                    ArrayList<Integer> ypoints = new ArrayList<>();
+                    // start at 1 to avoid command in component[0], iterating +2 for each coord
+                    for (int i = 1; i < components.length; i += 2) {
+                        double x = Double.parseDouble( components[i]) * WIDTH;
+                        double y = Double.parseDouble( components[i + 1]) * HEIGHT;
+                            int xPoint = (int) Math.round(x);
+                            int yPoint = (int) Math.round(Double.parseDouble(components[i + 1]) * HEIGHT);
+                            xpoints.add(xPoint);
+                            ypoints.add(yPoint);
+                    }
+
+                    // Convert arraylist to int[]
+                    AdvancedShape nShape = new AdvancedPolygon(
+                            xpoints.stream().mapToInt(i -> i).toArray(),
+                            ypoints.stream().mapToInt(i -> i).toArray(),
+                            xpoints.size());
+                    nShape.setFillColor(this.recentFillColor);
+                    nShape.setPenColor(this.recentPenColor);
+                    shapes.add(nShape);
+                    break;
+                }
+
+                // TODO parse plot
                 case "PEN": {
                     Color myPenColour = hexToRgb(components[1]);
                     this.recentPenColor = myPenColour;
-
                     break;
                 }
                 case "FILL": {

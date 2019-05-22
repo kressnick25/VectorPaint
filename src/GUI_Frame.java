@@ -383,10 +383,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == undo) {
             //
             Shape latest = display.getLatest();
-            while (display.getLatest() == latest) {
-                display.clearLast();
+            if (latest != null) {
+                while (display.getLatest() == latest) {
+                    display.clearLast();
+                }
             }
-
         }
 
         // WINDOW REFRESH

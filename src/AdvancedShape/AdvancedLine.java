@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 public class AdvancedLine extends Line2D.Double implements AdvancedShape {
+    private Color fillColor = new Color(255,255,255);
     private Color penColor = new Color(0, 0, 0);
     private boolean isTransparent = true;
 
@@ -12,10 +13,10 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     public Color getFillColor() {
-        return null;
+        return fillColor;
     }
     public void setFillColor(Color fillColor) {
-
+        this.fillColor = fillColor;
     }
     public Color getPenColor() {
         return penColor;
@@ -37,5 +38,14 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     public void render(Graphics2D g2d){
         g2d.setPaint(this.getPenColor());
         g2d.draw(this);
+    }
+
+    public String toString(int screenWidth, int screenHeight) {
+        return String.format(
+                "LINE %f %f %f %f",
+                this.x1 / screenWidth,
+                this.y1 / screenHeight,
+                this.x1 / screenWidth,
+                this.x2 / screenHeight);
     }
 }

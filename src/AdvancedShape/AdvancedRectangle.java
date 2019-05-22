@@ -79,4 +79,12 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         }
         g2d.draw(this);
     }
+    public String toString(int screenWidth, int screenHeight) {
+        return String.format(
+                "RECTANGLE %f %f %f %f",
+                this.x / screenWidth,
+                this.y / screenHeight,
+                this.width / screenWidth,
+                this.height / screenHeight);
+    }
 }
