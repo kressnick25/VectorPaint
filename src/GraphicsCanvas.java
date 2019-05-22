@@ -18,12 +18,7 @@ public class GraphicsCanvas extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         shapes.forEach((shape) -> {
-                    if (!shape.isTransparent()){
-                        g2d.setPaint(shape.getFillColor());
-                        g2d.fill(shape);
-                        g2d.setPaint(shape.getPenColor());
-                    }
-                    g2d.draw(shape);
+                    shape.render(g2d);
                 }
         );
     }

@@ -33,4 +33,9 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     public void updateSize(int x, int y){
         this.setLine(this.getX1(), this.getY1(), x, y);
     }
+
+    public void render(Graphics2D g2d){
+        g2d.setPaint(this.getPenColor());
+        g2d.draw(this);
+    }
 }

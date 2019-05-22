@@ -28,9 +28,7 @@ public class MouseListener extends MouseInputAdapter {
         try {
             switch (type) {
                 case Plot:
-                    shape = new AdvancedEllipse(x, y, 5, 5);
-                    display.add(shape);
-                    shape = null;
+                    shape = new AdvancedPlot(x, y, 5, 5);
                     break;
                 case Rectangle:
                     shape = new AdvancedRectangle(x, y, 0, 0);
@@ -39,7 +37,7 @@ public class MouseListener extends MouseInputAdapter {
                     shape = new AdvancedEllipse(x, y, 0, 0);
                     break;
                 case Line:
-                    // initalise line with no length. current pos to current pos
+                    // initialise line with no length. current pos to current pos
                     shape = new AdvancedLine(x, y, x, y);
                     break;
                 case Polygon:
@@ -56,20 +54,25 @@ public class MouseListener extends MouseInputAdapter {
     }
 
     public void mouseDragged(MouseEvent e) {
+        if (!(shape instanceof AdvancedPolygon) && !(shape instanceof AdvancedPlot)) {
             int x = e.getX();
             int y = e.getY();
             shape.updateSize(x, y);
             display.clearLast();
             display.add(shape);
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-
+//        if (shape instanceof AdvancedPolygon){
+//
+//        } else{
+//
+//        }
         shape.updateSize(x ,y);
         display.add(shape);
-        shape = null;
     }
 
     public void setPenColor(Color penColor) {
@@ -79,6 +82,5 @@ public class MouseListener extends MouseInputAdapter {
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }
-
 
 }

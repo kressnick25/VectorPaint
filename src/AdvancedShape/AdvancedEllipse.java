@@ -63,4 +63,12 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
             this.setFrame(this.getX(), this.getY(), width, height);
         }
     }
+    public void render(Graphics2D g2d){
+        if (!this.isTransparent()){
+            g2d.setPaint(this.getFillColor());
+            g2d.fill(this);
+            g2d.setPaint(this.getPenColor());
+        }
+        g2d.draw(this);
+    }
 }
