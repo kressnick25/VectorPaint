@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class GraphicsCanvas extends JPanel {
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
+
     public GraphicsCanvas() {
         setSize(500, 500);
         setVisible(true);
@@ -15,10 +16,12 @@ public class GraphicsCanvas extends JPanel {
 
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        // Anti-Aliasing Setting, turn off for better performance
+//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//                RenderingHints.VALUE_ANTIALIAS_ON);
         shapes.forEach((shape) -> {
                     shape.render(g2d);
+
                 }
         );
     }
