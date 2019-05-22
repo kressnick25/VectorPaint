@@ -25,7 +25,7 @@ public class Vec{
     }
 
     /**
-     * Construct new Vec class to write curent data to file.
+     * Construct new Vec class to write current data to file.
      * @param filename
      * @param shapes
      */
@@ -34,6 +34,10 @@ public class Vec{
         this.shapes = new ArrayList<AdvancedShape>(shapes);
     }
 
+    /**
+     * Saves the images in the GUI frame as a vector Point.
+     * takes no parameters
+     */
     public void save(){
         try {
             // Open file
@@ -46,6 +50,7 @@ public class Vec{
             //close file connection
             writer.close();
 
+            //error catch
         } catch (Exception e){
             // Print exception
             System.err.format("Error trying to write to '%s'.", filename);
@@ -67,6 +72,10 @@ public class Vec{
         }
     }
 
+    /**
+     * Reads from filename and stores all the line locations in an ArrayList.
+     * @Return ArrayList
+     */
     private ArrayList<String> readLinesFromFile() {
         ArrayList<String> lines = new ArrayList<>();
 
@@ -90,28 +99,38 @@ public class Vec{
         return lines;
     }
 
+    /**
+     * Takes the shape type and turns it into the corresponding string of the shape name.
+     * if no shape is selected a message is produced
+     * @param shape
+     * @return String
+     */
+
     private String parseShapeToString(AdvancedShape shape) {
         Color penColor = shape.getPenColor();
         Color fillColor = shape.getFillColor();
+        // referenced from
         // https://stackoverflow.com/questions/3607858/convert-a-rgb-color-value-to-a-hexadecimal-string
         String penHex = String.format("#%02x%02x%02x", penColor.getRed(), penColor.getGreen(), penColor.getBlue());
         String fillHex = String.format("#%02x%02x%02x", fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue());
 
+        //rectangle
         String prefixShapeString = String.format("PEN %s\nFILL %s\n", penHex, fillHex);
         if (shape instanceof Rectangle2D.Double) {
             Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
             return String.format("%sRECTANGLE %f %f %f %f",prefixShapeString, rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
         }
+        //line
         if (shape instanceof Line2D.Double) {
             Line2D.Double line = (Line2D.Double) shape;
             return String.format("%sLINE %f %f %f %f", prefixShapeString, line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
         }
-
+        // ellipse
         if (shape instanceof Ellipse2D.Double) {
             Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
             return String.format("%sELLIPSE %f %f %f %f", prefixShapeString, ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
         }
-
+        //error, none of the above
         System.out.println(String.format("Unsupported type: %s", shape.getClass().toString()));
 
         return null;
@@ -119,6 +138,7 @@ public class Vec{
 
     // TODO more specific exception
     // TODO test components against Type enum
+    // TODO add javadoc comment above method once complete
     private ArrayList<AdvancedShape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
         ArrayList<AdvancedShape> shapes = new ArrayList<AdvancedShape>();
         // Parse each component in line to local vars
