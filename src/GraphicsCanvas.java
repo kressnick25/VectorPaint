@@ -1,4 +1,4 @@
-import AdvancedShape.AdvancedShape;
+import AdvancedShape.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +30,7 @@ public class GraphicsCanvas extends JPanel {
     }
 
     public void add(AdvancedShape shape){
-        shapes.add(shape);
+       shapes.add(shape);
     }
 
     //remove last element in list
@@ -49,4 +49,6 @@ public class GraphicsCanvas extends JPanel {
         if(shapes.size() == 0) return null;
         return shapes.get(shapes.size() - 1);
     }
+
+
 }
