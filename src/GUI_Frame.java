@@ -332,7 +332,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             while (display.getLatest() == latest){
                 display.clearLast();
             }
-            //TODO fix error when no shapes in GUI, crashes
 
         }
 
