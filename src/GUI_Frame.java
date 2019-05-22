@@ -130,7 +130,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         if(keyCodeNew == KeyEvent.VK_Z){
             //TODO does this just work?
 
-            display.clearLast();
+            Shape latest = display.getLatest();
+            if (latest != null) {
+                while (display.getLatest() == latest) {
+                    display.clearLast();
+                }
+            }
         }
         if(keyCodeNew == KeyEvent.VK_H){
             //Help KeyBind
