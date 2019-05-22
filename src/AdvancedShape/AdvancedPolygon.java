@@ -59,8 +59,13 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
         for (int i=0; i < this.xpoints.length; i++){
             double x = (double) xpoints[i] / screenWidth;
             double y = (double) ypoints[i] / screenHeight;
-            outString.add( Double.toString(x) );
-            outString.add( Double.toString(y) );
+            // ignore case where == 0.0, 0.0
+            if (x != 0.0 || y != 0.0){
+                outString.add( Double.toString(x) );
+                outString.add( Double.toString(y) );
+            }
+
+
         }
         return outString.toString();
     }
