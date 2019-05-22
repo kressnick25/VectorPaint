@@ -1,6 +1,8 @@
 package AdvancedShape;
 
 import java.awt.*;
+import java.util.IllegalFormatWidthException;
+import java.util.StringJoiner;
 
 public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
     private Color penColor = new Color(0, 0, 0);
@@ -9,7 +11,7 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
 
 
     public AdvancedPolygon(int[] xpoints, int[] ypoints, int npoints) {
-        super(xpoints, ypoints, npoints);
+            super(xpoints, ypoints, npoints);
     }
 
     public AdvancedPolygon() {
@@ -51,7 +53,15 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
     }
 
     public String toString(int screenWidth, int screenHeight){
-        // TODO
-        return "";
+        // use stringjoiner to create string with space after each add
+        StringJoiner outString = new StringJoiner(" ");
+        outString.add("POLYGON");
+        for (int i=0; i < this.xpoints.length; i++){
+            double x = (double) xpoints[i] / screenWidth;
+            double y = (double) ypoints[i] / screenHeight;
+            outString.add( Double.toString(x) );
+            outString.add( Double.toString(y) );
+        }
+        return outString.toString();
     }
 }

@@ -41,15 +41,19 @@ public class MouseListener extends MouseInputAdapter {
                     shape = new AdvancedLine(x, y, x, y);
                     break;
                 case Polygon:
-                    if (!(shape instanceof AdvancedPolygon))
+                    if (!(shape instanceof AdvancedPolygon)) {
                         shape = new AdvancedPolygon();
+                        display.add(shape);
+                    }
                     break;
                 default:
                     throw new Exception("Invalid shape type.");
             }
             shape.setFillColor(fillColor);
             shape.setPenColor(penColor);
-            display.add(shape);
+            if (!(shape instanceof AdvancedPolygon)){
+                display.add(shape);
+            }
         } catch (Exception e1){
             // TODO popup
         }

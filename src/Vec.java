@@ -182,7 +182,6 @@ public class Vec{
                 case "PEN": {
                     Color myPenColour = hexToRgb(components[1]);
                     this.recentPenColor = myPenColour;
-
                     break;
                 }
                 case "FILL": {
