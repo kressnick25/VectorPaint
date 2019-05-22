@@ -63,18 +63,30 @@ public class MouseListener extends MouseInputAdapter {
         if (!(shape instanceof AdvancedPolygon) && !(shape instanceof AdvancedPlot)) {
             int x = e.getX();
             int y = e.getY();
+
             shape.updateSize(x, y);
             display.clearLast();
             display.add(shape);
+            System.out.println("dd");
+
+
+
         }
     }
 
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        shape.updateSize(x ,y);
-        display.clearLast();
-        display.add(shape);
+        if(x > display.getSize().width) {
+            shape.updateSize(display.getSize().width - 5 , y);
+            display.clearLast();
+            display.add(shape);
+        }
+        if(y > display.getSize().height) {
+            shape.updateSize(x, display.getSize().height - 5);
+            display.clearLast();
+            display.add(shape);
+        }
     }
 
     public void setPenColor(Color penColor) {

@@ -29,8 +29,8 @@ enum ShapeType {
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyListener {
     private Timer timer=new Timer(5, this);
-    private static final int WIDTH = 1250;
-    private static final int HEIGHT = 1000;
+    private static int WIDTH = 1000;
+    private static int HEIGHT = 1000;
     private int keyCode;
     private JPanel pnlBtn;
     private GraphicsCanvas display;
@@ -128,7 +128,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
-            //TODO does this just work?
 
             Shape latest = display.getLatest();
             if (latest != null) {
@@ -271,7 +270,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
 
-
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
@@ -280,7 +278,23 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         //add keyboard listeners and focus
         addKeyListener(this);
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                Dimension size = display.getSize();
 
+                if(size.width != size.height){
+                    display.setSize(size.width, size.width);
+
+                }
+                /* TODO shapes also have to move with GUI due to vector nature of the GUI
+                 * TODO A background Panel should appear showing where cant draw when window is rectangular
+                  */
+                System.out.println(getSize());
+
+                System.out.println(display.getSize());
+
+            }
+        });
         setFocusable(true);
         requestFocus();
         repaint();
@@ -288,6 +302,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
 
     // TODO mouse event here using current shape, add to GraphicsCanvas
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
