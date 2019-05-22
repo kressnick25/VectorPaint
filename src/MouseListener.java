@@ -64,10 +64,26 @@ public class MouseListener extends MouseInputAdapter {
             int x = e.getX();
             int y = e.getY();
 
-            shape.updateSize(x, y);
-            display.clearLast();
-            display.add(shape);
-            System.out.println("dd");
+            if(x > display.getSize().width && y > display.getSize().height) {
+                shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x > display.getSize().width) {
+                shape.updateSize(display.getSize().width - 5 , y);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(y > display.getSize().height) {
+                shape.updateSize(x, display.getSize().height - 5);
+                display.clearLast();
+                display.add(shape);
+            }
+            else{
+                shape.updateSize(x , y);
+                display.clearLast();
+                display.add(shape);
+            }
 
 
 
@@ -77,13 +93,23 @@ public class MouseListener extends MouseInputAdapter {
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        if(x > display.getSize().width) {
+        if(x > display.getSize().width && y > display.getSize().height) {
+            shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x > display.getSize().width) {
             shape.updateSize(display.getSize().width - 5 , y);
             display.clearLast();
             display.add(shape);
         }
-        if(y > display.getSize().height) {
+        else if(y > display.getSize().height) {
             shape.updateSize(x, display.getSize().height - 5);
+            display.clearLast();
+            display.add(shape);
+        }
+        else{
+            shape.updateSize(x , y);
             display.clearLast();
             display.add(shape);
         }

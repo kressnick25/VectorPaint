@@ -283,7 +283,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 Dimension size = display.getSize();
 
                 if(size.width != size.height){
-                    display.setSize(size.width, size.width);
+                    //display.setSize(size.width, size.width);
 
                 }
                 /* TODO shapes also have to move with GUI due to vector nature of the GUI
