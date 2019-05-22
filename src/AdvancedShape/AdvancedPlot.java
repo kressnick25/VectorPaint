@@ -42,7 +42,7 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
     }
 
     public void render(Graphics2D g2d){
-        g2d.setPaint(this.getFillColor());
+        g2d.setPaint(this.getPenColor());
         g2d.fill(this);
     }
 }
