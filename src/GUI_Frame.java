@@ -92,10 +92,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
-            Shape latest = display.getLatest();
-            while (display.getLatest() == latest){
-                display.clearLast();
-            }
+            display.clearLast();
+
         }
         if(keyCodeNew == KeyEvent.VK_H){
             JOptionPane.showMessageDialog(pnlBtn,
@@ -330,10 +328,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if (src == undo){
-            Shape latest = display.getLatest();
-            while (display.getLatest() == latest){
+            //TODO is this commented code necessary?
+            //Shape latest = display.getLatest();
+            //while (display.getLatest() == latest){
                 display.clearLast();
-            }
+            //}
 
         }
         // WINDOW REFRESH
