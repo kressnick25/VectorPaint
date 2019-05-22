@@ -92,10 +92,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
-            Shape latest = display.getLatest();
-            while (display.getLatest() == latest){
-                display.clearLast();
-            }
+            //TODO does this just work?
+            display.clearLast();
         }
         if(keyCodeNew == KeyEvent.VK_H){
             JOptionPane.showMessageDialog(pnlBtn,
