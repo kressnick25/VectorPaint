@@ -6,11 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
+//import java.awt.event.KeyEvent;
+import java.awt.event.*;
+
+
 
 enum ShapeType {
     Rectangle,
@@ -20,11 +25,11 @@ enum ShapeType {
     Plot,
 }
 
-public class GUI_Frame extends JFrame implements ActionListener, Runnable {
+public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyListener {
     private Timer timer=new Timer(5, this);
     private static final int WIDTH = 1250;
     private static final int HEIGHT = 1000;
-
+    private int keyCode;
     private JPanel pnlBtn;
     private GraphicsCanvas display;
     private JMenu file, edit, help;
@@ -57,6 +62,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         return newBtn;
     }
 
+
     private JButton JButtonImage(String imagePath) {
         //TODO resize all images
         try {
@@ -65,11 +71,50 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             newBtn.setPreferredSize(new Dimension(70, 60));
 
             return newBtn;
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             return null;
         }
+    }
+    public void keyPressed(KeyEvent e){
+        int keyCodeNew = e.getKeyCode();
+        if(keyCodeNew == KeyEvent.VK_S){
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            int returnValue = jfc.showSaveDialog(this);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+
+                ArrayList<AdvancedShape> shapes = this.display.getShapes();
+                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
+                vec.save();
+            }
         }
+        if(keyCodeNew == KeyEvent.VK_Z){
+            Shape latest = display.getLatest();
+            while (display.getLatest() == latest){
+                display.clearLast();
+            }
+        }
+        if(keyCodeNew == KeyEvent.VK_H){
+            JOptionPane.showMessageDialog(pnlBtn,
+                    "Basic KeyBinds: H for Help, S for Save, Z for Undo",
+                    "Help",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
+
+        }
+    public void keyReleased(KeyEvent e){
+        //System.out.println("dfd");
+
+    }
+    public void keyTyped(KeyEvent e){
+        //System.out.println("dfd");
+
+    }
 
 
     private void layoutButtonPanel() {
@@ -178,12 +223,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
 
+
         display.setBorder(BorderFactory.createEtchedBorder());
         display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
 
 //        areDisplay();
 
+
+        addKeyListener(this);
+
+        setFocusable(true);
+        requestFocus();
         repaint();
         setVisible(true);
     }
@@ -194,40 +245,56 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
     public void actionPerformed(ActionEvent e) {
         //Get event source
         Object src = e.getSource();
+
         //Consider the alternatives - not all active at once.
         if (src == LineButton) {
             mouseDraw.setType(ShapeType.Line);
+            setFocusable(true);
+            requestFocus();
+
         }
         if (src == RectangleButton) {
             mouseDraw.setType(ShapeType.Rectangle);
+            System.out.println("d");
+            setFocusable(true);
+            requestFocus();
+
+
         }
         if (src == EllipseButton) {
             mouseDraw.setType(ShapeType.Ellipse);
+            setFocusable(true);
+            requestFocus();
         }
         if (src == PolygonButton) {
             mouseDraw.setType(ShapeType.Polygon);
+            setFocusable(true);
+            requestFocus();
         }
         if (src == FillButton) {
             Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setFillColor(ColorFill);
+            setFocusable(true);
+            requestFocus();
 
 
         }
         if (src == PenButton) {
             Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setPenColor(colorPen);
+            setFocusable(true);
+            requestFocus();
 
 
         }
         // MENU ITEMS
         if (src == helpBtn) {
-            //TODO Do stuff
             JOptionPane.showMessageDialog(pnlBtn,
-                    "Me too Bro",
-                    "Me too",
-                    JOptionPane.ERROR_MESSAGE);
+                    "Basic KeyBinds: H for Help, S for Save, Z for Undo",
+                    "Help",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-            System.out.println("dfd");
+
         }
 
         if (src == fileSave || src == fileSaveAs) {
@@ -265,6 +332,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
             while (display.getLatest() == latest){
                 display.clearLast();
             }
+            //TODO fix error when no shapes in GUI, crashes
 
         }
 
@@ -272,6 +340,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable {
         if (e.getSource()==timer){
             repaint(); // repait every timer expiry
         }
+
     }
 
     @Override
