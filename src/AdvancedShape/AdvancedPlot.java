@@ -1,20 +1,20 @@
 package AdvancedShape;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
-public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
+public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
-
-
-    public AdvancedPolygon(int[] xpoints, int[] ypoints, int npoints) {
-        super(xpoints, ypoints, npoints);
+    double startx;
+    double starty;
+    public AdvancedPlot(double x, double y, double w, double h) {
+        super(x, y, w, h);
+        this.startx = x;
+        this.starty = y;
     }
-
-    public AdvancedPolygon() {
-    }
-
 
     public Color getFillColor() {
         return fillColor;
@@ -37,16 +37,13 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
         this.fillColor = null;
     }
 
-    public void updateSize(int x, int y){
-        this.addPoint(x, y);
+    public void updateSize(int x, int y) {
+
     }
 
     public void render(Graphics2D g2d){
-        if (!this.isTransparent()){
-            g2d.setPaint(this.getFillColor());
-            g2d.fill(this);
-            g2d.setPaint(this.getPenColor());
-        }
-        g2d.draw(this);
+        g2d.setPaint(this.getPenColor());
+        g2d.fill(this);
     }
 }
+

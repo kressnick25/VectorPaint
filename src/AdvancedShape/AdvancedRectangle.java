@@ -71,5 +71,12 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
 
 
     }
-
+    public void render(Graphics2D g2d){
+        if (!this.isTransparent()){
+            g2d.setPaint(this.getFillColor());
+            g2d.fill(this);
+            g2d.setPaint(this.getPenColor());
+        }
+        g2d.draw(this);
+    }
 }

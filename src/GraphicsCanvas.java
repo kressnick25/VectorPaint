@@ -1,4 +1,4 @@
-import AdvancedShape.AdvancedShape;
+import AdvancedShape.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +18,7 @@ public class GraphicsCanvas extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         shapes.forEach((shape) -> {
-                    if (!shape.isTransparent()){
-                        g2d.setPaint(shape.getFillColor());
-                        g2d.fill(shape);
-                        g2d.setPaint(shape.getPenColor());
-                    }
-                    g2d.draw(shape);
+                    shape.render(g2d);
                 }
         );
     }
@@ -35,7 +30,7 @@ public class GraphicsCanvas extends JPanel {
     }
 
     public void add(AdvancedShape shape){
-        shapes.add(shape);
+       shapes.add(shape);
     }
 
     //remove last element in list
@@ -54,4 +49,6 @@ public class GraphicsCanvas extends JPanel {
         if(shapes.size() == 0) return null;
         return shapes.get(shapes.size() - 1);
     }
+
+
 }

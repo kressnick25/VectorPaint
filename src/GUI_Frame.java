@@ -34,7 +34,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private GraphicsCanvas display;
     private JMenu file, edit, help;
     private JButton LineButton, RectangleButton, EllipseButton,
-                    PolygonButton, FillButton, PenButton;
+                    PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
                         fileOpen, fileSave, fileSaveAs,
                         fileNew, helpBtn, undo;
@@ -127,12 +127,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         constraints.weightx = 100;
         constraints.weighty = 1;
 
-        addToPanel(pnlBtn, LineButton, constraints, 0, 0, 2, 1);
-        addToPanel(pnlBtn, RectangleButton, constraints, 0, 1, 2, 1);
-        addToPanel(pnlBtn, EllipseButton, constraints, 0, 2, 2, 1);
-        addToPanel(pnlBtn, PolygonButton, constraints, 0, 3, 2, 1);
-        addToPanel(pnlBtn, FillButton, constraints, 0, 4, 2, 1);
-        addToPanel(pnlBtn, PenButton, constraints, 0, 5, 2, 1);
+        addToPanel(pnlBtn, PlotButton, constraints, 0, 0, 2,1);
+        addToPanel(pnlBtn, LineButton, constraints, 0, 1, 2, 1);
+        addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
+        addToPanel(pnlBtn, EllipseButton, constraints, 0, 3, 2, 1);
+        addToPanel(pnlBtn, PolygonButton, constraints, 0, 4, 2, 1);
+        addToPanel(pnlBtn, FillButton, constraints, 0, 5, 2, 1);
+        addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
     }
 
     private void addToPanel(JPanel jp, Component c,
@@ -202,7 +203,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         pnlBtn = createPanel(Color.GRAY);
         JPanel pnlDisplay = createPanel(Color.WHITE);
-
+        PlotButton = JButtonImage(imgPath + "buttons/plot.png");
         LineButton = JButtonImage(imgPath + "buttons/line.png");
         RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
         EllipseButton = JButtonImage(imgPath + "buttons/ellipse.png");
@@ -247,6 +248,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         Object src = e.getSource();
 
         //Consider the alternatives - not all active at once.
+        if (src == PlotButton) {
+            mouseDraw.setType(ShapeType.Plot);
+        }
         if (src == LineButton) {
             mouseDraw.setType(ShapeType.Line);
             setFocusable(true);
@@ -296,7 +300,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
         }
-
         if (src == fileSave || src == fileSaveAs) {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -326,7 +329,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 this.display.repaint();
             }
         }
-
         if (src == undo){
             Shape latest = display.getLatest();
             while (display.getLatest() == latest){
@@ -335,7 +337,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             //TODO fix error when no shapes in GUI, crashes
 
         }
-
         // WINDOW REFRESH
         if (e.getSource()==timer){
             repaint(); // repait every timer expiry
