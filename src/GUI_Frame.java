@@ -34,10 +34,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private GraphicsCanvas display;
     private JMenu file, edit, help;
     private JButton LineButton, RectangleButton, EllipseButton,
-                    PolygonButton, FillButton, PenButton, PlotButton;
+            PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
-                        fileOpen, fileSave, fileSaveAs,
-                        fileNew, helpBtn, undo;
+            fileOpen, fileSave, fileSaveAs,
+            fileNew, helpBtn, undo;
 
 
     // mouse movement
@@ -92,8 +92,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
-            display.clearLast();
-
+            Shape latest = display.getLatest();
+            while (display.getLatest() == latest){
+                display.clearLast();
+            }
         }
         if(keyCodeNew == KeyEvent.VK_H){
             JOptionPane.showMessageDialog(pnlBtn,
@@ -104,7 +106,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
 
-        }
+    }
     public void keyReleased(KeyEvent e){
         //System.out.println("dfd");
 
@@ -244,18 +246,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     public void actionPerformed(ActionEvent e) {
         //Get event source
         Object src = e.getSource();
-
         //Consider the alternatives - not all active at once.
+        // cant use switch as cases required to be constant
         if (src == PlotButton) {
             mouseDraw.setType(ShapeType.Plot);
         }
-        if (src == LineButton) {
+        else if (src == LineButton) {
             mouseDraw.setType(ShapeType.Line);
             setFocusable(true);
             requestFocus();
 
         }
-        if (src == RectangleButton) {
+        else if (src == RectangleButton) {
             mouseDraw.setType(ShapeType.Rectangle);
             System.out.println("d");
             setFocusable(true);
@@ -263,17 +265,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
         }
-        if (src == EllipseButton) {
+        else if (src == EllipseButton) {
             mouseDraw.setType(ShapeType.Ellipse);
             setFocusable(true);
             requestFocus();
         }
-        if (src == PolygonButton) {
+        else if (src == PolygonButton) {
             mouseDraw.setType(ShapeType.Polygon);
             setFocusable(true);
             requestFocus();
         }
-        if (src == FillButton) {
+        else if (src == FillButton) {
             Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setFillColor(ColorFill);
             setFocusable(true);
@@ -281,7 +283,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
         }
-        if (src == PenButton) {
+        else if (src == PenButton) {
             Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setPenColor(colorPen);
             setFocusable(true);
@@ -290,7 +292,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         }
         // MENU ITEMS
-        if (src == helpBtn) {
+        else if (src == helpBtn) {
             JOptionPane.showMessageDialog(pnlBtn,
                     "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                     "Help",
@@ -298,7 +300,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
         }
-        if (src == fileSave || src == fileSaveAs) {
+        else if (src == fileSave || src == fileSaveAs) {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showSaveDialog(this);
@@ -312,7 +314,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
 
-        if (src == fileOpen) {
+        else if (src == fileOpen) {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showOpenDialog(this);
@@ -327,14 +329,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 this.display.repaint();
             }
         }
-        if (src == undo){
-            //TODO is this commented code necessary?
-            //Shape latest = display.getLatest();
-            //while (display.getLatest() == latest){
+        else if (src == undo) {
+            Shape latest = display.getLatest();
+            while (display.getLatest() == latest) {
                 display.clearLast();
-            //}
+            }
 
         }
+
         // WINDOW REFRESH
         if (e.getSource()==timer){
             repaint(); // repait every timer expiry
@@ -409,4 +411,3 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 //        ch.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //    }
 //}
-
