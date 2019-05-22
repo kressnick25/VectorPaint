@@ -284,6 +284,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
                 if(size.width != size.height){
                     //display.setSize(size.width, size.width);
+                    if(size.width > size.height){
+                        display.setSize(size.height, size.height);
+                        //FIXME I believe that the window should always to square, (Need to check)
+                    }
+                    else{
+                        display.setSize(size.width, size.width);
+                    }
 
                 }
                 /* TODO shapes also have to move with GUI due to vector nature of the GUI
