@@ -26,8 +26,6 @@ public abstract class Shape implements Drawable {
         output.add(getType().toString())
                 .add(point1.toString())
                 .add(point2.toString());
-
-
         return output.toString();
     }
 }

@@ -49,4 +49,9 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
         }
         g2d.draw(this);
     }
+
+    public String toString(int screenWidth, int screenHeight){
+        // TODO
+        return "";
+    }
 }

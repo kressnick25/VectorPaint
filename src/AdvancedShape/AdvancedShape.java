@@ -3,6 +3,7 @@ package AdvancedShape;
 import java.awt.*;
 
 public interface AdvancedShape extends Shape {
+    String toString(int screenWidth, int screenHeight);
     void render(Graphics2D g2d);
     void setFillColor(Color color);
     Color getFillColor();

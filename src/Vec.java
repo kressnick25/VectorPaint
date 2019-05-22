@@ -90,31 +90,32 @@ public class Vec{
         return lines;
     }
 
+    // TODO parse NOFILL
     private String parseShapeToString(AdvancedShape shape) {
+        StringBuilder outString = new StringBuilder();
         Color penColor = shape.getPenColor();
         Color fillColor = shape.getFillColor();
         // https://stackoverflow.com/questions/3607858/convert-a-rgb-color-value-to-a-hexadecimal-string
-        String penHex = String.format("#%02x%02x%02x", penColor.getRed(), penColor.getGreen(), penColor.getBlue());
-        String fillHex = String.format("#%02x%02x%02x", fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue());
-
-        String prefixShapeString = String.format("PEN %s\nFILL %s\n", penHex, fillHex);
-        if (shape instanceof Rectangle2D.Double) {
-            Rectangle2D.Double rectangle = (Rectangle2D.Double) shape;
-            return String.format("%sRECTANGLE %f %f %f %f",prefixShapeString, rectangle.x / WIDTH, rectangle.y / HEIGHT, rectangle.width / WIDTH, rectangle.height / HEIGHT);
+        // PenColor
+        if (!penColor.equals(recentPenColor)){
+            String penHex = String.format(
+                    "PEN #%02x%02x%02x\n", penColor.getRed(),
+                    penColor.getGreen(), penColor.getBlue());
+            recentPenColor = fillColor;
+            outString.append(penHex);
         }
-        if (shape instanceof Line2D.Double) {
-            Line2D.Double line = (Line2D.Double) shape;
-            return String.format("%sLINE %f %f %f %f", prefixShapeString, line.x1 / WIDTH, line.y1 / HEIGHT, line.x2 / WIDTH, line.y2 / HEIGHT);
+        // FillColor
+        if (!fillColor.equals(recentFillColor)){
+            String fillHex = String.format(
+                    "FILL #%02x%02x%02x\n", fillColor.getRed(),
+                    fillColor.getGreen(), fillColor.getBlue());
+            recentFillColor = fillColor;
+            outString.append(fillHex);
         }
+        //Shape
+        outString.append( shape.toString(WIDTH, HEIGHT) );
 
-        if (shape instanceof Ellipse2D.Double) {
-            Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
-            return String.format("%sELLIPSE %f %f %f %f", prefixShapeString, ellipse.x / WIDTH, ellipse.y / HEIGHT, ellipse.width / WIDTH, ellipse.height / HEIGHT);
-        }
-
-        System.out.println(String.format("Unsupported type: %s", shape.getClass().toString()));
-
-        return null;
+        return outString.toString();
     }
 
     // TODO more specific exception
