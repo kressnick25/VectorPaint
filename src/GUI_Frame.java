@@ -16,7 +16,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 
 
-
+/*
+ShapeType enum used to differiatate between shapes
+ */
 enum ShapeType {
     Rectangle,
     Ellipse,
@@ -50,52 +52,88 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
 
     private JPanel createPanel(Color c) {
+        //Creates new Jpanel
         JPanel newPnl = new JPanel();
+        //Sets background of the JPanel
         newPnl.setBackground(c);
         return newPnl;
     }
 
 
     private JButton JButtonImageInitializer(JButton newBtn) {
-        newBtn.setText("");
+        //Adds ActionListener to button
         newBtn.addActionListener(this);
         return newBtn;
     }
 
 
     private JButton JButtonImage(String imagePath) {
-        //TODO resize all images
         try {
+            //creates new button
             JButton newBtn = new JButton(new ImageIcon(imagePath));
+            //initializes buttons and sets them to newBtn
             newBtn = JButtonImageInitializer(newBtn);
+            //sets size of button
             newBtn.setPreferredSize(new Dimension(70, 60));
 
             return newBtn;
+            //catches Error
         } catch (Exception e) {
-
+            //Dialog box showing Error
+            JOptionPane.showMessageDialog(pnlBtn,
+                    "Error in Saving to FIle: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
     public void keyPressed(KeyEvent e){
+        //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
+        //Check is pressed key is "s"
         if(keyCodeNew == KeyEvent.VK_S){
+            //Open File chooser
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
             int returnValue = jfc.showSaveDialog(this);
+            //check file chooser return value
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                //get selected file
+                File selectedFile = jfc.getSelectedFile();
+                //create array of shapes currently displayed on screen
+                ArrayList<AdvancedShape> shapes = this.display.getShapes();
+                //create new instance of vec, inputting file and shapes array
+                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
+                //save to file
+                vec.save();
+            }
+        }
+        if(keyCodeNew == KeyEvent.VK_O){
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            //Open file chooser
+            int returnValue = jfc.showOpenDialog(this);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
+                //clears current display
+                this.display.clear();
+                //gets selected file path
                 File selectedFile = jfc.getSelectedFile();
-
-                ArrayList<AdvancedShape> shapes = this.display.getShapes();
-                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
-                vec.save();
+                System.out.println(selectedFile.getAbsolutePath());
+                //inputs file location and into vec
+                Vec vec = new Vec(selectedFile.getAbsolutePath());
+                vec.read();
+                //gets list of shapes
+                display.load(vec.get());
+                //repaints display with selected shapes
+                this.display.repaint();
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
             //TODO does this just work?
+
             display.clearLast();
         }
         if(keyCodeNew == KeyEvent.VK_H){
+            //Help KeyBind
             JOptionPane.showMessageDialog(pnlBtn,
                     "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                     "Help",
@@ -116,15 +154,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     private void layoutButtonPanel() {
+        //Layout settings for side buttons
         GridBagLayout layout = new GridBagLayout();
         pnlBtn.setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
-
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 1;
-
+        //add buttons to panels
         addToPanel(pnlBtn, PlotButton, constraints, 0, 0, 2,1);
         addToPanel(pnlBtn, LineButton, constraints, 0, 1, 2, 1);
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
@@ -138,6 +176,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                             GridBagConstraints constraints,
                             int x, int y, int w, int h)
     {
+        //adding buttons to panel
         constraints.gridx = x;
         constraints.gridy = y;
         constraints.gridwidth = w;
@@ -147,6 +186,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     private void createTopMenu() {
+        //top navigation bar buttons
         cut = new JMenuItem("Cut");
         copy = new JMenuItem("Copy");
         paste = new JMenuItem("Paste");
@@ -157,7 +197,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSaveAs = new JMenuItem("Save As");
         selectAll = new JMenuItem("Select All");
         helpBtn = new JMenuItem("Help");
-
+        //adding action listeners to MenuBar Buttons
         helpBtn.addActionListener(this);
         cut.addActionListener(this);
         copy.addActionListener(this);
@@ -176,7 +216,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileOpen);
         file.add(fileSave);
         file.add(fileSaveAs);
-
+        //add these buttons to
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
@@ -186,7 +226,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         mb.add(file);
         mb.add(edit);
         mb.add(help);
-
+        //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
         setVisible(true);
@@ -194,13 +234,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     private void createGUI() {
         String imgPath = "./img/";
+        //set size of GUI
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
+        //close operation on exit button click
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
+        //create side button panel
         pnlBtn = createPanel(Color.GRAY);
+        //Drawing canvas creation
         JPanel pnlDisplay = createPanel(Color.WHITE);
+        //initializes all buttons
         PlotButton = JButtonImage(imgPath + "buttons/plot.png");
         LineButton = JButtonImage(imgPath + "buttons/line.png");
         RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
@@ -229,7 +273,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 //        areDisplay();
 
-
+        //add keyboard listeners and focus
         addKeyListener(this);
 
         setFocusable(true);
@@ -244,10 +288,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     public void actionPerformed(ActionEvent e) {
         //Get event source
         Object src = e.getSource();
-        //Consider the alternatives - not all active at once.
-        // cant use switch as cases required to be constant
+        //side button check
         if (src == PlotButton) {
+            //sets the type of shape the user wants to use
             mouseDraw.setType(ShapeType.Plot);
+            setFocusable(true);
+            requestFocus();
         }
         else if (src == LineButton) {
             mouseDraw.setType(ShapeType.Line);
@@ -257,11 +303,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
         else if (src == RectangleButton) {
             mouseDraw.setType(ShapeType.Rectangle);
-            System.out.println("d");
             setFocusable(true);
             requestFocus();
-
-
         }
         else if (src == EllipseButton) {
             mouseDraw.setType(ShapeType.Ellipse);
@@ -274,6 +317,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             requestFocus();
         }
         else if (src == FillButton) {
+            //sets the color
             Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
             mouseDraw.setFillColor(ColorFill);
             setFocusable(true);
@@ -291,6 +335,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
         // MENU ITEMS
         else if (src == helpBtn) {
+            //Dialog help Message
             JOptionPane.showMessageDialog(pnlBtn,
                     "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                     "Help",
@@ -299,13 +344,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         }
         else if (src == fileSave || src == fileSaveAs) {
+            //save button
+            //opens file chooser
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             int returnValue = jfc.showSaveDialog(this);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();
-
+                //inputs created shapes and file to vec class and saves
                 ArrayList<AdvancedShape> shapes = this.display.getShapes();
                 Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
                 vec.save();
@@ -313,21 +360,28 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
 
         else if (src == fileOpen) {
+            //opening new file
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
+            //Open file chooser
             int returnValue = jfc.showOpenDialog(this);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
+                //clears current display
                 this.display.clear();
+                //gets selected file path
                 File selectedFile = jfc.getSelectedFile();
                 System.out.println(selectedFile.getAbsolutePath());
+                //inputs file location and into vec
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
                 vec.read();
+                //gets list of shapes
                 display.load(vec.get());
+                //repaints display with selected shapes
                 this.display.repaint();
             }
         }
         else if (src == undo) {
+            //
             Shape latest = display.getLatest();
             while (display.getLatest() == latest) {
                 display.clearLast();
@@ -337,7 +391,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         // WINDOW REFRESH
         if (e.getSource()==timer){
-            repaint(); // repait every timer expiry
+            repaint(); // repaint every timer expiry
         }
 
     }
@@ -355,57 +409,3 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
 }
-
-
-
-// Java program to implement JColorChooser
-// class using ActionListener
-//import java.awt.event.*;
-//        import java.awt.*;
-//        import javax.swing.*;
-//
-//public class ColorChooserExample extends
-//        JFrame implements ActionListener {
-//
-//    // create a button
-//    JButton b = new JButton("color");
-//
-//    Container c = getContentPane();
-//
-//    // Constructor
-//    ColorChooserExample()
-//    {
-//
-//        // set Layout
-//        c.setLayout(new FlowLayout());
-//
-//        // add Listener
-//        b.addActionListener(this);
-//
-//        // add button to the Container
-//        c.add(b);
-//    }
-//
-//    public void actionPerformed(ActionEvent e)
-//    {
-//
-//        Color initialcolor = Color.RED;
-//
-//        // color chooser Dialog Box
-//        Color color = JColorChooser.showDialog(this,
-//                "Select a color", initialcolor);
-//
-//        // set Background color of the Conatiner
-//        c.setBackground(color);
-//    }
-//
-//    // Main Method
-//    public static void main(String[] args)
-//    {
-//
-//        ColorChooserExample ch = new ColorChooserExample();
-//        ch.setSize(400, 400);
-//        ch.setVisible(true);
-//        ch.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//    }
-//}
