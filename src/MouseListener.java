@@ -65,17 +65,33 @@ public class MouseListener extends MouseInputAdapter {
             int y = e.getY();
 
             if(x > display.getSize().width && y > display.getSize().height) {
-                shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+                shape.updateSize(display.getSize().width - 1 , display.getSize().height - 1);
                 display.clearLast();
                 display.add(shape);
             }
             else if(x > display.getSize().width) {
-                shape.updateSize(display.getSize().width - 5 , y);
+                shape.updateSize(display.getSize().width - 1 , y);
                 display.clearLast();
                 display.add(shape);
             }
             else if(y > display.getSize().height) {
-                shape.updateSize(x, display.getSize().height - 5);
+                shape.updateSize(x, display.getSize().height - 1);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x < 0 && y < 0) {
+                shape.updateSize(1,1);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x < 0){
+                shape.updateSize(1 , y);
+                display.clearLast();
+                display.add(shape);
+
+            }
+            else if(y < 0){
+                shape.updateSize(x, 1);
                 display.clearLast();
                 display.add(shape);
             }
