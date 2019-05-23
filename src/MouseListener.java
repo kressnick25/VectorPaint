@@ -65,36 +65,48 @@ public class MouseListener extends MouseInputAdapter {
             int y = e.getY();
 
             if(x > display.getSize().width && y > display.getSize().height) {
-                shape.updateSize(display.getSize().width - 1 , display.getSize().height - 1);
+                shape.updateSize(display.getSize().width - 2, display.getSize().height - 2);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(y > display.getSize().height && x < 0){
+                System.out.println("dfdfd");
+                shape.updateSize(2, display.getSize().height - 2);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x > display.getSize().width &&  y < 0){
+                shape.updateSize(display.getSize().width-2, 2);
                 display.clearLast();
                 display.add(shape);
             }
             else if(x > display.getSize().width) {
-                shape.updateSize(display.getSize().width - 1 , y);
+                shape.updateSize(display.getSize().width - 2, y);
                 display.clearLast();
                 display.add(shape);
             }
             else if(y > display.getSize().height) {
-                shape.updateSize(x, display.getSize().height - 1);
+                shape.updateSize(x, display.getSize().height - 2);
                 display.clearLast();
                 display.add(shape);
             }
             else if(x < 0 && y < 0) {
-                shape.updateSize(1,1);
+                shape.updateSize(2,2);
                 display.clearLast();
                 display.add(shape);
             }
             else if(x < 0){
-                shape.updateSize(1 , y);
+                shape.updateSize(2, y);
                 display.clearLast();
                 display.add(shape);
 
             }
             else if(y < 0){
-                shape.updateSize(x, 1);
+                shape.updateSize(x, 2);
                 display.clearLast();
                 display.add(shape);
             }
+
             else{
                 shape.updateSize(x , y);
                 display.clearLast();
@@ -110,17 +122,43 @@ public class MouseListener extends MouseInputAdapter {
         int x = e.getX();
         int y = e.getY();
         if(x > display.getSize().width && y > display.getSize().height) {
-            shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+            shape.updateSize(display.getSize().width - 2 , display.getSize().height - 2);
             display.clearLast();
             display.add(shape);
         }
         else if(x > display.getSize().width) {
-            shape.updateSize(display.getSize().width - 5 , y);
+            shape.updateSize(display.getSize().width - 2 , y);
             display.clearLast();
             display.add(shape);
         }
         else if(y > display.getSize().height) {
-            shape.updateSize(x, display.getSize().height - 5);
+            shape.updateSize(x, display.getSize().height - 2);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x < 0 && y < 0) {
+            shape.updateSize(2,2);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x < 0){
+            shape.updateSize(2 , y);
+            display.clearLast();
+            display.add(shape);
+
+        }
+        else if(y < 0){
+            shape.updateSize(x, 2);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(y > display.getSize().height && x <0){
+            shape.updateSize(1, display.getSize().height - 2);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x > display.getSize().width &&  y < 0){
+            shape.updateSize(display.getSize().width-2, 2);
             display.clearLast();
             display.add(shape);
         }
