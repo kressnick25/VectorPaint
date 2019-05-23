@@ -81,7 +81,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         } catch (Exception e) {
             //Dialog box showing Error
             JOptionPane.showMessageDialog(pnlBtn,
-                    "Error in Saving to FIle: " + e.getMessage(),
+                    "Error in loading image: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return null;

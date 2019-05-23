@@ -163,16 +163,6 @@ public class MouseListener extends MouseInputAdapter {
             display.clearLast();
             display.add(shape);
         }
-        else if(y > display.getSize().height && x <0){
-            shape.updateSize(1, display.getSize().height - 2);
-            display.clearLast();
-            display.add(shape);
-        }
-        else if(x > display.getSize().width &&  y < 0){
-            shape.updateSize(display.getSize().width-2, 2);
-            display.clearLast();
-            display.add(shape);
-        }
         else{
             shape.updateSize(x , y);
             display.clearLast();
