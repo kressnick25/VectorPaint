@@ -120,7 +120,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 System.out.println(selectedFile.getAbsolutePath());
                 //inputs file location and into vec
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
-                vec.read();
+                try {
+                    vec.read();
+                } catch (Exception ex){
+                    JOptionPane.showMessageDialog(pnlBtn,
+                            ex.getMessage(),
+                            "Error",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
                 //gets list of shapes
                 display.load(vec.get());
                 //repaints display with selected shapes
@@ -400,7 +407,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 System.out.println(selectedFile.getAbsolutePath());
                 //inputs file location and into vec
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
-                vec.read();
+                try {
+                    vec.read();
+                } catch (Exception ex){
+                    JOptionPane.showMessageDialog(pnlBtn,
+                            ex.getMessage(),
+                            "Error",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+
                 //gets list of shapes
                 display.load(vec.get());
                 //repaints display with selected shapes

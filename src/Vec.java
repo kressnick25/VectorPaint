@@ -1,5 +1,6 @@
 import AdvancedShape.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -61,41 +62,31 @@ public class Vec{
     /**
      * Reads from filename stream to private variable;
      */
-    public void read(){
+    public void read() throws Exception{
         ArrayList<String> lines = readLinesFromFile();
         System.out.print(lines);
-        try {
-            this.shapes = parseLinesToShapes(lines);
-            System.out.print(shapes);
-        } catch(Exception e) {
-            // TODO popup window here
-        }
+
+        this.shapes = parseLinesToShapes(lines);
+        System.out.print(shapes);
     }
 
     /**
      * Reads from filename and stores all the line locations in an ArrayList.
      * @Return ArrayList
      */
-    private ArrayList<String> readLinesFromFile() {
+    private ArrayList<String> readLinesFromFile() throws Exception{
         ArrayList<String> lines = new ArrayList<>();
 
-        try {
-            // Open file to new reader
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            String line;
-            // For each line, add to lines queue
-            while((line = reader.readLine()) != null){
-                lines.add(line);
-            }
-            // Close file connection
-            reader.close();
+        // Open file to new reader
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        // For each line, add to lines queue
+        while((line = reader.readLine()) != null){
+            lines.add(line);
         }
-        catch (Exception e){
-            // TODO popup window here
-            // Print exception
-            System.err.format("Error trying to read '%s'.", filename);
-            e.printStackTrace();
-        }
+        // Close file connection
+        reader.close();
+
         return lines;
     }
 
@@ -134,7 +125,6 @@ public class Vec{
         return outString.toString();
     }
 
-    // TODO more specific exception
     // TODO test components against Type enum
     // TODO add javadoc comment above method once complete
     private ArrayList<AdvancedShape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
@@ -212,8 +202,6 @@ public class Vec{
                     shapes.add(nShape);
                     break;
                 }
-
-                // TODO parse plot
                 case "PEN": {
                     Color myPenColour = hexToRgb(components[1]);
                     this.recentPenColor = myPenColour;
@@ -225,7 +213,7 @@ public class Vec{
                     break;
                 }
                 default:
-                    throw new Exception("Command was not valid: " + line);
+                    throw new Exception("Vec Read Error: The following command from file was not valid: \n" + line);
             }
         }
 
