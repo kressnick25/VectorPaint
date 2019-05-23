@@ -63,19 +63,21 @@ public class MouseListener extends MouseInputAdapter {
         if (!(shape instanceof AdvancedPolygon) && !(shape instanceof AdvancedPlot)) {
             int x = e.getX();
             int y = e.getY();
+            int width = display.getSize().width;
+            int height = display.getSize().height;
 
-            if(x > display.getSize().width && y > display.getSize().height) {
-                shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+            if(x > width && y > height) {
+                shape.updateSize(width - 5 , height - 5);
                 display.clearLast();
                 display.add(shape);
             }
-            else if(x > display.getSize().width) {
-                shape.updateSize(display.getSize().width - 5 , y);
+            else if(x > width) {
+                shape.updateSize(width - 5 , y);
                 display.clearLast();
                 display.add(shape);
             }
-            else if(y > display.getSize().height) {
-                shape.updateSize(x, display.getSize().height - 5);
+            else if(y > height) {
+                shape.updateSize(x, height - 5);
                 display.clearLast();
                 display.add(shape);
             }
@@ -84,27 +86,26 @@ public class MouseListener extends MouseInputAdapter {
                 display.clearLast();
                 display.add(shape);
             }
-
-
-
         }
     }
 
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        if(x > display.getSize().width && y > display.getSize().height) {
-            shape.updateSize(display.getSize().width - 5 , display.getSize().height - 5);
+        int width = display.getSize().width;
+        int height = display.getSize().height;
+        if(x > width && y > height) {
+            shape.updateSize(width - 5 , height - 5);
             display.clearLast();
             display.add(shape);
         }
-        else if(x > display.getSize().width) {
-            shape.updateSize(display.getSize().width - 5 , y);
+        else if(x > width) {
+            shape.updateSize(width - 5 , y);
             display.clearLast();
             display.add(shape);
         }
-        else if(y > display.getSize().height) {
-            shape.updateSize(x, display.getSize().height - 5);
+        else if(y > height) {
+            shape.updateSize(x, height - 5);
             display.clearLast();
             display.add(shape);
         }
