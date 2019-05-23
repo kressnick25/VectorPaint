@@ -157,11 +157,15 @@ public class Vec{
                     shapes.add(nShape);
                     break;
                 }
-//                case "PLOT": {
-//                    VectorPoint point1 = parsePoint(components[1], components[2]);
-//                    shapes.add( new Plot(point1) );
-//                    break;
-//                }
+                case "PLOT": {
+                    Double x = Double.parseDouble( components[1] ) * WIDTH;
+                    Double y = Double.parseDouble( components[2] ) * HEIGHT;
+                    AdvancedShape nShape = new AdvancedPlot(x, y);
+                    nShape.setFillColor(this.recentFillColor);
+                    nShape.setPenColor(this.recentPenColor);
+                    shapes.add(nShape);
+                    break;
+                }
                 case "LINE": {
                     Double xOne = Double.parseDouble( components[1] ) * WIDTH;
                     Double yOne = Double.parseDouble( components[2] ) * HEIGHT;

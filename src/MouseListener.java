@@ -28,7 +28,7 @@ public class MouseListener extends MouseInputAdapter {
         try {
             switch (type) {
                 case Plot:
-                    shape = new AdvancedPlot(x, y, 5, 5);
+                    shape = new AdvancedPlot(x, y);
                     break;
                 case Rectangle:
                     shape = new AdvancedRectangle(x, y, 0, 0);
