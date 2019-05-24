@@ -71,6 +71,32 @@ public class MouseListener extends MouseInputAdapter {
                 display.clearLast();
                 display.add(shape);
             }
+            else if(x < 0 && y > height){
+                shape.updateSize(5, height-5);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x > width && y < 0){
+                shape.updateSize(width-5, 5);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x < 0 && y < 0) {
+                shape.updateSize(2,2);
+                display.clearLast();
+                display.add(shape);
+            }
+            else if(x < 0){
+                shape.updateSize(2, y);
+                display.clearLast();
+                display.add(shape);
+
+            }
+            else if(y < 0){
+                shape.updateSize(x, 2);
+                display.clearLast();
+                display.add(shape);
+            }
             else if(x > width) {
                 shape.updateSize(width - 5 , y);
                 display.clearLast();
@@ -99,6 +125,32 @@ public class MouseListener extends MouseInputAdapter {
         int height = display.getSize().height;
         if(x > width && y > height) {
             shape.updateSize(width - 5 , height - 5);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x < 0 && y < 0) {
+            shape.updateSize(2,2);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x > width && y < 0){
+            shape.updateSize(width-5, 5);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x < 0 && y > height){
+            shape.updateSize(5, height-5);
+            display.clearLast();
+            display.add(shape);
+        }
+        else if(x < 0){
+            shape.updateSize(2, y);
+            display.clearLast();
+            display.add(shape);
+
+        }
+        else if(y < 0){
+            shape.updateSize(x, 2);
             display.clearLast();
             display.add(shape);
         }

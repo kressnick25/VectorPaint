@@ -47,6 +47,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
             height = starty-y;
             this.setRect(x, y, width, height);
         }
+
         else if( startx >= x){
             width = startx-x;
             height = y - this.getY();
