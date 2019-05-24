@@ -40,7 +40,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo;
-
+    private static int numWindows = 0;
 
     // mouse movement
     private MouseListener mouseDraw = new MouseListener();
@@ -219,6 +219,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         help = new JMenu("Help");
         file.add(fileOpen);
         file.add(fileSave);
+        file.add(fileNew);
         file.add(fileSaveAs);
         //add these buttons to
         edit.add(cut);
@@ -236,13 +237,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         setVisible(true);
     }
 
+
     private void createGUI() {
         String imgPath = "./img/";
         //set size of GUI
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
         //close operation on exit button click
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         //create side button panel
         pnlBtn = createPanel(Color.GRAY);
@@ -264,7 +265,21 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         display = new GraphicsCanvas();
 
         createTopMenu();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(numWindows < 1) {
+                    System.out.println("WindowClosingDemo.windowClosing");
+                    System.exit(0);
+                }else{
+                    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    System.out.println("We up here");
+                    System.out.println(numWindows);
+                    numWindows--;
+                }
 
+            }
+        });
         // add mouse listener
         mouseDraw.setCanvas(display);
         display.addMouseListener(mouseDraw);
@@ -416,6 +431,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 }
             }
         }
+        else if (src == fileNew) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {}
+            SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
+            numWindows++;
+            System.out.println(numWindows);
+        }
 
         // WINDOW REFRESH
         if (e.getSource()==timer){
@@ -433,7 +456,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {}
-        SwingUtilities.invokeLater(new GUI_Frame("BorderLayout"));
-
+        SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
     }
 }
