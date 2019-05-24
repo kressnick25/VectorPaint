@@ -125,18 +125,22 @@ public class Vec{
         return outString.toString();
     }
 
-    // TODO test components against Type enum
-    // TODO add javadoc comment above method once complete
+    /**
+     * Parses an List of VEC formmatted lines to a List of AdvancedShape(s)
+     * @param lines A list of strings with VEC formatting
+     * @return  A parsed List of AdvancedShapes.
+     * @throws Exception if a non-valid command is present in lines.
+     */
     private ArrayList<AdvancedShape> parseLinesToShapes(ArrayList<String> lines) throws Exception{
         ArrayList<AdvancedShape> shapes = new ArrayList<AdvancedShape>();
         // Parse each component in line to local vars
         for (String line : lines){
             // split line into shapes ie PLOT, 0.0, 0.1
-            String[] components = line.split("\\s+"); // TODO arrayList?
+            String[] components = line.split("\\s+");
             // Initialise new object from vars
             switch(components[0]){
                 // Use brackets in switch statement to manage scope
-                case "RECTANGLE": {// TODO convert to comparison to enum
+                case "RECTANGLE": {
                     Double xOne = Double.parseDouble( components[1] ) * WIDTH;
                     Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
                     Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
