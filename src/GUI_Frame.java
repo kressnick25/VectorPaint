@@ -378,6 +378,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             //clears current display
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {}
+            GUI_Frame openFileFrame = new GUI_Frame("Paint - Assignment");
+            SwingUtilities.invokeLater(openFileFrame);
+            numWindows++;
+            System.out.println(numWindows);
             this.display.clear();
             //gets selected file path
             File selectedFile = jfc.getSelectedFile();
@@ -397,6 +404,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             display.load(vec.get());
             //repaints display with selected shapes
             this.display.repaint();
+            //TODO Open should open a new panel with the file data, difficult difficult lemon difficult
         }
     }
     private void undo(){
