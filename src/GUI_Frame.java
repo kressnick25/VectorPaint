@@ -1,5 +1,6 @@
 import AdvancedShape.AdvancedShape;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -39,7 +42,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo;
+            fileNew, helpBtn, undo, fileExport;
     private static int numWindows = 0;
 
     // mouse movement
@@ -120,7 +123,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 System.out.println(selectedFile.getAbsolutePath());
                 //inputs file location and into vec
                 Vec vec = new Vec(selectedFile.getAbsolutePath());
-                vec.read();
+                try {
+                    vec.read();
+                } catch (Exception ex){
+                    JOptionPane.showMessageDialog(pnlBtn,
+                            ex.getMessage(),
+                            "Error",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
                 //gets list of shapes
                 display.load(vec.get());
                 //repaints display with selected shapes
@@ -199,6 +209,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
+        fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
         helpBtn = new JMenuItem("Help");
         //adding action listeners to MenuBar Buttons
@@ -212,6 +223,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen.addActionListener(this);
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
+        fileExport.addActionListener(this);
 
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
@@ -221,6 +233,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileSave);
         file.add(fileNew);
         file.add(fileSaveAs);
+        file.add(fileExport);
         //add these buttons to
         edit.add(cut);
         edit.add(copy);
@@ -236,7 +249,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         setJMenuBar(mb);
         setVisible(true);
     }
-
 
     private void createGUI() {
         String imgPath = "./img/";
@@ -324,113 +336,122 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
 
     // TODO mouse event here using current shape, add to GraphicsCanvas
+    //sets the type of shape the user wants to use
+    private void setAction(ShapeType type){
+        mouseDraw.setType(type);
+        setFocusable(true);
+        requestFocus();
+    }
+    private void setFillColor(){
+        //sets the color
+        Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
+        mouseDraw.setFillColor(ColorFill);
+        setFocusable(true);
+        requestFocus();
+    }
+    private void setPenColor(){
+        Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
+        mouseDraw.setPenColor(colorPen);
+        setFocusable(true);
+        requestFocus();
+    }
+    private void saveFile(){
+        //save button
+        //opens file chooser
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
+        int returnValue = jfc.showSaveDialog(this);
 
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            //inputs created shapes and file to vec class and saves
+            ArrayList<AdvancedShape> shapes = this.display.getShapes();
+            Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
+            vec.save();
+        }
+    }
+    private void openFile(){
+        //opening new file
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        //Open file chooser
+        int returnValue = jfc.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            //clears current display
+            this.display.clear();
+            //gets selected file path
+            File selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+            //inputs file location and into vec
+            Vec vec = new Vec(selectedFile.getAbsolutePath());
+            try {
+                vec.read();
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(pnlBtn,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            //gets list of shapes
+            display.load(vec.get());
+            //repaints display with selected shapes
+            this.display.repaint();
+        }
+    }
+    private void undo(){
+        Shape latest = display.getLatest();
+        if (latest != null) {
+            while (display.getLatest() == latest) {
+                display.clearLast();
+            }
+        }
+    }
+    private void helpMessage(){
+        //Dialog help Message
+        JOptionPane.showMessageDialog(pnlBtn,
+                "Basic KeyBinds: H for Help, S for Save, Z for Undo",
+                "Help",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void exportAsBMP(){
+        // TODO file save window for location
+        BufferedImage bImg = new BufferedImage(display.getWidth(), display.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D cg = bImg.createGraphics();
+        cg.setComposite(AlphaComposite.Src);
+        cg.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        cg.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+        cg.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        display.paintAll(cg);
+        cg.dispose();
+        try {
+            if (ImageIO.write(bImg, "bmp", new File("./output_image.bmp")))
+            {
+                System.out.println("-- saved");
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         //Get event source
         Object src = e.getSource();
         //side button check
-        if (src == PlotButton) {
-            //sets the type of shape the user wants to use
-            mouseDraw.setType(ShapeType.Plot);
-            setFocusable(true);
-            requestFocus();
-        }
-        else if (src == LineButton) {
-            mouseDraw.setType(ShapeType.Line);
-            setFocusable(true);
-            requestFocus();
-
-        }
-        else if (src == RectangleButton) {
-            mouseDraw.setType(ShapeType.Rectangle);
-            setFocusable(true);
-            requestFocus();
-        }
-        else if (src == EllipseButton) {
-            mouseDraw.setType(ShapeType.Ellipse);
-            setFocusable(true);
-            requestFocus();
-        }
-        else if (src == PolygonButton) {
-            mouseDraw.setType(ShapeType.Polygon);
-            setFocusable(true);
-            requestFocus();
-        }
-        else if (src == FillButton) {
-            //sets the color
-            Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
-            mouseDraw.setFillColor(ColorFill);
-            setFocusable(true);
-            requestFocus();
-
-
-        }
-        else if (src == PenButton) {
-            Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
-            mouseDraw.setPenColor(colorPen);
-            setFocusable(true);
-            requestFocus();
-
-
-        }
+        if (src == PlotButton) setAction(ShapeType.Plot);
+        else if (src == LineButton) setAction(ShapeType.Line);
+        else if (src == RectangleButton) setAction(ShapeType.Rectangle);
+        else if (src == EllipseButton) setAction(ShapeType.Ellipse);
+        else if (src == PolygonButton) setAction(ShapeType.Polygon);
+        else if (src == FillButton) setFillColor();
+        else if (src == PenButton) setPenColor();
         // MENU ITEMS
-        else if (src == helpBtn) {
-            //Dialog help Message
-            JOptionPane.showMessageDialog(pnlBtn,
-                    "Basic KeyBinds: H for Help, S for Save, Z for Undo",
-                    "Help",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-
-        }
-        else if (src == fileSave || src == fileSaveAs) {
-            //save button
-            //opens file chooser
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
-            int returnValue = jfc.showSaveDialog(this);
-
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = jfc.getSelectedFile();
-                //inputs created shapes and file to vec class and saves
-                ArrayList<AdvancedShape> shapes = this.display.getShapes();
-                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
-                vec.save();
-            }
-        }
-
-        else if (src == fileOpen) {
-            //opening new file
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            //Open file chooser
-            int returnValue = jfc.showOpenDialog(this);
-
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                //clears current display
-                this.display.clear();
-                //gets selected file path
-                File selectedFile = jfc.getSelectedFile();
-                System.out.println(selectedFile.getAbsolutePath());
-                //inputs file location and into vec
-                Vec vec = new Vec(selectedFile.getAbsolutePath());
-                vec.read();
-                //gets list of shapes
-                display.load(vec.get());
-                //repaints display with selected shapes
-                this.display.repaint();
-            }
-        }
-        else if (src == undo) {
-            //
-            Shape latest = display.getLatest();
-            if (latest != null) {
-                while (display.getLatest() == latest) {
-                    display.clearLast();
-                }
-            }
-        }
+        else if (src == helpBtn) helpMessage();
+        else if (src == fileSave || src == fileSaveAs) saveFile();
+        else if (src == fileOpen) openFile();
+        else if (src == undo) undo();
+        else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -439,12 +460,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             numWindows++;
             System.out.println(numWindows);
         }
-
         // WINDOW REFRESH
-        if (e.getSource()==timer){
-            repaint(); // repaint every timer expiry
-        }
-
+        if (e.getSource()==timer) repaint(); // repaint every timer expiry
     }
 
     @Override

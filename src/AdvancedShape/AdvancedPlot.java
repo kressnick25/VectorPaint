@@ -9,8 +9,8 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
     private boolean isTransparent = false;
     double startX;
     double startY;
-    public AdvancedPlot(double x, double y, double w, double h) {
-        super(x, y, w, h);
+    public AdvancedPlot(double x, double y) {
+        super(x, y, 5, 5);
         this.startX = x;
         this.startY = y;
     }

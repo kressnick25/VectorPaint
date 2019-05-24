@@ -45,7 +45,7 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
                 "LINE %f %f %f %f",
                 this.x1 / screenWidth,
                 this.y1 / screenHeight,
-                this.x1 / screenWidth,
-                this.x2 / screenHeight);
+                this.x2 / screenWidth,
+                this.y2 / screenHeight);
     }
 }
