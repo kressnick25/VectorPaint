@@ -3,6 +3,7 @@ package AdvancedShape;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(0, 0, 0);
@@ -15,6 +16,13 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         this.startx = x;
         this.starty = y;
     }
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startx);
+        listA.add(starty);
+        return listA;
+    }
+
 
     public Color getFillColor() {
         return fillColor;
