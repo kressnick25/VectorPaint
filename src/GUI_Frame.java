@@ -348,10 +348,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 prevScreenHeight = display.getSize().height;
             }
         });
-//        if(!shapes.isEmpty()){
-//            display.load(shapes);
-//
-//        }
+        if(!shapes.isEmpty()){
+            display.load(shapes);
+
+        }
 
         setFocusable(true);
         requestFocus();
