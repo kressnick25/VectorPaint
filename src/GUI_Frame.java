@@ -44,7 +44,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport;
+            fileNew, helpBtn, undo, fileExport, grid, gridButt;
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
@@ -226,6 +226,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
         helpBtn = new JMenuItem("Help");
+        gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons
         helpBtn.addActionListener(this);
         cut.addActionListener(this);
@@ -238,11 +239,16 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
         fileExport.addActionListener(this);
+        gridButt = new JMenuItem("Grid");
+
 
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
         help = new JMenu("Help");
+        grid = new JMenu("Grid");
+
+
         file.add(fileOpen);
         file.add(fileSave);
         file.add(fileNew);
@@ -255,9 +261,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         edit.add(selectAll);
         edit.add(undo);
         help.add(helpBtn);
+        help.add(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
+        mb.add(grid);
         //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
@@ -462,7 +470,29 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == FillButton) setFillColor();
         else if (src == PenButton) setPenColor();
         // MENU ITEMS
-        else if (src == helpBtn) helpMessage();
+        else if (src == helpBtn) {
+            String errorMessage = "";
+            do {
+                // Show input dialog with current error message, if any
+                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number.");
+                try {
+                    Double number = Double.parseDouble(stringInput);
+                    if (number > 1 || number < 0) {
+                        errorMessage = "That number is not within the \n" + "allowed range!\n";
+                    } else {
+                        JOptionPane
+                                .showMessageDialog(null, "The number you chose is " + number + ".");
+                        errorMessage = ""; // no more error
+                        mouseDraw.setInterval(number);
+                    }
+                } catch (NumberFormatException err) {
+                    // The typed text was not an integer
+                    errorMessage = "The text you typed is not a number.\n";
+                }
+            } while (!errorMessage.isEmpty());
+        }
+        else if(src == gridButt) {
+                  }
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
@@ -475,6 +505,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             numWindows++;
             System.out.println(numWindows);
         }
+
+//
+
+
+
         // WINDOW REFRESH
         if (e.getSource()==timer) repaint(); // repaint every timer expiry
     }

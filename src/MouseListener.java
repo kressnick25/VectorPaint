@@ -16,6 +16,8 @@ public class MouseListener extends MouseInputAdapter {
     private GraphicsCanvas display;
     private Color fillColor = new Color(255, 255, 255);
     private Color penColor = new Color(0,0,0);
+    private double intervalUserX = 0;
+    private double intervalUserY = 0;
 
     public void setType(ShapeType type) {
         this.type = type;
@@ -29,8 +31,17 @@ public class MouseListener extends MouseInputAdapter {
         int y = e.getY();
         int width = display.getSize().width;
         int height = display.getSize().height;
-        double intervalX =  width * (0.5*10)/100;
-        double intervalY =  height * (0.5*10)/100;
+        double intervalX;
+        double intervalY;
+        if(intervalUserX != 0){
+            intervalX =  width * (intervalUserX*10)/100;
+            intervalY =  height * (intervalUserY*10)/100;
+        }
+        else{
+            intervalX = x;
+            intervalY = y;
+        }
+
         double roundOffX = intervalX*(Math.round(x/intervalX));
         double roundOffY = intervalY*(Math.round(y/intervalY));
         try {
@@ -65,6 +76,10 @@ public class MouseListener extends MouseInputAdapter {
         } catch (Exception e1){
             // TODO popup
         }
+    }
+    public void setInterval(double interval){
+        this.intervalUserX = interval;
+        this.intervalUserY = interval;
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -131,10 +146,22 @@ public class MouseListener extends MouseInputAdapter {
         int y = e.getY();
         int width = display.getSize().width;
         int height = display.getSize().height;
-        double intervalX =  width * (0.5*10)/100;
-        double intervalY =  height * (0.5*10)/100;
-        double roundOffX = intervalX*(Math.round(x/intervalX));
-        double roundOffY = intervalY*(Math.round(y/intervalY));
+        double intervalX;
+        double intervalY;
+        double roundOffX;
+        double roundOffY;
+        if(intervalUserX != 0){
+            intervalX =  width * (intervalUserX*10)/100;
+            intervalY =  height * (intervalUserY*10)/100;
+            roundOffX = intervalX*(Math.round(x/intervalX));
+            roundOffY = intervalY*(Math.round(y/intervalY));
+        }
+        else{
+
+            roundOffX = x;
+            roundOffY = y;
+        }
+
         shape.updateSize((int)roundOffX , (int)roundOffY);
         display.clearLast();
         display.add(shape);
