@@ -1,6 +1,7 @@
 package AdvancedShape;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.IllegalFormatWidthException;
 import java.util.StringJoiner;
 
@@ -8,13 +9,23 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
+    double startx;
+    double starty;
 
 
     public AdvancedPolygon(int[] xpoints, int[] ypoints, int npoints) {
             super(xpoints, ypoints, npoints);
+        this.startx = xpoints[0];
+        this.starty = ypoints[0];
     }
 
     public AdvancedPolygon() {
+    }
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startx);
+        listA.add(starty);
+        return listA;
     }
 
 
