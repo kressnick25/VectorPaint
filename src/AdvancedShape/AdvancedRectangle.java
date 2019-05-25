@@ -89,8 +89,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
                 "RECTANGLE %f %f %f %f",
                 this.x / screenWidth,
                 this.y / screenHeight,
-                this.width / screenWidth,
-                this.height / screenHeight);
+                (this.x + this.width) / screenWidth,
+                (this.y + this.height) / screenHeight);
     }
     public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
         this.x -= x * screenWidthDiffPercent;

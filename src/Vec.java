@@ -11,7 +11,7 @@ import java.util.*;
 public class Vec{
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
     private String filename;
-    private int WIDTH = 1250;
+    private int WIDTH = 1000;
     private int HEIGHT = 1000;
 
     private Color recentPenColor = Color.black;
@@ -141,11 +141,13 @@ public class Vec{
             switch(components[0]){
                 // Use brackets in switch statement to manage scope
                 case "RECTANGLE": {
-                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
-                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
-                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
-                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
-                    AdvancedShape nShape = new AdvancedRectangle(xOne, yOne, xTwo, yTwo );
+                    Double x1 = Double.parseDouble( components[1] ) * WIDTH;
+                    Double y1 = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double x2 = Double.parseDouble( components[3] ) * WIDTH;
+                    Double y2 = Double.parseDouble( components[4] ) * HEIGHT;
+                    double width = x2 - x1;
+                    double height = y2 - y1;
+                    AdvancedShape nShape = new AdvancedRectangle(x1, y1, width, height );
                     nShape.setFillColor(this.recentFillColor);
                     nShape.setPenColor(this.recentPenColor);
                     shapes.add(nShape);
@@ -172,12 +174,13 @@ public class Vec{
                     break;
                 }
                 case "ELLIPSE": {
-                    Double xOne = Double.parseDouble( components[1] ) * WIDTH;
-                    Double yOne = Double.parseDouble( components[2] ) * HEIGHT;
-                    Double xTwo = Double.parseDouble( components[3] ) * WIDTH;
-                    Double yTwo = Double.parseDouble( components[4] ) * HEIGHT;
-
-                    AdvancedShape nShape = new AdvancedEllipse(xOne, yOne, xTwo, yTwo);
+                    Double x1 = Double.parseDouble( components[1] ) * WIDTH;
+                    Double y1 = Double.parseDouble( components[2] ) * HEIGHT;
+                    Double x2 = Double.parseDouble( components[3] ) * WIDTH;
+                    Double y2 = Double.parseDouble( components[4] ) * HEIGHT;
+                    double width = x2 - x1;
+                    double height = y2 - y1;
+                    AdvancedShape nShape = new AdvancedEllipse(x1, y1, width, height);
                     nShape.setFillColor(this.recentFillColor);
                     nShape.setPenColor(this.recentPenColor);
                     shapes.add(nShape);
