@@ -330,6 +330,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         display.setSize(size.height, size.height);
                         //FIXME I believe that the window should always to square, (Need to check)
                     }
+                    // force display min size
+                    if (size.width < 200 || size.height < 200){
+                        display.setSize(200, 200);
+                    }
                     else{
                         display.setSize(size.width, size.width);
                     }
