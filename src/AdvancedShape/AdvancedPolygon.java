@@ -80,4 +80,12 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
         }
         return outString.toString();
     }
+    public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        for (int xPoint : this.xpoints){
+            xPoint -= xPoint * screenWidthDiffPercent;
+        }
+        for (int yPoint: ypoints){
+            yPoint -= yPoint * screenHeightDiffPercent;
+        }
+    }
 }

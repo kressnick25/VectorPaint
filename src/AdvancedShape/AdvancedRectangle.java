@@ -75,9 +75,6 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
 
             //System.out.println(y);
 
-
-
-
     }
     public void render(Graphics2D g2d){
         if (!this.isTransparent()){
@@ -94,5 +91,11 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
                 this.y / screenHeight,
                 this.width / screenWidth,
                 this.height / screenHeight);
+    }
+    public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        this.x -= x * screenWidthDiffPercent;
+        this.y -= y * screenHeightDiffPercent;
+        this.width -= width * screenWidthDiffPercent;
+        this.height -= height * screenHeightDiffPercent;
     }
 }

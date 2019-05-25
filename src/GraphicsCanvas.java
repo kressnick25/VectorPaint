@@ -58,5 +58,13 @@ public class GraphicsCanvas extends JPanel {
         return null;
     }
 
+    public void updateScale(int newScreenWidth, int previousScreenWidth, int newScreenHeight, int previousScreenHeight){
+        double screenWidthDiffPercent = ((double)previousScreenWidth - (double)newScreenWidth) / (double)previousScreenWidth;
+        double screenHeightDiffPercent = ((double)previousScreenHeight - (double)newScreenHeight) / (double)previousScreenHeight;
+        for (AdvancedShape s : shapes){
+            s.updateScale(screenWidthDiffPercent, screenHeightDiffPercent);
+        }
+    }
+
 
 }

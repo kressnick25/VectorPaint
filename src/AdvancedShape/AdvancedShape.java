@@ -12,4 +12,5 @@ public interface AdvancedShape extends Shape {
     void updateSize(int x, int y);
     boolean isTransparent();
     void setTransparent(boolean transparent);
+    void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent);
 }

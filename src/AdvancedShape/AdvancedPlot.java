@@ -59,5 +59,9 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
                 this.startX / screenWidth,
                 this.startY / screenHeight);
     }
+    public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        this.x -= x * screenWidthDiffPercent;
+        this.y -= y * screenHeightDiffPercent;
+    }
 }
 

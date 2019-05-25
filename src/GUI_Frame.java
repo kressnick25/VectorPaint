@@ -34,6 +34,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private Timer timer=new Timer(5, this);
     private static int WIDTH = 1000;
     private static int HEIGHT = 1000;
+    private int prevScreenHeight = 1000;
+    private int prevSreenWidth = 1000;
     private int keyCode;
     private JPanel pnlBtn;
     private GraphicsCanvas display;
@@ -339,17 +341,23 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 System.out.println(getSize());
 
                 System.out.println(display.getSize());
-
+                display.updateScale(
+                        display.getSize().width, prevSreenWidth,
+                        display.getSize().height, prevScreenHeight);
+                prevSreenWidth = display.getSize().width;
+                prevScreenHeight = display.getSize().height;
             }
         });
-        if(!shapes.isEmpty()){
-            display.load(shapes);
+//        if(!shapes.isEmpty()){
+//            display.load(shapes);
+//
+//        }
 
-        }
         setFocusable(true);
         requestFocus();
         repaint();
         setVisible(true);
+
     }
 
     // TODO mouse event here using current shape, add to GraphicsCanvas

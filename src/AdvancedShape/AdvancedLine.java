@@ -19,8 +19,15 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
         this.startY1 = y1;
         this.endX2 = x2;
         this.endY2 = y2;
-
     }
+
+    public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        this.x1 -= x1 * screenWidthDiffPercent;
+        this.y1 -= y1 * screenHeightDiffPercent;
+        this.x2 -= x2 * screenWidthDiffPercent;
+        this.y2 -= y2 * screenHeightDiffPercent;
+    }
+
     public ArrayList startGetter(){
         ArrayList listA = new ArrayList();
         listA.add(startX1);

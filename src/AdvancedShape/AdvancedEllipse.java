@@ -88,4 +88,10 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
                 this.width / screenWidth,
                 this.height / screenHeight);
     }
+    public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        this.x -= x * screenWidthDiffPercent;
+        this.y -= y * screenHeightDiffPercent;
+        this.width -= width * screenWidthDiffPercent;
+        this.height -= height * screenHeightDiffPercent;
+    }
 }
