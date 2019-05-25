@@ -2,6 +2,7 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedShape {
     private Color penColor = new Color(0, 0, 0);
@@ -15,6 +16,12 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         super(x, y, w, h);
         this.startx = x;
         this.starty = y;
+    }
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startx);
+        listA.add(starty);
+        return listA;
     }
 
     public Color getFillColor() {

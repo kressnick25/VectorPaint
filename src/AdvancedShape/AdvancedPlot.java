@@ -2,6 +2,7 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(0, 0, 0);
@@ -14,6 +15,14 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
         this.startX = x;
         this.startY = y;
     }
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startX);
+        listA.add(startY);
+        return listA;
+    }
+
+
 
     public Color getFillColor() {
         return fillColor;

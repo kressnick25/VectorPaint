@@ -53,9 +53,9 @@ class AdvancedEllipseTest {
 
     @Test
     void fillColorTest(){
-        AdvancedEllipse Ellipetest = new AdvancedEllipse(0.1,0.1,0.1,0.1);
+        AdvancedEllipse Ellipsetest = new AdvancedEllipse(0.1,0.1,0.1,0.1);
         Color fillColor = new Color(255,255,255);
-        assertEquals(fillColor, Ellipetest.getFillColor());
+        assertEquals(fillColor, Ellipsetest.getFillColor());
     }
     @Test
     void fillColorChangeTest(){

@@ -2,15 +2,34 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     private Color fillColor = new Color(255,255,255);
     private Color penColor = new Color(0, 0, 0);
     private boolean isTransparent = true;
+    double startX1;
+    double startY1;
+    double endX2;
+    double endY2;
 
     public AdvancedLine(double x1, double y1, double x2, double y2) {
         super(x1, y1, x2, y2);
+        this.startX1 = x1;
+        this.startY1 = y1;
+        this.endX2 = x2;
+        this.endY2 = y2;
+
     }
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startX1);
+        listA.add(startY1);
+        listA.add(endX2);
+        listA.add(endY2);
+        return listA;
+    }
+
 
     public Color getFillColor() {
         return fillColor;
