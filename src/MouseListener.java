@@ -7,6 +7,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import static java.lang.Math.round;
+
 public class MouseListener extends MouseInputAdapter {
     private AdvancedShape shape;
     // default as plot
@@ -25,20 +27,26 @@ public class MouseListener extends MouseInputAdapter {
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+        int width = display.getSize().width;
+        int height = display.getSize().height;
+        double intervalX =  width * (0.5*10)/100;
+        double intervalY =  height * (0.5*10)/100;
+        double roundOffX = intervalX*(Math.round(x/intervalX));
+        double roundOffY = intervalY*(Math.round(y/intervalY));
         try {
             switch (type) {
                 case Plot:
-                    shape = new AdvancedPlot(x, y);
+                    shape = new AdvancedPlot(roundOffX, roundOffY);
                     break;
                 case Rectangle:
-                    shape = new AdvancedRectangle(x, y, 0, 0);
+                    shape = new AdvancedRectangle(roundOffX, roundOffY, 0, 0);
                     break;
                 case Ellipse:
-                    shape = new AdvancedEllipse(x, y, 0, 0);
+                    shape = new AdvancedEllipse(roundOffX, roundOffY, 0, 0);
                     break;
                 case Line:
                     // initialise line with no length. current pos to current pos
-                    shape = new AdvancedLine(x, y, x, y);
+                    shape = new AdvancedLine(roundOffX, roundOffY, roundOffX, roundOffY);
                     break;
                 case Polygon:
                     if (!(shape instanceof AdvancedPolygon)) {
@@ -123,6 +131,14 @@ public class MouseListener extends MouseInputAdapter {
         int y = e.getY();
         int width = display.getSize().width;
         int height = display.getSize().height;
+        double intervalX =  width * (0.5*10)/100;
+        double intervalY =  height * (0.5*10)/100;
+        double roundOffX = intervalX*(Math.round(x/intervalX));
+        double roundOffY = intervalY*(Math.round(y/intervalY));
+        shape.updateSize((int)roundOffX , (int)roundOffY);
+        display.clearLast();
+        display.add(shape);
+
         if(x > width && y > height) {
             shape.updateSize(width - 5 , height - 5);
             display.clearLast();
@@ -144,28 +160,28 @@ public class MouseListener extends MouseInputAdapter {
             display.add(shape);
         }
         else if(x < 0){
-            shape.updateSize(2, y);
+            shape.updateSize(2, (int)roundOffY);
             display.clearLast();
             display.add(shape);
 
         }
         else if(y < 0){
-            shape.updateSize(x, 2);
+            shape.updateSize((int)roundOffX, 2);
             display.clearLast();
             display.add(shape);
         }
         else if(x > width) {
-            shape.updateSize(width - 5 , y);
+            shape.updateSize(width - 5 , (int)roundOffY);
             display.clearLast();
             display.add(shape);
         }
         else if(y > height) {
-            shape.updateSize(x, height - 5);
+            shape.updateSize((int)roundOffX, height - 5);
             display.clearLast();
             display.add(shape);
         }
         else{
-            shape.updateSize(x , y);
+            shape.updateSize((int)roundOffX , (int)roundOffY);
             display.clearLast();
             display.add(shape);
         }
