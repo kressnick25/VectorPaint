@@ -44,7 +44,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport, grid, gridButt;
+            fileNew, helpBtn, undo, fileExport, grid, gridBtn;
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
@@ -225,10 +225,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSaveAs = new JMenuItem("Save As");
         fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
-        helpBtn = new JMenuItem("Help");
-        gridButt = new JMenuItem("Grid for real");
+        gridBtn = new JMenuItem("Grid");
+        //gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons
-        helpBtn.addActionListener(this);
+        gridBtn.addActionListener(this);
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -239,14 +239,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
         fileExport.addActionListener(this);
-        gridButt = new JMenuItem("Grid");
+        //gridButt = new JMenuItem("Grid");
 
 
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
-        help = new JMenu("Help");
-        grid = new JMenu("Grid");
+        help = new JMenu("Grid");
 
 
         file.add(fileOpen);
@@ -260,12 +259,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         edit.add(paste);
         edit.add(selectAll);
         edit.add(undo);
-        help.add(helpBtn);
-        help.add(gridButt);
+        help.add(gridBtn);
+        //help.add(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
-        mb.add(grid);
         //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
@@ -470,11 +468,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == FillButton) setFillColor();
         else if (src == PenButton) setPenColor();
         // MENU ITEMS
-        else if (src == helpBtn) {
+        else if (src == gridBtn) {
             String errorMessage = "";
             do {
                 // Show input dialog with current error message, if any
-                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number.");
+                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number. Or 0 for no Grid");
                 try {
                     Double number = Double.parseDouble(stringInput);
                     if (number > 1 || number < 0) {
@@ -491,8 +489,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 }
             } while (!errorMessage.isEmpty());
         }
-        else if(src == gridButt) {
-                  }
+
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();

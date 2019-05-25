@@ -78,8 +78,8 @@ public class MouseListener extends MouseInputAdapter {
         }
     }
     public void setInterval(double interval){
-        this.intervalUserX = interval;
-        this.intervalUserY = interval;
+        this.intervalUserX = interval*10;
+        this.intervalUserY = interval*10;
     }
 
     public void mouseDragged(MouseEvent e) {
