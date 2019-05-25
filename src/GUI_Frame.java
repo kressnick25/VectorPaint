@@ -274,7 +274,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //Drawing canvas creation
         JPanel pnlDisplay = createPanel(Color.WHITE);
         //initializes all buttons
-        PlotButton = JButtonImage(imgPath + "buttons/plot.png");
+        PlotButton = JButtonImage(imgPath + "buttons/Plot.jpg");
         LineButton = JButtonImage(imgPath + "buttons/line.png");
         RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
         EllipseButton = JButtonImage(imgPath + "buttons/ellipse.png");
