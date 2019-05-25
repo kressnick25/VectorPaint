@@ -472,7 +472,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             String errorMessage = "";
             do {
                 // Show input dialog with current error message, if any
-                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number. Or 0 for no Grid");
+                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
                 try {
                     Double number = Double.parseDouble(stringInput);
                     if (number > 1 || number < 0) {
