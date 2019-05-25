@@ -44,6 +44,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport;
     private static int numWindows = 0;
+    private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
     // mouse movement
     private MouseListener mouseDraw = new MouseListener();
@@ -53,9 +54,33 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         super(title);
         timer.start();
     }
+    public GUI_Frame(String title, JFileChooser jfc) throws HeadlessException {
+        super(title);
+        timer.start();
+        //this.display.clear();
+        //gets selected file path
+        File selectedFile = jfc.getSelectedFile();
+        //System.out.println(selectedFile.getAbsolutePath());
+        System.out.println("ddfdfsd");
+        //inputs file location and into vec
+        Vec vec = new Vec(selectedFile.getAbsolutePath());
+        try {
+            vec.read();
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(pnlBtn,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        //gets list of shapes
+        this.shapes = vec.get();
+        //display.load(vec.get());
+        System.out.println(vec.get());
+        //repaints display with selected shapes
+        //this.display.repaint();
 
-    private JPanel createPanel(Color c) {
-        //Creates new Jpanel
+    }
+        private JPanel createPanel(Color c) {  //Creates new Jpanel
         JPanel newPnl = new JPanel();
         //Sets background of the JPanel
         newPnl.setBackground(c);
@@ -116,25 +141,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             int returnValue = jfc.showOpenDialog(this);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
-                //clears current display
-                this.display.clear();
-                //gets selected file path
-                File selectedFile = jfc.getSelectedFile();
-                System.out.println(selectedFile.getAbsolutePath());
-                //inputs file location and into vec
-                Vec vec = new Vec(selectedFile.getAbsolutePath());
+                numWindows++;
                 try {
-                    vec.read();
-                } catch (Exception ex){
-                    JOptionPane.showMessageDialog(pnlBtn,
-                            ex.getMessage(),
-                            "Error",
-                            JOptionPane.INFORMATION_MESSAGE);
-                }
-                //gets list of shapes
-                display.load(vec.get());
-                //repaints display with selected shapes
-                this.display.repaint();
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (Exception ignored) {}
+                GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+                SwingUtilities.invokeLater(gui);
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
@@ -329,6 +341,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
             }
         });
+        if(!shapes.isEmpty()){
+            display.load(shapes);
+
+        }
         setFocusable(true);
         requestFocus();
         repaint();
@@ -377,34 +393,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         int returnValue = jfc.showOpenDialog(this);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            //clears current display
+              numWindows++;
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
-            GUI_Frame openFileFrame = new GUI_Frame("Paint - Assignment");
-            SwingUtilities.invokeLater(openFileFrame);
-            numWindows++;
-            System.out.println(numWindows);
-            this.display.clear();
-            //gets selected file path
-            File selectedFile = jfc.getSelectedFile();
-            System.out.println(selectedFile.getAbsolutePath());
-            //inputs file location and into vec
-            Vec vec = new Vec(selectedFile.getAbsolutePath());
-            try {
-                vec.read();
-            } catch (Exception ex){
-                JOptionPane.showMessageDialog(pnlBtn,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            //gets list of shapes
-            display.load(vec.get());
-            //repaints display with selected shapes
-            this.display.repaint();
-            //TODO Open should open a new panel with the file data, difficult difficult lemon difficult
+            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+            SwingUtilities.invokeLater(gui);
         }
     }
     private void undo(){
