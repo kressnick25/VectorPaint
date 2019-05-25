@@ -75,8 +75,6 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
                 outString.add( Double.toString(x) );
                 outString.add( Double.toString(y) );
             }
-
-
         }
         return outString.toString();
     }

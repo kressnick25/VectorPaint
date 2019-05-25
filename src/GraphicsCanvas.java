@@ -21,7 +21,6 @@ public class GraphicsCanvas extends JPanel {
 //                RenderingHints.VALUE_ANTIALIAS_ON);
         shapes.forEach((shape) -> {
                     shape.render(g2d);
-
                 }
         );
     }
