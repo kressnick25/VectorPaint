@@ -15,6 +15,7 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
 
     public AdvancedLine(double x1, double y1, double x2, double y2) {
         super(x1, y1, x2, y2);
+        //sets start and current end x and y
         this.startX1 = x1;
         this.startY1 = y1;
         this.endX2 = x2;

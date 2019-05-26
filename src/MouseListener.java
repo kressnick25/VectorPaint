@@ -3,11 +3,7 @@ import AdvancedShape.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
-import static java.lang.Math.round;
 
 public class MouseListener extends MouseInputAdapter {
     private AdvancedShape shape;
@@ -16,24 +12,33 @@ public class MouseListener extends MouseInputAdapter {
     private GraphicsCanvas display;
     private Color fillColor = new Color(255, 255, 255);
     private Color penColor = new Color(0,0,0);
+    //selected grid interval
     private double intervalUserX = 0;
     private double intervalUserY = 0;
 
     public void setType(ShapeType type) {
+        //type of shape
         this.type = type;
     }
 
     public void setCanvas(GraphicsCanvas gc){
+        //sets canvas
         this.display = gc;
     }
+
     public void mousePressed(MouseEvent e) {
+        //Gets x and y coords of mouse
         int x = e.getX();
         int y = e.getY();
+        //gets width and height of display
         int width = display.getSize().width;
         int height = display.getSize().height;
+        //selected user interval
         double intervalX;
         double intervalY;
+        //checks if user inputted grid interval
         if(intervalUserX != 0){
+            //converts interval to pixels
             intervalX =  width * (intervalUserX*10)/100;
             intervalY =  height * (intervalUserY*10)/100;
         }
@@ -41,9 +46,11 @@ public class MouseListener extends MouseInputAdapter {
             intervalX = x;
             intervalY = y;
         }
+        //rounds x and y to nearest interval factor
 
         double roundOffX = intervalX*(Math.round(x/intervalX));
         double roundOffY = intervalY*(Math.round(y/intervalY));
+        //type of shape being draw, creates
         try {
             switch (type) {
                 case Plot:
@@ -68,6 +75,7 @@ public class MouseListener extends MouseInputAdapter {
                 default:
                     throw new Exception("Invalid shape type.");
             }
+            //sets fill and pen colors
             shape.setFillColor(fillColor);
             shape.setPenColor(penColor);
             if (!(shape instanceof AdvancedPolygon)){
@@ -78,17 +86,19 @@ public class MouseListener extends MouseInputAdapter {
         }
     }
     public void setInterval(double interval){
+        //sets grid interval
         this.intervalUserX = interval*10;
         this.intervalUserY = interval*10;
     }
-
     public void mouseDragged(MouseEvent e) {
+        //check if shape is not polygon or plot
         if (!(shape instanceof AdvancedPolygon) && !(shape instanceof AdvancedPlot)) {
             int x = e.getX();
             int y = e.getY();
             int width = display.getSize().width;
             int height = display.getSize().height;
-
+            //cannot draw off screen
+            //Checks all possible scenarios of mouse off screen and sets details to stay inside screen
             if(x > width && y > height) {
                 shape.updateSize(width - 5 , height - 5);
                 display.clearLast();
@@ -150,21 +160,21 @@ public class MouseListener extends MouseInputAdapter {
         double intervalY;
         double roundOffX;
         double roundOffY;
+        //checks user wants grid
         if(intervalUserX != 0){
+            //sets interval and rounds x and y to nearest interval
             intervalX =  width * (intervalUserX*10)/100;
             intervalY =  height * (intervalUserY*10)/100;
-            roundOffX = intervalX*(Math.round(x/intervalX));
-            roundOffY = intervalY*(Math.round(y/intervalY));
+            roundOffX = intervalX*(Math.ceil(x/intervalX));
+            roundOffY = intervalY*(Math.ceil(y/intervalY));
         }
         else{
-
+            //if no grid selected sets x and y to mouse location
             roundOffX = x;
             roundOffY = y;
         }
-
-        shape.updateSize((int)roundOffX , (int)roundOffY);
-        display.clearLast();
-        display.add(shape);
+        //checks all possible variations of mouse being off screen and sets x, y, width and height of shape
+        //to stay on screen
 
         if(x > width && y > height) {
             shape.updateSize(width - 5 , height - 5);
