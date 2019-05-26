@@ -23,6 +23,7 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
+        //updates the size of the line based on the size of the screen
         this.x1 -= x1 * screenWidthDiffPercent;
         this.y1 -= y1 * screenHeightDiffPercent;
         this.x2 -= x2 * screenWidthDiffPercent;
@@ -30,11 +31,13 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     public ArrayList startGetter(){
+        //used for testing the constructor
         ArrayList listA = new ArrayList();
         listA.add(startX1);
         listA.add(startY1);
         listA.add(endX2);
         listA.add(endY2);
+        //gets array of start and end points of line
         return listA;
     }
 
@@ -68,6 +71,7 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     public String toString(int screenWidth, int screenHeight) {
+        //converts location details to string
         return String.format(
                 "LINE %f %f %f %f",
                 this.x1 / screenWidth,
