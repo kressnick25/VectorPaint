@@ -7,8 +7,6 @@ import java.util.ArrayList;
 /**
  Shape AdvancedRectangle, initiate a color, fill color, and transparency.
  The shape Rectangle can be drawn and passed into the GUI_Frame
- @Extends Rectangle2D.Double
- @Implements AdvancedShape
  **/
 public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedShape {
     private Color penColor = new Color(0, 0, 0);
@@ -31,14 +29,21 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         this.startx = x;
         this.starty = y;
     }
-    //adds the starting x and y coordinates
+    /**
+     * adds the starting x and y coordinates
+     * @return
+     */
     public ArrayList startGetter(){
         ArrayList listA = new ArrayList();
         listA.add(startx);
         listA.add(starty);
         return listA;
     }
-    //returns the current fill color
+
+    /**
+     * returns the current fill color
+     * @return
+     */
     public Color getFillColor() {
         return fillColor;
     }
@@ -53,7 +58,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     *     returns the current pen color
+     * returns the current pen color
      */
     public Color getPenColor() {
         return penColor;
@@ -115,9 +120,6 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
              height = y - this.getY();
             this.setRect(this.getX(), this.getY(), width, height );
         }
-
-
-            //System.out.println(y);
 
     }
 
