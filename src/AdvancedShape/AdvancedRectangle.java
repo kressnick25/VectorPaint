@@ -38,29 +38,57 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         listA.add(starty);
         return listA;
     }
-
+    //returns the current fill color
     public Color getFillColor() {
         return fillColor;
     }
+
+    /**
+     * sets the fill color when changed
+     * @param fillColor
+     */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         this.isTransparent = false;
     }
+
+    /**
+     *     returns the current pen color
+     */
     public Color getPenColor() {
         return penColor;
     }
 
+    /**
+     * sets the pen color
+     * @param penColor
+     */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
+
+    /**
+     * returns if the rectangle is transparent or not
+     * @return
+     */
     public boolean isTransparent() {
         return isTransparent;
     }
+
+    /**
+     * sets the transparency status of the class
+     * @param transparent
+     */
     public void setTransparent(boolean transparent) {
         isTransparent = transparent;
         this.fillColor = null;
     }
 
+    /**
+     * updates the size of the rectangle
+     * @param x
+     * @param y
+     */
     public void updateSize(int x, int y){
         double width = 0;
         double height = 0;
@@ -92,6 +120,11 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
             //System.out.println(y);
 
     }
+
+    /**
+     * renders the rectangle depending on transparency
+     * @param g2d
+     */
     public void render(Graphics2D g2d){
         if (!this.isTransparent()){
             g2d.setPaint(this.getFillColor());
@@ -100,6 +133,13 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         }
         g2d.draw(this);
     }
+
+    /**
+     * returns the string type of the shape and size
+     * @param screenWidth width of the GUI window
+     * @param screenHeight height of the GUI window
+     * @return string
+     */
     public String toString(int screenWidth, int screenHeight) {
         return String.format(
                 "RECTANGLE %f %f %f %f",
@@ -108,6 +148,12 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
                 (this.x + this.width) / screenWidth,
                 (this.y + this.height) / screenHeight);
     }
+
+    /**
+     * updates the scale of the rectangle when the GUI window is being dragged
+     * @param screenWidthDiffPercent difference in screen width after resizing the GUI window
+     * @param screenHeightDiffPercent difference in screen height after resizing the GUI window
+     */
     public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
         this.x -= x * screenWidthDiffPercent;
         this.y -= y * screenHeightDiffPercent;
