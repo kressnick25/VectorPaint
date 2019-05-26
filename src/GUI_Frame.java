@@ -89,22 +89,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         return newPnl;
     }
 
-
-    private JButton JButtonImageInitializer(JButton newBtn) {
-        //Adds ActionListener to button
-        newBtn.addActionListener(this);
-        return newBtn;
-    }
-
-
-    private JButton JButtonImage(String imagePath) {
+    private JButton JButtonImage(String buttonText, String imagePath) {
         try {
             //creates new button
-            JButton newBtn = new JButton(new ImageIcon(imagePath));
+            JButton newBtn = new JButton(buttonText, new ImageIcon(imagePath));
             //initializes buttons and sets them to newBtn
-            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.addActionListener(this);
             //sets size of button
             newBtn.setPreferredSize(new Dimension(70, 60));
+            // Format text position
+            newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
+            newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
 
             return newBtn;
             //catches Error
@@ -282,13 +277,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //Drawing canvas creation
         JPanel pnlDisplay = createPanel(Color.WHITE);
         //initializes all buttons
-        PlotButton = JButtonImage(imgPath + "buttons/Plot.jpg");
-        LineButton = JButtonImage(imgPath + "buttons/line.png");
-        RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
-        EllipseButton = JButtonImage(imgPath + "buttons/ellipse.png");
-        PolygonButton = JButtonImage(imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage(imgPath + "buttons/fill.png");
-        PenButton = JButtonImage(imgPath + "buttons/pen.png");
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png");
 
         layoutButtonPanel();
 
