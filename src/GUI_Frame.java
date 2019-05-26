@@ -45,6 +45,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport, grid, gridBtn;
+
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
@@ -82,7 +83,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //this.display.repaint();
 
     }
-        private JPanel createPanel(Color c) {  //Creates new Jpanel
+    private JPanel createPanel(Color c) {  //Creates new Jpanel
         JPanel newPnl = new JPanel();
         //Sets background of the JPanel
         newPnl.setBackground(c);
@@ -166,20 +167,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     }
+    // TODO remove unused
     public void keyReleased(KeyEvent e){
         //System.out.println("dfd");
-
     }
+    //TODO remove unused
     public void keyTyped(KeyEvent e){
         //System.out.println("dfd");
-
     }
-
 
     private void layoutButtonPanel() {
         //Layout settings for side buttons
-        GridBagLayout layout = new GridBagLayout();
-        pnlBtn.setLayout(layout);
+        pnlBtn.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -195,10 +194,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
     }
 
-    private void addToPanel(JPanel jp, Component c,
-                            GridBagConstraints constraints,
-                            int x, int y, int w, int h)
-    {
+    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints,
+                            int x, int y, int w, int h) {
         //adding buttons to panel
         constraints.gridx = x;
         constraints.gridy = y;
@@ -450,6 +447,27 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             e.printStackTrace();
         }
     }
+    private void gridInput(){
+        String errorMessage = "";
+        do {
+            // Show input dialog with current error message, if any
+            String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
+            try {
+                Double number = Double.parseDouble(stringInput);
+                if (number > 1 || number < 0) {
+                    errorMessage = "That number is not within the \n" + "allowed range!\n";
+                } else {
+                    JOptionPane
+                            .showMessageDialog(null, "The number you chose is " + number + ".");
+                    errorMessage = ""; // no more error
+                    mouseDraw.setInterval(number);
+                }
+            } catch (NumberFormatException err) {
+                // The typed text was not an integer
+                errorMessage = "The text you typed is not a number.\n";
+            }
+        } while (!errorMessage.isEmpty());
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         //Get event source
@@ -463,28 +481,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == FillButton) setFillColor();
         else if (src == PenButton) setPenColor();
         // MENU ITEMS
-        else if (src == gridBtn) {
-            String errorMessage = "";
-            do {
-                // Show input dialog with current error message, if any
-                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
-                try {
-                    Double number = Double.parseDouble(stringInput);
-                    if (number > 1 || number < 0) {
-                        errorMessage = "That number is not within the \n" + "allowed range!\n";
-                    } else {
-                        JOptionPane
-                                .showMessageDialog(null, "The number you chose is " + number + ".");
-                        errorMessage = ""; // no more error
-                        mouseDraw.setInterval(number);
-                    }
-                } catch (NumberFormatException err) {
-                    // The typed text was not an integer
-                    errorMessage = "The text you typed is not a number.\n";
-                }
-            } while (!errorMessage.isEmpty());
-        }
-
+        else if (src == gridBtn) gridInput();
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
