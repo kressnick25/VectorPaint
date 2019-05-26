@@ -39,12 +39,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private int keyCode;
     private JPanel pnlBtn;
     private GraphicsCanvas display;
-    private JMenu file, edit, help;
+    private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport, grid, gridBtn;
+            fileNew, helpBtn, undo, fileExport, gridBtn;
 
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
@@ -218,9 +218,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
         gridBtn = new JMenuItem("Grid");
+        helpBtn = new JMenuItem("help");
+
         //gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons
         gridBtn.addActionListener(this);
+        helpBtn.addActionListener(this);
+
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -237,7 +241,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
-        help = new JMenu("Grid");
+        help = new JMenu("Help");
+        grid = new JMenu("Grid");
+
 
 
         file.add(fileOpen);
@@ -251,11 +257,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         edit.add(paste);
         edit.add(selectAll);
         edit.add(undo);
-        help.add(gridBtn);
+        grid.add(gridBtn);
+        help.add(helpBtn);
         //help.add(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
+        mb.add(grid);
+
         //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
@@ -481,6 +490,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == PenButton) setPenColor();
         // MENU ITEMS
         else if (src == gridBtn) gridInput();
+        else if (src == helpBtn) helpMessage();
+
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
