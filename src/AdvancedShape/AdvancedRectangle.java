@@ -4,6 +4,12 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+/**
+ Shape AdvancedRectangle, initiate a color, fill color, and transparency.
+ The shape Rectangle can be drawn and passed into the GUI_Frame
+ @Extends Rectangle2D.Double
+ @Implements AdvancedShape
+ **/
 public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedShape {
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
@@ -11,13 +17,21 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     double startx;
     double starty;
 
-
+    /**
+     * AdvancedRectangle draws a rectangle at the x and y parameters, with the width (w) and height (h)
+     * parameters specified
+     * @param x x-coordinate start point
+     * @param y y-coordinate start point
+     * @param w width of rectangle
+     * @param h height of rectangle
+     */
     public AdvancedRectangle(double x, double y, double w, double h) {
 
         super(x, y, w, h);
         this.startx = x;
         this.starty = y;
     }
+    //adds the starting x and y coordinates
     public ArrayList startGetter(){
         ArrayList listA = new ArrayList();
         listA.add(startx);
