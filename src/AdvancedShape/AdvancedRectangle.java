@@ -11,6 +11,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     double startx;
     double starty;
 
+
     public AdvancedRectangle(double x, double y, double w, double h) {
 
         super(x, y, w, h);
@@ -34,6 +35,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     public Color getPenColor() {
         return penColor;
     }
+
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
