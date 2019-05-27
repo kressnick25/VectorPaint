@@ -26,6 +26,17 @@ public class GraphicsCanvas extends JPanel {
 
     public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
 
+    public ArrayList<String> toStringArray() {
+        ArrayList<String> list = new ArrayList<>();
+        for (AdvancedShape s: shapes){
+            // split string into just shape type
+            String[] shapeParts = s.toString(1, 1).split(" ");
+            list.add(shapeParts[0]);
+        }
+        //String[] stringArray = list.toArray(new String[0]);
+        return list;
+    }
+
     public void load(ArrayList<AdvancedShape> shapes){
         this.shapes = shapes;
     }
@@ -40,6 +51,7 @@ public class GraphicsCanvas extends JPanel {
         if (shapes.size() != 0) {
             shapes.remove(shapes.size() - 1);
         }
+        //TODO update combobox here
     }
 
     public void clear(){

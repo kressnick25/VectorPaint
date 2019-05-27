@@ -37,11 +37,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private int prevScreenHeight = 1000;
     private int prevSreenWidth = 1000;
     private int keyCode;
-    private JPanel pnlBtn;
+    private JPanel shapeControlsPanel, historyPanel;
     private GraphicsCanvas display;
     private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
-            PolygonButton, FillButton, PenButton, PlotButton;
+            PolygonButton, FillButton, PenButton, PlotButton, undoButton;
+    private JComboBox undoHistoryComboBox;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport, gridBtn;
@@ -70,7 +71,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         try {
             vec.read();
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(pnlBtn,
+            JOptionPane.showMessageDialog(shapeControlsPanel,
                     ex.getMessage(),
                     "Error",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -90,14 +91,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         return newPnl;
     }
 
-    private JButton JButtonImage(String buttonText, String imagePath) {
+    private JButton JButtonImage(String buttonText, String imagePath, int width, int height) {
         try {
             //creates new button
             JButton newBtn = new JButton(buttonText, new ImageIcon(imagePath));
             //initializes buttons and sets them to newBtn
             newBtn.addActionListener(this);
             //sets size of button
-            newBtn.setPreferredSize(new Dimension(70, 60));
+            newBtn.setPreferredSize(new Dimension(width, height));
             // Format text position
             newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
             newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -106,7 +107,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             //catches Error
         } catch (Exception e) {
             //Dialog box showing Error
-            JOptionPane.showMessageDialog(pnlBtn,
+            JOptionPane.showMessageDialog(shapeControlsPanel,
                     "Error in loading image: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -158,7 +159,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
         if(keyCodeNew == KeyEvent.VK_H){
             //Help KeyBind
-            JOptionPane.showMessageDialog(pnlBtn,
+            JOptionPane.showMessageDialog(shapeControlsPanel,
                     "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                     "Help",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -175,23 +176,44 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     public void keyTyped(KeyEvent e){
         //System.out.println("dfd");
     }
-
-    private void layoutButtonPanel() {
+    private void createLayoutHistoryTopPanel(){
+        //History Panel
+        historyPanel = createPanel(new Color(0xBFE3FF));
+        undoButton = JButtonImage("", "./img/buttons/undo.png", 30, 30);
+        historyPanel.setLayout(new FlowLayout());
+        undoHistoryComboBox = new JComboBox();
+        historyPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        historyPanel.add(undoButton);
+        historyPanel.add(undoHistoryComboBox);
+    }
+    private void createLayoutButtonPanel() {
+        //create side button panel
+        shapeControlsPanel = createPanel(new Color(0xBFE3FF));
+        String imgPath = "./img/";
+        //initializes all buttons
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg", 70, 60);
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png", 70, 60);
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png", 70, 60);
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png", 70, 60);
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png", 70, 60);
+        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png", 70, 60);
+        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png", 70, 60);
         //Layout settings for side buttons
-        pnlBtn.setLayout(new GridBagLayout());
+        shapeControlsPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 1;
         //add buttons to panels
-        addToPanel(pnlBtn, PlotButton, constraints, 0, 0, 2,1);
-        addToPanel(pnlBtn, LineButton, constraints, 0, 1, 2, 1);
-        addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
-        addToPanel(pnlBtn, EllipseButton, constraints, 0, 3, 2, 1);
-        addToPanel(pnlBtn, PolygonButton, constraints, 0, 4, 2, 1);
-        addToPanel(pnlBtn, FillButton, constraints, 0, 5, 2, 1);
-        addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
+        addToPanel(shapeControlsPanel, PlotButton, constraints, 0, 0, 2,1);
+        addToPanel(shapeControlsPanel, LineButton, constraints, 0, 1, 2, 1);
+        addToPanel(shapeControlsPanel, RectangleButton, constraints, 0, 2, 2, 1);
+        addToPanel(shapeControlsPanel, EllipseButton, constraints, 0, 3, 2, 1);
+        addToPanel(shapeControlsPanel, PolygonButton, constraints, 0, 4, 2, 1);
+        addToPanel(shapeControlsPanel, FillButton, constraints, 0, 5, 2, 1);
+        addToPanel(shapeControlsPanel, PenButton, constraints, 0, 6, 2, 1);
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints,
@@ -272,28 +294,23 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
 
     private void createGUI() {
-        String imgPath = "./img/";
+
         //set size of GUI
         setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
         //close operation on exit button click
         setLayout(new BorderLayout());
-        //create side button panel
-        pnlBtn = createPanel(Color.GRAY);
+
+
         //Drawing canvas creation
         JPanel pnlDisplay = createPanel(Color.WHITE);
-        //initializes all buttons
-        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
-        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
-        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
-        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
-        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png");
-        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png");
 
-        layoutButtonPanel();
 
-        getContentPane().add(pnlBtn, BorderLayout.WEST);
+        createLayoutButtonPanel();
+        createLayoutHistoryTopPanel();
+
+        getContentPane().add(shapeControlsPanel, BorderLayout.WEST);
+        getContentPane().add(historyPanel, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         display = new GraphicsCanvas();
 
@@ -315,6 +332,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         });
         // add mouse listener
         mouseDraw.setCanvas(display);
+        mouseDraw.setComboBox(undoHistoryComboBox);
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
 
@@ -430,7 +448,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     private void helpMessage(){
         //Dialog help Message
-        JOptionPane.showMessageDialog(pnlBtn,
+        JOptionPane.showMessageDialog(shapeControlsPanel,
                 "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                 "Help",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -495,6 +513,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
+        else if (src == undoButton) undo();
         else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
