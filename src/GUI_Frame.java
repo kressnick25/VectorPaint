@@ -97,7 +97,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             //initializes buttons and sets them to newBtn
             newBtn.addActionListener(this);
             //sets size of button
-            newBtn.setPreferredSize(new Dimension(70, 60));
+            newBtn.setPreferredSize(new Dimension(100, 60));
             // Format text position
             newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
             newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -288,8 +288,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
         EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
         PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png");
-        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png");
+        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
 
         layoutButtonPanel();
 
