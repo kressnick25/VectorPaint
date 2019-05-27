@@ -288,8 +288,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
         EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
         PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
-        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
+        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png");
 
         layoutButtonPanel();
 
