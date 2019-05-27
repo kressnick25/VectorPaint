@@ -16,7 +16,6 @@ public class MouseListener extends MouseInputAdapter {
     private GraphicsCanvas display;
     private Color fillColor = new Color(255, 255, 255);
     private Color penColor = new Color(0,0,0);
-    private JComboBox comboBox;
     //selected grid interval
     private double intervalUserX = 0;
     private double intervalUserY = 0;
@@ -24,9 +23,6 @@ public class MouseListener extends MouseInputAdapter {
     public void setType(ShapeType type) {
         //type of shape
         this.type = type;
-    }
-    public void setComboBox(JComboBox comboBox){
-        this.comboBox = comboBox;
     }
 
     public void setCanvas(GraphicsCanvas gc){
@@ -230,9 +226,6 @@ public class MouseListener extends MouseInputAdapter {
             display.clearLast();
             display.add(shape);
         }
-        ArrayList<String> reversedList = display.toStringArray();
-        Collections.reverse(reversedList);
-        comboBox.setModel(new DefaultComboBoxModel(reversedList.toArray()));
     }
 
     public void setPenColor(Color penColor) {

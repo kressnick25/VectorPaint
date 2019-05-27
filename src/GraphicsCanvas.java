@@ -3,11 +3,17 @@ import AdvancedShape.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GraphicsCanvas extends JPanel {
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
+    private JComboBox comboBox;
 
-
+    private void updateComboBox(){
+        ArrayList<String> reversedList = this.toStringArray();
+        Collections.reverse(reversedList);
+        comboBox.setModel(new DefaultComboBoxModel(reversedList.toArray()));
+    }
     public GraphicsCanvas() {
         setSize(500, 500);
         setVisible(true);
@@ -23,7 +29,9 @@ public class GraphicsCanvas extends JPanel {
                 }
         );
     }
-
+    public void setComboBox(JComboBox comboBox){
+        this.comboBox = comboBox;
+    }
     public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
 
     public ArrayList<String> toStringArray() {
@@ -31,7 +39,8 @@ public class GraphicsCanvas extends JPanel {
         for (AdvancedShape s: shapes){
             // split string into just shape type
             String[] shapeParts = s.toString(1, 1).split(" ");
-            list.add(shapeParts[0]);
+            // Format shape with leading index number
+            list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
         }
         //String[] stringArray = list.toArray(new String[0]);
         return list;
@@ -42,7 +51,8 @@ public class GraphicsCanvas extends JPanel {
     }
 
     public void add(AdvancedShape shape){
-       shapes.add(shape);
+        shapes.add(shape);
+        updateComboBox();
     }
 
     //remove last element in list
@@ -51,11 +61,12 @@ public class GraphicsCanvas extends JPanel {
         if (shapes.size() != 0) {
             shapes.remove(shapes.size() - 1);
         }
-        //TODO update combobox here
+        updateComboBox();
     }
 
     public void clear(){
         shapes.clear();
+        updateComboBox();
     }
 
     public Shape getLatest() {

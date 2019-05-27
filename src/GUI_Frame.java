@@ -313,7 +313,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         getContentPane().add(historyPanel, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         display = new GraphicsCanvas();
-
+        display.setComboBox(undoHistoryComboBox);
         createTopMenu();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -332,7 +332,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         });
         // add mouse listener
         mouseDraw.setCanvas(display);
-        mouseDraw.setComboBox(undoHistoryComboBox);
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
 
