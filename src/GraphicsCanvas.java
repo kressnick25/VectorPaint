@@ -3,11 +3,19 @@ import AdvancedShape.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Vector;
 
 public class GraphicsCanvas extends JPanel {
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
+    private JComboBox comboBox;
 
-
+    public void updateComboBox(){
+        ArrayList<String> reversedList = this.toStringArray();
+        Collections.reverse(reversedList);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new Vector<>(reversedList));
+        comboBox.setModel(model);
+    }
     public GraphicsCanvas() {
         setSize(500, 500);
         setVisible(true);
@@ -23,15 +31,32 @@ public class GraphicsCanvas extends JPanel {
                 }
         );
     }
-
+    public void setComboBox(JComboBox comboBox){
+        this.comboBox = comboBox;
+    }
     public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
+
+    public ArrayList<String> toStringArray() {
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<AdvancedShape> sh = this.getShapes();
+        for (AdvancedShape s: sh){
+            // split string into just shape type
+            String[] shapeParts = s.toString(1, 1).split(" ");
+            // Format shape with leading index number
+            list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
+        }
+        //String[] stringArray = list.toArray(new String[0]);
+        return list;
+    }
 
     public void load(ArrayList<AdvancedShape> shapes){
         this.shapes = shapes;
     }
 
     public void add(AdvancedShape shape){
-       shapes.add(shape);
+        shapes.add(shape);
+        //updateComboBox();
+
     }
 
     //remove last element in list
@@ -40,10 +65,12 @@ public class GraphicsCanvas extends JPanel {
         if (shapes.size() != 0) {
             shapes.remove(shapes.size() - 1);
         }
+        //updateComboBox();
     }
 
     public void clear(){
         shapes.clear();
+        updateComboBox();
     }
 
     public Shape getLatest() {
