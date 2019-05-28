@@ -39,12 +39,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private int keyCode;
     private JPanel pnlBtn;
     private GraphicsCanvas display;
-    private JMenu file, edit, help;
+    private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport;
+            fileNew, helpBtn, undo, fileExport, gridBtn;
+
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
@@ -82,29 +83,24 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //this.display.repaint();
 
     }
-        private JPanel createPanel(Color c) {  //Creates new Jpanel
+    private JPanel createPanel(Color c) {  //Creates new Jpanel
         JPanel newPnl = new JPanel();
         //Sets background of the JPanel
         newPnl.setBackground(c);
         return newPnl;
     }
 
-
-    private JButton JButtonImageInitializer(JButton newBtn) {
-        //Adds ActionListener to button
-        newBtn.addActionListener(this);
-        return newBtn;
-    }
-
-
-    private JButton JButtonImage(String imagePath) {
+    private JButton JButtonImage(String buttonText, String imagePath) {
         try {
             //creates new button
-            JButton newBtn = new JButton(new ImageIcon(imagePath));
+            JButton newBtn = new JButton(buttonText, new ImageIcon(imagePath));
             //initializes buttons and sets them to newBtn
-            newBtn = JButtonImageInitializer(newBtn);
+            newBtn.addActionListener(this);
             //sets size of button
-            newBtn.setPreferredSize(new Dimension(70, 60));
+            newBtn.setPreferredSize(new Dimension(100, 60));
+            // Format text position
+            newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
+            newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
 
             return newBtn;
             //catches Error
@@ -171,20 +167,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     }
+    // TODO remove unused
     public void keyReleased(KeyEvent e){
         //System.out.println("dfd");
-
     }
+    //TODO remove unused
     public void keyTyped(KeyEvent e){
         //System.out.println("dfd");
-
     }
-
 
     private void layoutButtonPanel() {
         //Layout settings for side buttons
-        GridBagLayout layout = new GridBagLayout();
-        pnlBtn.setLayout(layout);
+        pnlBtn.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -200,10 +194,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
     }
 
-    private void addToPanel(JPanel jp, Component c,
-                            GridBagConstraints constraints,
-                            int x, int y, int w, int h)
-    {
+    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints,
+                            int x, int y, int w, int h) {
         //adding buttons to panel
         constraints.gridx = x;
         constraints.gridy = y;
@@ -225,9 +217,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSaveAs = new JMenuItem("Save As");
         fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
-        helpBtn = new JMenuItem("Help");
+        gridBtn = new JMenuItem("Grid");
+        helpBtn = new JMenuItem("help");
+
+        //gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons
+        gridBtn.addActionListener(this);
         helpBtn.addActionListener(this);
+
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -238,11 +235,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
         fileExport.addActionListener(this);
+        //gridButt = new JMenuItem("Grid");
+
 
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
         help = new JMenu("Help");
+        grid = new JMenu("Grid");
+
+
+
         file.add(fileOpen);
         file.add(fileSave);
         file.add(fileNew);
@@ -254,10 +257,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         edit.add(paste);
         edit.add(selectAll);
         edit.add(undo);
+        grid.add(gridBtn);
         help.add(helpBtn);
+        //help.add(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
+        mb.add(grid);
+
         //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
@@ -276,13 +283,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //Drawing canvas creation
         JPanel pnlDisplay = createPanel(Color.WHITE);
         //initializes all buttons
-        PlotButton = JButtonImage(imgPath + "buttons/Plot.jpg");
-        LineButton = JButtonImage(imgPath + "buttons/line.png");
-        RectangleButton = JButtonImage(imgPath + "buttons/rectangle.png");
-        EllipseButton = JButtonImage(imgPath + "buttons/ellipse.png");
-        PolygonButton = JButtonImage(imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage(imgPath + "buttons/fill.png");
-        PenButton = JButtonImage(imgPath + "buttons/pen.png");
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
 
         layoutButtonPanel();
 
@@ -333,7 +340,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     else{
                         display.setSize(size.width, size.width);
                     }
-
                     // force display min size
                     if (size.width < 200 || size.height < 200){
                         display.setSize(200, 200);
@@ -449,6 +455,27 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             e.printStackTrace();
         }
     }
+    private void gridInput(){
+        String errorMessage = "";
+        do {
+            // Show input dialog with current error message, if any
+            String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
+            try {
+                Double number = Double.parseDouble(stringInput);
+                if (number > 1 || number < 0) {
+                    errorMessage = "That number is not within the \n" + "allowed range!\n";
+                } else {
+                    JOptionPane
+                            .showMessageDialog(null, "The number you chose is " + number + ".");
+                    errorMessage = ""; // no more error
+                    mouseDraw.setInterval(number);
+                }
+            } catch (NumberFormatException err) {
+                // The typed text was not an integer
+                errorMessage = "The text you typed is not a number.\n";
+            }
+        } while (!errorMessage.isEmpty());
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         //Get event source
@@ -462,7 +489,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == FillButton) setFillColor();
         else if (src == PenButton) setPenColor();
         // MENU ITEMS
+        else if (src == gridBtn) gridInput();
         else if (src == helpBtn) helpMessage();
+
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
@@ -475,6 +504,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             numWindows++;
             System.out.println(numWindows);
         }
+
+//
+
+
+
         // WINDOW REFRESH
         if (e.getSource()==timer) repaint(); // repaint every timer expiry
     }

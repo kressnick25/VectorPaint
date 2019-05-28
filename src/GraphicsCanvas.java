@@ -2,7 +2,6 @@ import AdvancedShape.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class GraphicsCanvas extends JPanel {
