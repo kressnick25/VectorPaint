@@ -59,7 +59,8 @@ public class GraphicsCanvas extends JPanel {
 
     }
     public void trimToIndex(int index){
-        shapes.subList(index, shapes.size() - 1).clear();
+        shapes.subList(index, shapes.size()).clear();
+        updateComboBox();
     }
     //remove last element in list
     // TODO convert use datatype that natively supports this
@@ -67,7 +68,7 @@ public class GraphicsCanvas extends JPanel {
         if (shapes.size() != 0) {
             shapes.remove(shapes.size() - 1);
         }
-        //updateComboBox();
+        updateComboBox();
     }
 
     public void clear(){
