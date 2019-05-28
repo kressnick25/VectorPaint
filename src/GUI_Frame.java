@@ -37,11 +37,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private int prevScreenHeight = 1000;
     private int prevSreenWidth = 1000;
     private int keyCode;
-    private JPanel pnlBtn;
+    private JPanel pnlBtn, historyPanel;
     private GraphicsCanvas display;
     private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
-            PolygonButton, FillButton, PenButton, PlotButton;
+            PolygonButton, FillButton, PenButton, PlotButton, undoButton;
+    private JComboBox undoHistoryComboBox;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport, gridBtn;
@@ -175,8 +176,40 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     public void keyTyped(KeyEvent e){
         //System.out.println("dfd");
     }
-
-    private void layoutButtonPanel() {
+    private void createLayoutHistoryTopPanel(){
+        //History Panel
+        historyPanel = createPanel(new Color(0xBFE3FF));
+        undoButton = JButtonImage("Undo", "./img/buttons/undo.png");
+        historyPanel.setLayout(new GridBagLayout());
+        undoHistoryComboBox = new JComboBox();
+        historyPanel.setComponentOrientation(
+                ComponentOrientation.LEFT_TO_RIGHT);
+        historyPanel.add(undoButton);
+        historyPanel.add(undoHistoryComboBox);
+        undoHistoryComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                String selectedItem = (String)cb.getSelectedItem();
+                String[] split = selectedItem.split(" ");
+                int historyIndex = Integer.parseInt(split[0]);
+                // remove all items in array up to history index
+                display.trimToIndex(historyIndex);
+            }
+        });
+    }
+    private void createLayoutButtonPanel() {
+        //create side button panel
+        pnlBtn = createPanel(new Color(0xBFE3FF));
+        String imgPath = "./img/";
+        //initializes all buttons
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage("Fill", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen", imgPath + "buttons/pen.png");
         //Layout settings for side buttons
         pnlBtn.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -291,12 +324,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
         PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
 
-        layoutButtonPanel();
+        createLayoutButtonPanel();
+        createLayoutHistoryTopPanel();
 
         getContentPane().add(pnlBtn, BorderLayout.WEST);
+        getContentPane().add(historyPanel, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         display = new GraphicsCanvas();
-
+        display.setComboBox(undoHistoryComboBox);
         createTopMenu();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -495,6 +530,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
+        else if (src == undoButton) undo();
         else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
@@ -510,7 +546,17 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
         // WINDOW REFRESH
-        if (e.getSource()==timer) repaint(); // repaint every timer expiry
+        if (e.getSource()==timer) {
+            repaint(); // repaint every timer expiry\
+            // check display still square
+            int width = display.getSize().width;
+            int height = display.getSize().height;
+            if (height != width){
+                // set to lowest if not
+                if (height > width) display.setSize(width, width);
+                else display.setSize(height, height);
+            }
+        }
     }
 
     @Override
