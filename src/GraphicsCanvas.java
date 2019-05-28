@@ -58,7 +58,9 @@ public class GraphicsCanvas extends JPanel {
         //updateComboBox();
 
     }
-
+    public void trimToIndex(int index){
+        shapes.subList(index, shapes.size() - 1).clear();
+    }
     //remove last element in list
     // TODO convert use datatype that natively supports this
     public void clearLast(){

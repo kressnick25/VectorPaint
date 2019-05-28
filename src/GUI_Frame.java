@@ -186,6 +186,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 ComponentOrientation.LEFT_TO_RIGHT);
         historyPanel.add(undoButton);
         historyPanel.add(undoHistoryComboBox);
+        undoHistoryComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                String selectedItem = (String)cb.getSelectedItem();
+                String[] split = selectedItem.split(" ");
+                int historyIndex = Integer.parseInt(split[0]);
+                // remove all items in array up to history index
+                display.trimToIndex(historyIndex);
+                display.updateComboBox();
+            }
+        });
     }
     private void createLayoutButtonPanel() {
         //create side button panel
@@ -544,7 +556,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 if (height > width) display.setSize(width, width);
                 else display.setSize(height, height);
             }
-            //display.updateComboBox();
         }
     }
 
