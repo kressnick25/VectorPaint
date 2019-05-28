@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 //import java.awt.event.KeyEvent;
 import java.awt.event.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /*
@@ -49,6 +51,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
+
+    private ArrayList<Integer> pressed = new ArrayList<>();
 
     // mouse movement
     private MouseListener mouseDraw = new MouseListener();
@@ -114,55 +118,72 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             return null;
         }
     }
-    public void keyPressed(KeyEvent e){
+    public synchronized void keyPressed(KeyEvent e) {
         //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
+
+        if(keyCodeNew == 17){
+            pressed.add(17);
+        }
         //Check is pressed key is "s"
         if(keyCodeNew == KeyEvent.VK_S){
-            //Open File chooser
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            int returnValue = jfc.showSaveDialog(this);
-            //check file chooser return value
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                //get selected file
-                File selectedFile = jfc.getSelectedFile();
-                //create array of shapes currently displayed on screen
-                ArrayList<AdvancedShape> shapes = this.display.getShapes();
-                //create new instance of vec, inputting file and shapes array
-                Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
-                //save to file
-                vec.save();
+            if(!pressed.isEmpty()) {
+
+                //Open File chooser
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                int returnValue = jfc.showSaveDialog(this);
+                //check file chooser return value
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    //get selected file
+                    File selectedFile = jfc.getSelectedFile();
+                    //create array of shapes currently displayed on screen
+                    ArrayList<AdvancedShape> shapes = this.display.getShapes();
+                    //create new instance of vec, inputting file and shapes array
+                    Vec vec = new Vec(selectedFile.getAbsolutePath(), shapes);
+                    //save to file
+                    vec.save();
+                }
             }
         }
         if(keyCodeNew == KeyEvent.VK_O){
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            //Open file chooser
-            int returnValue = jfc.showOpenDialog(this);
+            if(!pressed.isEmpty()) {
 
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                numWindows++;
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception ignored) {}
-                GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
-                SwingUtilities.invokeLater(gui);
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                //Open file chooser
+                int returnValue = jfc.showOpenDialog(this);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    numWindows++;
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    } catch (Exception ignored) {
+                    }
+                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+                    SwingUtilities.invokeLater(gui);
+                }
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
 
-            Shape latest = display.getLatest();
-            if (latest != null) {
-                while (display.getLatest() == latest) {
-                    display.clearLast();
+            if(!pressed.isEmpty()){
+                Shape latest = display.getLatest();
+                if (latest != null) {
+                    while (display.getLatest() == latest) {
+                        display.clearLast();
+                    }
                 }
             }
+
         }
         if(keyCodeNew == KeyEvent.VK_H){
             //Help KeyBind
-            JOptionPane.showMessageDialog(pnlBtn,
-                    "Basic KeyBinds: H for Help, S for Save, Z for Undo",
-                    "Help",
-                    JOptionPane.INFORMATION_MESSAGE);
+            if(!pressed.isEmpty()) {
+
+                JOptionPane.showMessageDialog(pnlBtn,
+                        "Basic KeyBinds: H for Help, S for Save, Z for Undo",
+                        "Help",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 
 
@@ -171,6 +192,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     // TODO remove unused
     public void keyReleased(KeyEvent e){
         //System.out.println("dfd");
+        if(!pressed.isEmpty()) {
+            pressed.remove(0);
+        }
+
     }
     //TODO remove unused
     public void keyTyped(KeyEvent e){
