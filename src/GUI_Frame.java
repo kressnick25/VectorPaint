@@ -179,7 +179,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private void createLayoutHistoryTopPanel(){
         //History Panel
         historyPanel = createPanel(new Color(0xBFE3FF));
-        undoButton = JButtonImage("", "./img/buttons/undo.png");
+        undoButton = JButtonImage("Undo", "./img/buttons/undo.png");
         historyPanel.setLayout(new GridBagLayout());
         undoHistoryComboBox = new JComboBox();
         historyPanel.setComponentOrientation(
@@ -195,7 +195,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 int historyIndex = Integer.parseInt(split[0]);
                 // remove all items in array up to history index
                 display.trimToIndex(historyIndex);
-                display.updateComboBox();
             }
         });
     }
@@ -531,6 +530,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
+        else if (src == undoButton) undo();
         else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
