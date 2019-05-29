@@ -62,31 +62,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         super(title);
         timer.start();
     }
-    public GUI_Frame(String title, JFileChooser jfc) throws HeadlessException {
+    public GUI_Frame(String title, ArrayList shapes) throws HeadlessException {
         super(title);
         timer.start();
-        //this.display.clear();
-        //gets selected file path
-        File selectedFile = jfc.getSelectedFile();
-        //System.out.println(selectedFile.getAbsolutePath());
-
-        //inputs file location and into vec
-        Vec vec = new Vec(selectedFile.getAbsolutePath());
-        try {
-            vec.read();
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(pnlBtn,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        //gets list of shapes
-        this.shapes = vec.get();
-        //display.load(vec.get());
-        //System.out.println(vec.get());
-        //repaints display with selected shapes
-        //this.display.repaint();
-        repaint();
+        this.shapes = shapes;
 
     }
     private JPanel createPanel(Color c) {  //Creates new Jpanel
@@ -159,7 +138,20 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     } catch (Exception ignored) {
                     }
-                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+                    File selectedFile = jfc.getSelectedFile();
+                    //System.out.println(selectedFile.getAbsolutePath());
+
+                    //inputs file location and into vec
+                    Vec vec = new Vec(selectedFile.getAbsolutePath());
+                    try {
+                        vec.read();
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(pnlBtn,
+                                ex.getMessage(),
+                                "Error",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
                     SwingUtilities.invokeLater(gui);
                 }
             }
@@ -190,7 +182,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     }
-    // TODO remove unused
     public void keyReleased(KeyEvent e){
         //System.out.println("dfd");
         if(!pressed.isEmpty()) {
@@ -220,7 +211,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 String[] split = selectedItem.split(" ");
                 int historyIndex = Integer.parseInt(split[0]);
                 // remove all items in array up to history index
+                System.out.println("dfsd");
                 display.trimToIndex(historyIndex);
+
             }
         });
     }
@@ -417,15 +410,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 prevScreenHeight = display.getSize().height;
             }
         });
-        if(!shapes.isEmpty()){
-            display.load(shapes);
 
-        }
 
         setFocusable(true);
         requestFocus();
         repaint();
         setVisible(true);
+        if(!shapes.isEmpty()){
+            for(AdvancedShape shape: shapes){
+                display.add(shape);
+
+            }
+        }
 
     }
 
@@ -488,7 +484,20 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
-            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+            File selectedFile = jfc.getSelectedFile();
+            //System.out.println(selectedFile.getAbsolutePath());
+
+            //inputs file location and into vec
+            Vec vec = new Vec(selectedFile.getAbsolutePath());
+            try {
+                vec.read();
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(pnlBtn,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
             SwingUtilities.invokeLater(gui);
         }
     }
@@ -584,16 +593,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         // WINDOW REFRESH
         if (e.getSource()==timer) {
-            System.out.println("time");
+
             repaint(); // repaint every timer expiry\
             // check display still square
-            int width = display.getSize().width;
-            int height = display.getSize().height;
-            if (height != width){
-                // set to lowest if not
-                if (height > width) display.setSize(width, width);
-                else display.setSize(height, height);
-            }
+
+                int width = display.getSize().width;
+                int height = display.getSize().height;
+                if (height != width) {
+                    // set to lowest if not
+                    if (height > width) display.setSize(width, width);
+                    else display.setSize(height, height);
+                }
+
         }
     }
 
