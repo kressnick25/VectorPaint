@@ -134,7 +134,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
      * returns the string type of the shape and size
      * @param screenWidth width of the GUI window
      * @param screenHeight height of the GUI window
-     * @return string
+     * @return string in VEC format eg: (RECTANGLE 0.1 0.2 0.3 0.4)
      */
     public String toString(int screenWidth, int screenHeight) {
         return String.format(
