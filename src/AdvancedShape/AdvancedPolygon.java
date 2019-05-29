@@ -69,7 +69,7 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
     }
 
     public String toString(int screenWidth, int screenHeight){
-        // use stringjoiner to create string with space after each add
+        // use stringjoiner to create string with space after each addShape
         StringJoiner outString = new StringJoiner(" ");
         outString.add("POLYGON");
         for (int i=0; i < this.xpoints.length; i++){

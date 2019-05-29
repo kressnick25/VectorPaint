@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 //import java.awt.event.KeyEvent;
 import java.awt.event.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /*
@@ -82,7 +80,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
         //gets list of shapes
         this.shapes = vec.get();
-        //display.load(vec.get());
+        //display.setShapes(vec.get());
         System.out.println(vec.get());
         //repaints display with selected shapes
         //this.display.repaint();
@@ -242,7 +240,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 1;
-        //add buttons to panels
+        //addShape buttons to panels
         addToPanel(pnlBtn, PlotButton, constraints, 0, 0, 2,1);
         addToPanel(pnlBtn, LineButton, constraints, 0, 1, 2, 1);
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
@@ -307,7 +305,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileNew);
         file.add(fileSaveAs);
         file.add(fileExport);
-        //add these buttons to
+        //addShape these buttons to
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
@@ -315,13 +313,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         edit.add(undo);
         grid.add(gridBtn);
         help.add(helpBtn);
-        //help.add(gridButt);
+        //help.addShape(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
         mb.add(grid);
 
-        //add to GUI and set visible
+        //addShape to GUI and set visible
         add(mb);
         setJMenuBar(mb);
         setVisible(true);
@@ -353,8 +351,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(historyPanel, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
-        display = new GraphicsCanvas();
-        display.setComboBox(undoHistoryComboBox);
+        display = new GraphicsCanvas(undoHistoryComboBox);
         createTopMenu();
         addWindowListener(new WindowAdapter() {
             @Override
@@ -371,7 +368,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
             }
         });
-        // add mouse listener
+        // addShape mouse listener
         mouseDraw.setCanvas(display);
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
@@ -383,7 +380,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 //        areDisplay();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        //add keyboard listeners and focus
+        //addShape keyboard listeners and focus
         addKeyListener(this);
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
@@ -410,14 +407,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
                 System.out.println(display.getSize());
                 display.updateScale(
-                        display.getSize().width, prevSreenWidth,
-                        display.getSize().height, prevScreenHeight);
+                        new Dimension(prevSreenWidth, prevScreenHeight),
+                        display.getSize() );
                 prevSreenWidth = display.getSize().width;
                 prevScreenHeight = display.getSize().height;
             }
         });
         if(!shapes.isEmpty()){
-            display.load(shapes);
+            display.setShapes(shapes);
 
         }
 
@@ -428,7 +425,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
 
-    // TODO mouse event here using current shape, add to GraphicsCanvas
+    // TODO mouse event here using current shape, addShape to GraphicsCanvas
     //sets the type of shape the user wants to use
     private void setAction(ShapeType type){
         mouseDraw.setType(type);
