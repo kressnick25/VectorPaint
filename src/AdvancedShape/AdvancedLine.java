@@ -91,7 +91,7 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * Draws the with color Line to a Graphics2D object
+     * Draws the Line with color to a Graphics2D object
      * @param g2d Graphics2D object to draw to
      */
     public void render(Graphics2D g2d){
