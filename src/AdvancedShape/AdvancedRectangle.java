@@ -53,8 +53,13 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
      * @param fillColor
      */
     public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-        this.isTransparent = false;
+        if (fillColor == null){
+            this.isTransparent = true;
+        }
+        else {
+            this.fillColor = fillColor;
+            this.isTransparent = false;
+        }
     }
 
     /**

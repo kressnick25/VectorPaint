@@ -51,8 +51,14 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
      * @param fillColor
      */
     public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-        this.isTransparent = false;
+        if (fillColor == null){
+            this.isTransparent = true;
+        }
+        else {
+            this.fillColor = fillColor;
+            this.isTransparent = false;
+        }
+
     }
     /**
      * returns the current pen color

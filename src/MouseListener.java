@@ -14,7 +14,7 @@ public class MouseListener extends MouseInputAdapter {
     // default as plot
     private ShapeType type = ShapeType.Plot;
     private GraphicsCanvas display;
-    private Color fillColor = new Color(255, 255, 255);
+    private Color fillColor;
     private Color penColor = new Color(0,0,0);
     //selected grid interval
     private double intervalUserX = 0;

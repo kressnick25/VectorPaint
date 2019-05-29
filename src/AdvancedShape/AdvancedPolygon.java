@@ -33,8 +33,13 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
         return fillColor;
     }
     public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-        this.isTransparent = false;
+        if (fillColor == null){
+            this.isTransparent = true;
+        }
+        else {
+            this.fillColor = fillColor;
+            this.isTransparent = false;
+        }
     }
     public Color getPenColor() {
         return penColor;
