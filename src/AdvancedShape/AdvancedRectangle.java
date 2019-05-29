@@ -2,7 +2,6 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  Shape AdvancedRectangle, initiate a color, fill color, and transparency.
@@ -12,8 +11,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
-    double startx;
-    double starty;
+    private double startx;
+    private double starty;
 
     /**
      * AdvancedRectangle draws a rectangle at the x and y parameters, with the width (w) and height (h)
@@ -24,33 +23,22 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
      * @param h height of rectangle
      */
     public AdvancedRectangle(double x, double y, double w, double h) {
-
         super(x, y, w, h);
         this.startx = x;
         this.starty = y;
     }
-    /**
-     * adds the starting x and y coordinates
-     * @return
-     */
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startx);
-        listA.add(starty);
-        return listA;
-    }
 
     /**
-     * returns the current fill color
-     * @return
+     *
+     * @return get the current fill Color
      */
     public Color getFillColor() {
         return fillColor;
     }
 
     /**
-     * sets the fill color when changed
-     * @param fillColor
+     *
+     * @param fillColor set the fill to a new Color
      */
     public void setFillColor(Color fillColor) {
         if (fillColor == null){
@@ -63,31 +51,32 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     * returns the current pen color
+     *
+     * @return get the current pen Color
      */
     public Color getPenColor() {
         return penColor;
     }
 
     /**
-     * sets the pen color
-     * @param penColor
+     *
+     * @param penColor set the pen to a new Color
      */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
 
     /**
-     * returns if the rectangle is transparent or not
-     * @return
+     *
+     * @return return true if transparent, false if not
      */
     public boolean isTransparent() {
         return isTransparent;
     }
 
     /**
-     * sets the transparency status of the class
-     * @param transparent
+     *
+     * @param transparent set transparency true/false
      */
     public void setTransparent(boolean transparent) {
         isTransparent = transparent;
@@ -95,13 +84,13 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     * updates the size of the rectangle
-     * @param x
-     * @param y
+     * Updates the size of the rectangle to new width and height
+     * @param x new width in pixels
+     * @param y new height in pixels
      */
     public void updateSize(int x, int y){
-        double width = 0;
-        double height = 0;
+        double width;
+        double height;
 
         if(startx >= x && starty >= y){
             width = startx-x;
@@ -129,8 +118,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     * renders the rectangle depending on transparency
-     * @param g2d
+     * Draws the object to a Graphics object
+     * @param g2d Graphics object to draw to
      */
     public void render(Graphics2D g2d){
         if (!this.isTransparent()){
