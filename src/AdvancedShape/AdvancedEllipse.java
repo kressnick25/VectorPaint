@@ -87,8 +87,8 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
      * @param y new Y co-ord
      */
     public void updateSize(int x, int y) {
-        double width = 0;
-        double height = 0;
+        double width;
+        double height;
 
         if (startx >= x && starty >= y) {
             width = startx - x;
