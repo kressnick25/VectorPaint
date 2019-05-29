@@ -83,7 +83,7 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
      * Outputs the Line in VEC format
      * @param screenWidth current width of window
      * @param screenHeight current height of window
-     * @return a string in VEC formatting eg: (LINE 0.1 0.1 0.6 0.7)
+     * @return a string in VEC formatting eg: (PLOT 0.1 0.1 0.6 0.7)
      */
     public String toString(int screenWidth, int screenHeight){
         return String.format(
