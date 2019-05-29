@@ -10,24 +10,42 @@ import java.util.Vector;
  * GraphicsCanvas is an extended JPanel that draws an array of AdvancedShapes to the Panel.
  */
 public class GraphicsCanvas extends JPanel {
+
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
     private JComboBox comboBox;
 
     /**
      * Default constructor.
      * Set a comboBox to private variable to allow class to update.
-     * @param comboBox
+     * @param comboBox comboBox for UndoHistory
      */
     public GraphicsCanvas(JComboBox comboBox) {
         this.comboBox = comboBox;
         setSize(500, 500);
         setVisible(true);
+
+    }
+    /**
+     * Outputs an String List formatting every shape in the current array as [INDEX SHAPETYPE].
+     * Used for formatting to the UndoHistory ComboBox
+     * @return ArrayList of Strings
+     */
+    private ArrayList<String> toStringArray() {
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<AdvancedShape> sh = this.getShapes();
+        for (AdvancedShape s: sh){
+            // split string into just shape type
+            String[] shapeParts = s.toString(1, 1).split(" ");
+            // Format shape with leading index number
+            list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
+        }
+        return list;
     }
 
     private void updateComboBox(){
         ArrayList<String> reversedList = this.toStringArray();
         Collections.reverse(reversedList);
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(new Vector<>(reversedList));
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new Vector<>(reversedList));
         comboBox.setModel(model);
     }
 
@@ -45,23 +63,6 @@ public class GraphicsCanvas extends JPanel {
      * @return the current AdvancedShapes in the canvas
      */
     public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
-
-    /**
-     * Outputs an String List formatting every shape in the current array as [INDEX SHAPETYPE].
-     * Used for formatting to the UndoHistory ComboBox
-     * @return ArrayList of Strings
-     */
-    private ArrayList<String> toStringArray() {
-        ArrayList<String> list = new ArrayList<>();
-        ArrayList<AdvancedShape> sh = this.getShapes();
-        for (AdvancedShape s: sh){
-            // split string into just shape type
-            String[] shapeParts = s.toString(1, 1).split(" ");
-            // Format shape with leading index number
-            list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
-        }
-        return list;
-    }
 
     /**
      *
@@ -140,6 +141,5 @@ public class GraphicsCanvas extends JPanel {
             s.updateScale(screenWidthDiffPercent, screenHeightDiffPercent);
         }
     }
-
 
 }
