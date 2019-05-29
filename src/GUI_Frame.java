@@ -69,7 +69,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //gets selected file path
         File selectedFile = jfc.getSelectedFile();
         //System.out.println(selectedFile.getAbsolutePath());
-        System.out.println("ddfdfsd");
+
         //inputs file location and into vec
         Vec vec = new Vec(selectedFile.getAbsolutePath());
         try {
@@ -83,9 +83,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         //gets list of shapes
         this.shapes = vec.get();
         //display.load(vec.get());
-        System.out.println(vec.get());
+        //System.out.println(vec.get());
         //repaints display with selected shapes
         //this.display.repaint();
+        repaint();
 
     }
     private JPanel createPanel(Color c) {  //Creates new Jpanel
@@ -583,6 +584,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         // WINDOW REFRESH
         if (e.getSource()==timer) {
+            System.out.println("time");
             repaint(); // repaint every timer expiry\
             // check display still square
             int width = display.getSize().width;

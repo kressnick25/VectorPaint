@@ -50,11 +50,14 @@ public class GraphicsCanvas extends JPanel {
     }
 
     public void load(ArrayList<AdvancedShape> shapes){
-        this.shapes = shapes;
+        for (AdvancedShape s : shapes){
+            this.shapes.add(s);
+        }
     }
 
     public void add(AdvancedShape shape){
         shapes.add(shape);
+        System.out.println(shapes);
         //updateComboBox();
 
     }
