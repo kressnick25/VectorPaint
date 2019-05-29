@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
-//import java.awt.event.KeyEvent;
 import java.awt.event.*;
 
 
@@ -31,14 +31,15 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyListener {
+    // Screen Refresh Timer
     private Timer timer=new Timer(5, this);
-    private static int WIDTH = 1000;
-    private static int HEIGHT = 1000;
-    private int prevScreenHeight = 1000;
-    private int prevSreenWidth = 1000;
-    private int keyCode;
-    private JPanel pnlBtn, historyPanel;
+    // Initial screen dimensions
+    private static int prevScreenHeight = 1000;
+    private static int prevScreenWidth = 1000;
+    private static int numWindows = 0;
+    // Window components
     private GraphicsCanvas display;
+    private JPanel pnlBtn, historyPanel;
     private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton, undoButton;
@@ -46,28 +47,32 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport, gridBtn;
-
-    private static int numWindows = 0;
+    // Other
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
-
     private ArrayList<Integer> pressed = new ArrayList<>();
-
-    // mouse movement
     private MouseListener mouseDraw = new MouseListener();
-    private Color initialcolor = Color.RED;
 
+    /**
+     * Construct new empty window
+     * @param title
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
         timer.start();
     }
+
+    /**
+     * Construct new window, load components from file.
+     * @param title
+     * @param jfc a JFileChooser object to select file
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title, JFileChooser jfc) throws HeadlessException {
         super(title);
         timer.start();
-        //this.display.clear();
         //gets selected file path
         File selectedFile = jfc.getSelectedFile();
-        //System.out.println(selectedFile.getAbsolutePath());
-        System.out.println("ddfdfsd");
         //inputs file location and into vec
         Vec vec = new Vec(selectedFile.getAbsolutePath());
         try {
@@ -80,42 +85,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         }
         //gets list of shapes
         this.shapes = vec.get();
-        //display.setShapes(vec.get());
         System.out.println(vec.get());
-        //repaints display with selected shapes
-        //this.display.repaint();
-
-    }
-    private JPanel createPanel(Color c) {  //Creates new Jpanel
-        JPanel newPnl = new JPanel();
-        //Sets background of the JPanel
-        newPnl.setBackground(c);
-        return newPnl;
     }
 
-    private JButton JButtonImage(String buttonText, String imagePath) {
-        try {
-            //creates new button
-            JButton newBtn = new JButton(buttonText, new ImageIcon(imagePath));
-            //initializes buttons and sets them to newBtn
-            newBtn.addActionListener(this);
-            //sets size of button
-            newBtn.setPreferredSize(new Dimension(100, 60));
-            // Format text position
-            newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
-            newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
 
-            return newBtn;
-            //catches Error
-        } catch (Exception e) {
-            //Dialog box showing Error
-            JOptionPane.showMessageDialog(pnlBtn,
-                    "Error in loading image: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-    }
     public synchronized void keyPressed(KeyEvent e) {
         //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
@@ -162,7 +135,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
-
             if(!pressed.isEmpty()){
                 Shape latest = display.getLatest();
                 if (latest != null) {
@@ -173,10 +145,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
 
         }
+        //Help KeyBind
         if(keyCodeNew == KeyEvent.VK_H){
-            //Help KeyBind
             if(!pressed.isEmpty()) {
-
                 JOptionPane.showMessageDialog(pnlBtn,
                         "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                         "Help",
@@ -184,25 +155,23 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
 
-
-
     }
-    // TODO remove unused
+    // Required methods
     public void keyReleased(KeyEvent e){
-        //System.out.println("dfd");
         if(!pressed.isEmpty()) {
             pressed.remove(0);
         }
 
     }
-    //TODO remove unused
     public void keyTyped(KeyEvent e){
-        //System.out.println("dfd");
+
     }
     private void createLayoutHistoryTopPanel(){
         //History Panel
-        historyPanel = createPanel(new Color(0xBFE3FF));
-        undoButton = JButtonImage("Undo", "./img/buttons/undo.png");
+        historyPanel = new JPanel();
+        historyPanel.setBackground(new Color(0xBFE3FF));
+        undoButton = new JButton(pnlBtn,"Undo", "undo.png");
+        undoButton.addActionListener(this);
         historyPanel.setLayout(new GridBagLayout());
         undoHistoryComboBox = new JComboBox();
         historyPanel.setComponentOrientation(
@@ -223,16 +192,24 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     private void createLayoutButtonPanel() {
         //create side button panel
-        pnlBtn = createPanel(new Color(0xBFE3FF));
+        pnlBtn = new JPanel();
+        pnlBtn.setBackground(new Color(0xBFE3FF));
         String imgPath = "./img/";
         //initializes all buttons
-        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
-        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
-        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
-        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
-        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
-        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
+        PlotButton = new JButton(pnlBtn,"Plot","Plot.jpg");
+        PlotButton.addActionListener(this);
+        LineButton = new JButton(pnlBtn, "Line","line.png");
+        LineButton.addActionListener(this);
+        RectangleButton = new JButton(pnlBtn,"Box","rectangle.png");
+        RectangleButton.addActionListener(this);
+        EllipseButton = new JButton(pnlBtn,"Ellipse","ellipse.png");
+        EllipseButton.addActionListener(this);
+        PolygonButton = new JButton(pnlBtn,"Polygon", "polygon.png");
+        PolygonButton.addActionListener(this);
+        FillButton = new JButton(pnlBtn,"Fill Colour", "fill.png");
+        FillButton.addActionListener(this);
+        PenButton = new JButton(pnlBtn,"Pen Colour", "pen.png");
+        PenButton.addActionListener(this);
         //Layout settings for side buttons
         pnlBtn.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -328,22 +305,15 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private void createGUI() {
         String imgPath = "./img/";
         //set size of GUI
-        setSize(WIDTH, HEIGHT);
+        setSize(prevScreenWidth, prevScreenHeight);
         //setPreferredSize(new Dimension(1000, 3000));
         //close operation on exit button click
         setLayout(new BorderLayout());
         //create side button panel
-        pnlBtn = createPanel(Color.GRAY);
         //Drawing canvas creation
-        JPanel pnlDisplay = createPanel(Color.WHITE);
-        //initializes all buttons
-        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
-        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
-        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
-        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
-        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
-        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
-        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
+        JPanel pnlDisplay = new JPanel();
+        pnlDisplay.setBackground(Color.WHITE);
+
 
         createLayoutButtonPanel();
         createLayoutHistoryTopPanel();
@@ -361,8 +331,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     System.exit(0);
                 }else{
                     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    System.out.println("We up here");
-                    System.out.println(numWindows);
+                    System.out.println("Number of active windows: " + numWindows);
                     numWindows--;
                 }
 
@@ -407,9 +376,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
                 System.out.println(display.getSize());
                 display.updateScale(
-                        new Dimension(prevSreenWidth, prevScreenHeight),
+                        new Dimension(prevScreenWidth, prevScreenHeight),
                         display.getSize() );
-                prevSreenWidth = display.getSize().width;
+                prevScreenWidth = display.getSize().width;
                 prevScreenHeight = display.getSize().height;
             }
         });
@@ -434,7 +403,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     private void setFillColor(boolean setFill){
         //sets the color
-        Color newColor = JColorChooser.showDialog(this, "Select a color", initialcolor);
+        Color newColor = JColorChooser.showDialog(this, "Select a color", Color.RED);
         if (newColor == null) {
             if (setFill){
                 newColor = new Color(255, 255, 255);
