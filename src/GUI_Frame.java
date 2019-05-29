@@ -302,8 +302,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         help = new JMenu("Help");
         grid = new JMenu("Grid");
 
-
-
         file.add(fileOpen);
         file.add(fileSave);
         file.add(fileNew);
@@ -437,19 +435,32 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         setFocusable(true);
         requestFocus();
     }
-    private void setFillColor(){
+    private void setFillColor(boolean setFill){
         //sets the color
-        Color ColorFill = JColorChooser.showDialog(this, "Select a color", initialcolor);
-        mouseDraw.setFillColor(ColorFill);
+        Color newColor = JColorChooser.showDialog(this, "Select a color", initialcolor);
+        if (newColor == null) {
+            if (setFill){
+                newColor = new Color(255, 255, 255);
+            } else {
+                newColor = new Color(0);
+            }
+        }
+        if (setFill){
+            mouseDraw.setFillColor(newColor);
+            FillButton.setBackground(newColor);
+            FillButton.setContentAreaFilled(false);
+            FillButton.setOpaque(true);
+        } else {
+            mouseDraw.setPenColor(newColor);
+            PenButton.setBackground(newColor);
+            PenButton.setContentAreaFilled(false);
+            PenButton.setOpaque(true);
+        }
+
         setFocusable(true);
         requestFocus();
     }
-    private void setPenColor(){
-        Color colorPen = JColorChooser.showDialog(this, "Select a color", initialcolor);
-        mouseDraw.setPenColor(colorPen);
-        setFocusable(true);
-        requestFocus();
-    }
+
     private void saveFile(){
         //save button
         //opens file chooser
@@ -546,8 +557,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == RectangleButton) setAction(ShapeType.Rectangle);
         else if (src == EllipseButton) setAction(ShapeType.Ellipse);
         else if (src == PolygonButton) setAction(ShapeType.Polygon);
-        else if (src == FillButton) setFillColor();
-        else if (src == PenButton) setPenColor();
+        else if (src == FillButton) setFillColor(true);
+        else if (src == PenButton) setFillColor(false);
         // MENU ITEMS
         else if (src == gridBtn) gridInput();
         else if (src == helpBtn) helpMessage();
