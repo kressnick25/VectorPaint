@@ -34,6 +34,12 @@ public class Vec{
         this.filename = filename;
         this.shapes = new ArrayList<AdvancedShape>(shapes);
     }
+    public String getFileName(){
+        return filename;
+    }
+    public ArrayList getShapes(){
+        return shapes;
+    }
 
     /**
      * Saves the images in the GUI frame as a vector Point.
