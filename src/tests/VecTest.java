@@ -199,4 +199,11 @@ class VecTest {
 
         assertTrue(success);
     }
+
+    @Test
+    void fileNameTest() {
+        Vec vec = new Vec("test");
+        testSaveThenReadFile();
+        assertEquals("test", vec.getFileName());
+    }
 }
