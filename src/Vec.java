@@ -220,11 +220,17 @@ public class Vec{
                     break;
                 }
                 case "FILL": {
-                    Color myFillColour = hexToRgb(components[1]);
-                    this.recentFillColor = myFillColour;
+                    if (components[1].equals("OFF")) {
+                        Color col = new Color(0,0,0,255);
+                        this.recentFillColor = col;
+                    } else {
+                        Color myFillColour = hexToRgb(components[1]);
+                        this.recentFillColor = myFillColour;
+                    }
                     break;
                 }
                 default:
+                    System.out.println("Vec Read Error: The following command from file was not valid: \n" + line);
                     throw new Exception("Vec Read Error: The following command from file was not valid: \n" + line);
             }
         }
