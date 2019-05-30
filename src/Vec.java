@@ -41,6 +41,10 @@ public class Vec{
         return shapes;
     }
 
+    public void setShapes(ArrayList<AdvancedShape> newShapes) {
+        this.shapes = newShapes;
+    }
+
     /**
      * Saves the images in the GUI frame as a vector Point.
      * takes no parameters
@@ -103,7 +107,7 @@ public class Vec{
      * @return String
      */
 
-    private String parseShapeToString(AdvancedShape shape) {
+    public String parseShapeToString(AdvancedShape shape) {
         StringBuilder outString = new StringBuilder();
         Color penColor = shape.getPenColor();
         Color fillColor = shape.getFillColor();

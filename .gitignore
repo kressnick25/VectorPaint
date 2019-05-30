@@ -1,2 +1,4 @@
 **/.idea
 junk/
+/test
+.DS_Store

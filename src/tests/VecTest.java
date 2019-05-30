@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import AdvancedShape.*;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,25 +40,130 @@ class VecTest {
     }
     @Test
     void parseShapeToStringRecTest(){
-        AdvancedRectangle rectangle = new AdvancedRectangle(100, 100, 100,100);
+        AdvancedRectangle thing = new AdvancedRectangle(100, 100, 100,100);
         Vec vec = new Vec("test");
-        //vec.parseShapeToString(rectangle);
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("RECTANGLE 0.100000 0.100000 0.200000 0.200000", otherThing);
 
     }
     @Test
     void parseShapeToStringEllipseTest(){
-
+        AdvancedEllipse thing = new AdvancedEllipse(100, 100, 100, 100);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("ELLIPSE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
+
     @Test
     void parseShapeToStringLineTest(){
-
+        AdvancedLine thing = new AdvancedLine(100, 100, 200, 200);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("LINE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
+
     @Test
     void parseShapeToStringPlotTest(){
+        AdvancedPlot thing = new AdvancedPlot(100, 100);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PLOT 0.100000 0.100000", otherThing);
+    }
+
+    @Test
+    void parseShapeToStringPolygonTest(){
+        int[] points = new int[3];
+        points[0] = 100;
+        points[1] = 200;
+        points[2] = 300;
+        AdvancedPolygon thing = new AdvancedPolygon(points, points, 3);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("POLYGON 0.1 0.1 0.2 0.2 0.3 0.3", otherThing);
+    }
+
+    @Test
+    void parseShapeToStringRecTestWithColor(){
+        AdvancedRectangle thing = new AdvancedRectangle(100, 100, 100,100);
+        thing.setPenColor(Color.blue);
+        thing.setFillColor(Color.black);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PEN #0000ff\nFILL #000000\nRECTANGLE 0.100000 0.100000 0.200000 0.200000", otherThing);
 
     }
     @Test
-    void parseShapeToStringPolygonTest(){
+    void parseShapeToStringEllipseTestWithColor(){
+        AdvancedEllipse thing = new AdvancedEllipse(100, 100, 100, 100);
+        thing.setPenColor(Color.blue);
+        thing.setFillColor(Color.black);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PEN #0000ff\nFILL #000000\nELLIPSE 0.100000 0.100000 0.200000 0.200000", otherThing);
+    }
 
+    @Test
+    void parseShapeToStringLineTestWithColor(){
+        AdvancedLine thing = new AdvancedLine(100, 100, 200, 200);
+        thing.setPenColor(Color.blue);
+        thing.setFillColor(Color.black);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PEN #0000ff\nFILL #000000\nLINE 0.100000 0.100000 0.200000 0.200000", otherThing);
+    }
+
+    @Test
+    void parseShapeToStringPlotTestWithColor(){
+        AdvancedPlot thing = new AdvancedPlot(100, 100);
+        thing.setPenColor(Color.blue);
+        thing.setFillColor(Color.black);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PEN #0000ff\nFILL #000000\nPLOT 0.100000 0.100000", otherThing);
+    }
+
+    @Test
+    void parseShapeToStringPolygonTestWithColor(){
+        int[] points = new int[3];
+        points[0] = 100;
+        points[1] = 200;
+        points[2] = 300;
+        AdvancedPolygon thing = new AdvancedPolygon(points, points, 3);
+        thing.setPenColor(Color.blue);
+        thing.setFillColor(Color.black);
+        Vec vec = new Vec("test");
+        String otherThing = vec.parseShapeToString(thing);
+        assertEquals("PEN #0000ff\nFILL #000000\nPOLYGON 0.1 0.1 0.2 0.2 0.3 0.3", otherThing);
+    }
+
+    @Test
+    void parseMultipleShapesToString(){
+//        int numberOfShapes = (int )(Math.random() * 5 + 1);
+        int numberOfShapes = 5;
+
+        AdvancedRectangle rectTwo = new AdvancedRectangle(100, 200, 200, 100);
+        AdvancedRectangle rectThree = new AdvancedRectangle(100, 300, 300, 100);
+
+        Vec vec = new Vec("test");
+        String saveString = "";
+
+        for (var i = 0; i < numberOfShapes; i++) {
+            AdvancedRectangle shape = new AdvancedRectangle(i * 100, i * 100, 100, 100);
+            shape.setPenColor(Color.pink);
+            shape.setFillColor(Color.orange);
+            saveString = saveString.concat(vec.parseShapeToString(shape));
+        }
+
+        assertEquals("PEN #ffafaf\n" +
+                "FILL #ffc800\n" +
+                "RECTANGLE 0.000000 0.000000 0.100000 0.100000" +
+                "PEN #ffafaf\n" +
+                "RECTANGLE 0.100000 0.100000 0.200000 0.200000" +
+                "PEN #ffafaf\n" +
+                "RECTANGLE 0.200000 0.200000 0.300000 0.300000" +
+                "PEN #ffafaf\n" +
+                "RECTANGLE 0.300000 0.300000 0.400000 0.400000" +
+                "PEN #ffafaf\n" +
+                "RECTANGLE 0.400000 0.400000 0.500000 0.500000", saveString);
     }
 }
