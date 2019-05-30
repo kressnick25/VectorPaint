@@ -141,9 +141,6 @@ class VecTest {
 //        int numberOfShapes = (int )(Math.random() * 5 + 1);
         int numberOfShapes = 5;
 
-        AdvancedRectangle rectTwo = new AdvancedRectangle(100, 200, 200, 100);
-        AdvancedRectangle rectThree = new AdvancedRectangle(100, 300, 300, 100);
-
         Vec vec = new Vec("test");
         String saveString = "";
 
@@ -165,5 +162,41 @@ class VecTest {
                 "RECTANGLE 0.300000 0.300000 0.400000 0.400000" +
                 "PEN #ffafaf\n" +
                 "RECTANGLE 0.400000 0.400000 0.500000 0.500000", saveString);
+    }
+
+    @Test
+    void testSaveThenReadFile() {
+        int numberOfShapes = 5;
+
+        Vec vec = new Vec("test");
+        ArrayList<AdvancedShape> shapes = new ArrayList<>();
+        for (var i = 0; i < numberOfShapes; i++) {
+            AdvancedRectangle shape = new AdvancedRectangle(i * 100, i * 100, 100, 100);
+            shape.setPenColor(Color.pink);
+            shape.setFillColor(Color.orange);
+            shapes.add(shape);
+        }
+
+        vec.setShapes(shapes);
+
+        try {
+            vec.save();
+            vec.read();
+        } catch (Exception e) {
+            fail(e.toString());
+        }
+
+        ArrayList<AdvancedShape> savedShapes = vec.getShapes();
+
+        boolean success = true;
+        for (var i = 0; i < numberOfShapes; i++) {
+            String oldShapeString = vec.parseShapeToString(shapes.get(i));
+            String newShapeString = vec.parseShapeToString(savedShapes.get(i));
+            if (!oldShapeString.equals(newShapeString)) {
+                success = false;
+            }
+        }
+
+        assertTrue(success);
     }
 }
