@@ -2,3 +2,4 @@
 junk/
 /test
 .DS_Store
+/src/tests/VecTestSamples/test.VEC
