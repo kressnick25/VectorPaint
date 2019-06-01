@@ -1,17 +1,11 @@
 import AdvancedShape.AdvancedShape;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.event.*;
 
 
 /*
@@ -433,7 +427,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         int returnValue = jfc.showOpenDialog(this);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-              numWindows++;
+            numWindows++;
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
@@ -511,7 +505,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == PolygonButton) setAction(ShapeType.Polygon);
         else if (src == FillButton) setFillColor(true);
         else if (src == PenButton) setFillColor(false);
-        // MENU ITEMS
+            // MENU ITEMS
         else if (src == gridBtn) gridInput();
         else if (src == helpBtn) helpMessage();
         else if (src == fileSave || src == fileSaveAs) saveFile();

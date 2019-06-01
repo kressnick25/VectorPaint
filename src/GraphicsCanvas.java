@@ -42,6 +42,11 @@ public class GraphicsCanvas extends JPanel {
         return list;
     }
 
+    public void load(ArrayList<AdvancedShape> shapes) {
+        for (AdvancedShape s : shapes) {
+            this.shapes.add(s);
+        }
+    }
     private void updateComboBox(){
         ArrayList<String> reversedList = this.toStringArray();
         Collections.reverse(reversedList);
@@ -75,7 +80,7 @@ public class GraphicsCanvas extends JPanel {
 
     /**
      *  Adds shape to canvas and updates the comboBox to reflect changes.
-     * @param shape set a new shape to add to the canvas
+     * @param shape set a new shape to addShape to the canvas
      */
     public void addShape(AdvancedShape shape){
         shapes.add(shape);

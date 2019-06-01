@@ -1,10 +1,5 @@
 import AdvancedShape.*;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.util.*;
 
@@ -33,6 +28,16 @@ public class Vec{
     public Vec(String filename, ArrayList<AdvancedShape> shapes){
         this.filename = filename;
         this.shapes = new ArrayList<AdvancedShape>(shapes);
+    }
+    public String getFileName(){
+        return filename;
+    }
+    public ArrayList getShapes(){
+        return shapes;
+    }
+
+    public void setShapes(ArrayList<AdvancedShape> newShapes) {
+        this.shapes = newShapes;
     }
 
     /**
@@ -97,7 +102,7 @@ public class Vec{
      * @return String
      */
 
-    private String parseShapeToString(AdvancedShape shape) {
+    public String parseShapeToString(AdvancedShape shape) {
         StringBuilder outString = new StringBuilder();
         Color penColor = shape.getPenColor();
         Color fillColor = shape.getFillColor();
@@ -215,11 +220,17 @@ public class Vec{
                     break;
                 }
                 case "FILL": {
-                    Color myFillColour = hexToRgb(components[1]);
-                    this.recentFillColor = myFillColour;
+                    if (components[1].equals("OFF")) {
+                        Color col = new Color(0,0,0,255);
+                        this.recentFillColor = col;
+                    } else {
+                        Color myFillColour = hexToRgb(components[1]);
+                        this.recentFillColor = myFillColour;
+                    }
                     break;
                 }
                 default:
+                    System.out.println("Vec Read Error: The following command from file was not valid: \n" + line);
                     throw new Exception("Vec Read Error: The following command from file was not valid: \n" + line);
             }
         }
