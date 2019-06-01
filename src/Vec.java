@@ -85,7 +85,7 @@ public class Vec{
         // Open file to new reader
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
-        // For each line, add to lines queue
+        // For each line, addShape to lines queue
         while((line = reader.readLine()) != null){
             lines.add(line);
         }
