@@ -66,6 +66,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         super(title);
         timer.start();
         this.shapes = shapes;
+        setFocusable(true);
+        requestFocus();
 
     }
     private JPanel createPanel(Color c) {  //Creates new Jpanel
@@ -151,7 +153,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                                 "Error",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
-                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
+                    GUI_Frame gui = new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM NEW WINDOW", vec.get());
                     SwingUtilities.invokeLater(gui);
                 }
             }
@@ -497,7 +499,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         "Error",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
+            GUI_Frame gui = new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM NEW WINDOW", vec.get());
             SwingUtilities.invokeLater(gui);
         }
     }
@@ -582,7 +584,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
-            SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
+            SwingUtilities.invokeLater(new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM NEW WINDOW"));
             numWindows++;
             System.out.println(numWindows);
         }
@@ -617,6 +619,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {}
-        SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
+        SwingUtilities.invokeLater(new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM"));
     }
 }
