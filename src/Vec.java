@@ -47,11 +47,14 @@ public class Vec{
     public void save(){
         try {
             // Open file
+            filename = filename + ".vec";
             FileWriter file = new FileWriter(filename);
             PrintWriter writer = new PrintWriter(file);
 
             // Write each command, print adds newline
             shapes.forEach((a) -> writer.printf(this.parseShapeToString(a) + "\n"));
+
+
 
             //close file connection
             writer.close();
