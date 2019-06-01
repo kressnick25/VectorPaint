@@ -48,7 +48,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, fileExport, gridBtn;
-
+    private boolean focus = true;
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             return null;
         }
     }
-    public synchronized void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
 
@@ -205,9 +205,13 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 ComponentOrientation.LEFT_TO_RIGHT);
         historyPanel.add(undoButton);
         historyPanel.add(undoHistoryComboBox);
+
         undoHistoryComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
+                focus = false;
                 JComboBox cb = (JComboBox)e.getSource();
                 String selectedItem = (String)cb.getSelectedItem();
                 String[] split = selectedItem.split(" ");
@@ -215,9 +219,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 // remove all items in array up to history index
                 System.out.println("dfsd");
                 display.trimToIndex(historyIndex);
+                requestFocus();
+                requestFocusInWindow();
+
 
             }
         });
+        System.out.println("dfsdfsfd");
+
     }
     private void createLayoutButtonPanel() {
         //create side button panel
@@ -431,6 +440,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     //sets the type of shape the user wants to use
     private void setAction(ShapeType type){
         mouseDraw.setType(type);
+        requestFocus();
         setFocusable(true);
         requestFocus();
     }
@@ -595,9 +605,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         // WINDOW REFRESH
         if (e.getSource()==timer) {
-
             repaint(); // repaint every timer expiry\
             // check display still square
+
 
                 int width = display.getSize().width;
                 int height = display.getSize().height;
