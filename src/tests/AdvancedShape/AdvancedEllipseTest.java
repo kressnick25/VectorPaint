@@ -37,6 +37,21 @@ class AdvancedEllipseTest {
         assertEquals(0.4, Ellipsetest.getHeight());
     }
     @Test
+    void constructorTestStartX(){
+        AdvancedEllipse Ellipsetest = new AdvancedEllipse(0.2,0.1,0.1,0.1);
+        ArrayList startList = Ellipsetest.startGetter();
+        Object startX = startList.get(0);
+        assertEquals(0.2, startX);
+    }
+    @Test
+    void constructorTestStartY(){
+        AdvancedEllipse Ellipsetest = new AdvancedEllipse(0.1,0.2,0.1,0.1);
+        ArrayList startList = Ellipsetest.startGetter();
+        Object startY = startList.get(1);
+        assertEquals(0.2, startY);
+    }
+
+    @Test
     void fillColorTest(){
         AdvancedEllipse Ellipsetest = new AdvancedEllipse(0.1,0.1,0.1,0.1);
         Color fillColor = new Color(255,255,255);

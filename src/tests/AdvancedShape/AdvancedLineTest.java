@@ -36,6 +36,35 @@ class AdvancedLineTest {
         AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);
         assertEquals(0.3, Linetest.getY2());
     }
+
+    @Test
+    void constructorTestStartX1(){
+        AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);
+        ArrayList startList = Linetest.startGetter();
+        Object startX = startList.get(0);
+        assertEquals(0.1, startX);
+    }
+    @Test
+    void constructorTestStartY1(){
+        AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);
+        ArrayList startList = Linetest.startGetter();
+        Object startY = startList.get(1);
+        assertEquals(0.1, startY);
+    }
+    @Test
+    void constructorTestStartX2(){
+        AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);
+        ArrayList startList = Linetest.startGetter();
+        Object endX = startList.get(2);
+        assertEquals(0.3, endX);
+    }
+    @Test
+    void constructorTestStartY2(){
+        AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);
+        ArrayList startList = Linetest.startGetter();
+        Object endY = startList.get(3);
+        assertEquals(0.3, endY);
+    }
     @Test
     void fillColorTest(){
         AdvancedLine Linetest = new AdvancedLine(0.1,0.1, 0.3, 0.3);

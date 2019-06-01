@@ -2,6 +2,7 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  Shape AdvancedRectangle, initiate a color, fill color, and transparency.
@@ -11,8 +12,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
-    private double startx;
-    private double starty;
+    double startx;
+    double starty;
 
     /**
      * AdvancedRectangle draws a rectangle at the x and y parameters, with the width (w) and height (h)
@@ -23,60 +24,65 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
      * @param h height of rectangle
      */
     public AdvancedRectangle(double x, double y, double w, double h) {
+
         super(x, y, w, h);
         this.startx = x;
         this.starty = y;
     }
+    /**
+     * adds the starting x and y coordinates
+     * @return
+     */
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startx);
+        listA.add(starty);
+        return listA;
+    }
 
     /**
-     *
-     * @return get the current fill Color
+     * returns the current fill color
+     * @return
      */
     public Color getFillColor() {
         return fillColor;
     }
 
     /**
-     *
-     * @param fillColor set the fill to a new Color
+     * sets the fill color when changed
+     * @param fillColor
      */
     public void setFillColor(Color fillColor) {
-        if (fillColor == null){
-            this.isTransparent = true;
-        }
-        else {
-            this.fillColor = fillColor;
-            this.isTransparent = false;
-        }
+        this.fillColor = fillColor;
+        this.isTransparent = false;
     }
 
     /**
-     *
-     * @return get the current pen Color
+     * returns the current pen color
      */
     public Color getPenColor() {
         return penColor;
     }
 
     /**
-     *
-     * @param penColor set the pen to a new Color
+     * sets the pen color
+     * @param penColor
      */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
 
     /**
-     *
-     * @return return true if transparent, false if not
+     * returns if the rectangle is transparent or not
+     * @return
      */
     public boolean isTransparent() {
         return isTransparent;
     }
 
     /**
-     *
-     * @param transparent set transparency true/false
+     * sets the transparency status of the class
+     * @param transparent
      */
     public void setTransparent(boolean transparent) {
         isTransparent = transparent;
@@ -84,13 +90,13 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     * Updates the size of the rectangle to new width and height
-     * @param x new width in pixels
-     * @param y new height in pixels
+     * updates the size of the rectangle
+     * @param x
+     * @param y
      */
     public void updateSize(int x, int y){
-        double width;
-        double height;
+        double width = 0;
+        double height = 0;
 
         if(startx >= x && starty >= y){
             width = startx-x;
@@ -118,8 +124,8 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
     }
 
     /**
-     * Draws the object to a Graphics object
-     * @param g2d Graphics object to draw to
+     * renders the rectangle depending on transparency
+     * @param g2d
      */
     public void render(Graphics2D g2d){
         if (!this.isTransparent()){
@@ -134,7 +140,7 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
      * returns the string type of the shape and size
      * @param screenWidth width of the GUI window
      * @param screenHeight height of the GUI window
-     * @return string in VEC format eg: (RECTANGLE 0.1 0.2 0.3 0.4)
+     * @return string
      */
     public String toString(int screenWidth, int screenHeight) {
         return String.format(

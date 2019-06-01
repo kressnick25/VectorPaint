@@ -1,15 +1,28 @@
 import AdvancedShape.AdvancedShape;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
+//import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /*
-ShapeType enum used to differentiate between shapes
+ShapeType enum used to differiatate between shapes
  */
 enum ShapeType {
     Rectangle,
@@ -20,64 +33,71 @@ enum ShapeType {
 }
 
 public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyListener {
-    // Screen Refresh Timer
     private Timer timer=new Timer(5, this);
-    // Initial screen dimensions
-    private static int prevScreenHeight = 1000;
-    private static int prevScreenWidth = 1000;
-    private static int numWindows = 0;
-    // Window components
-    private GraphicsCanvas display;
+    private static int WIDTH = 1000;
+    private static int HEIGHT = 1000;
+    private int prevScreenHeight = 1000;
+    private int prevSreenWidth = 1000;
+    private int keyCode;
     private JPanel pnlBtn, historyPanel;
+    private GraphicsCanvas display;
     private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton, undoButton;
     private JComboBox undoHistoryComboBox;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, gridBtn;
-    // Other
-    private ArrayList<AdvancedShape> shapes = new ArrayList<>();
-    private ArrayList<Integer> pressed = new ArrayList<>();
-    private MouseListener mouseDraw = new MouseListener();
+            fileNew, helpBtn, undo, fileExport, gridBtn;
 
-    /**
-     * Construct new empty window
-     * @param title
-     * @throws HeadlessException
-     */
+    private static int numWindows = 0;
+    private ArrayList<AdvancedShape> shapes = new ArrayList<>();
+
+    private ArrayList<Integer> pressed = new ArrayList<>();
+
+    // mouse movement
+    private MouseListener mouseDraw = new MouseListener();
+    private Color initialcolor = Color.RED;
+
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
         timer.start();
     }
-
-    /**
-     * Construct new window, load components from file.
-     * @param title
-     * @param jfc a JFileChooser object to select file
-     * @throws HeadlessException
-     */
-    public GUI_Frame(String title, JFileChooser jfc) throws HeadlessException {
+    public GUI_Frame(String title, ArrayList shapes) throws HeadlessException {
         super(title);
         timer.start();
-        //gets selected file path
-        File selectedFile = jfc.getSelectedFile();
-        //inputs file location and into vec
-        Vec vec = new Vec(selectedFile.getAbsolutePath());
-        try {
-            vec.read();
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(pnlBtn,
-                    ex.getMessage(),
-                    "Error",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        //gets list of shapes
-        this.shapes = vec.get();
-        System.out.println(vec.get());
+        this.shapes = shapes;
+
+    }
+    private JPanel createPanel(Color c) {  //Creates new Jpanel
+        JPanel newPnl = new JPanel();
+        //Sets background of the JPanel
+        newPnl.setBackground(c);
+        return newPnl;
     }
 
+    private JButton JButtonImage(String buttonText, String imagePath) {
+        try {
+            //creates new button
+            JButton newBtn = new JButton(buttonText, new ImageIcon(imagePath));
+            //initializes buttons and sets them to newBtn
+            newBtn.addActionListener(this);
+            //sets size of button
+            newBtn.setPreferredSize(new Dimension(100, 60));
+            // Format text position
+            newBtn.setVerticalTextPosition(AbstractButton.BOTTOM);
+            newBtn.setHorizontalTextPosition(AbstractButton.CENTER);
 
+            return newBtn;
+            //catches Error
+        } catch (Exception e) {
+            //Dialog box showing Error
+            JOptionPane.showMessageDialog(pnlBtn,
+                    "Error in loading image: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
     public synchronized void keyPressed(KeyEvent e) {
         //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
@@ -118,12 +138,26 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     } catch (Exception ignored) {
                     }
-                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+                    File selectedFile = jfc.getSelectedFile();
+                    //System.out.println(selectedFile.getAbsolutePath());
+
+                    //inputs file location and into vec
+                    Vec vec = new Vec(selectedFile.getAbsolutePath());
+                    try {
+                        vec.read();
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(pnlBtn,
+                                ex.getMessage(),
+                                "Error",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
                     SwingUtilities.invokeLater(gui);
                 }
             }
         }
         if(keyCodeNew == KeyEvent.VK_Z){
+
             if(!pressed.isEmpty()){
                 Shape latest = display.getLatest();
                 if (latest != null) {
@@ -134,9 +168,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
 
         }
-        //Help KeyBind
         if(keyCodeNew == KeyEvent.VK_H){
+            //Help KeyBind
             if(!pressed.isEmpty()) {
+
                 JOptionPane.showMessageDialog(pnlBtn,
                         "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                         "Help",
@@ -144,24 +179,24 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
 
+
+
     }
-    // Required methods
     public void keyReleased(KeyEvent e){
+        //System.out.println("dfd");
         if(!pressed.isEmpty()) {
             pressed.remove(0);
         }
 
     }
+    //TODO remove unused
     public void keyTyped(KeyEvent e){
-
+        //System.out.println("dfd");
     }
-    // Setup Panels in window
     private void createLayoutHistoryTopPanel(){
         //History Panel
-        historyPanel = new JPanel();
-        historyPanel.setBackground(new Color(0xBFE3FF));
-        undoButton = new JButton(pnlBtn,"Undo", "undo.png", new Dimension(60, 50));
-        undoButton.addActionListener(this);
+        historyPanel = createPanel(new Color(0xBFE3FF));
+        undoButton = JButtonImage("Undo", "./img/buttons/undo.png");
         historyPanel.setLayout(new GridBagLayout());
         undoHistoryComboBox = new JComboBox();
         historyPanel.setComponentOrientation(
@@ -176,31 +211,24 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 String[] split = selectedItem.split(" ");
                 int historyIndex = Integer.parseInt(split[0]);
                 // remove all items in array up to history index
+                System.out.println("dfsd");
                 display.trimToIndex(historyIndex);
+
             }
         });
     }
     private void createLayoutButtonPanel() {
         //create side button panel
-        pnlBtn = new JPanel();
-        pnlBtn.setBackground(new Color(0xBFE3FF));
+        pnlBtn = createPanel(new Color(0xBFE3FF));
         String imgPath = "./img/";
         //initializes all buttons
-        Dimension size = new Dimension(100, 60);
-        PlotButton = new JButton(pnlBtn,"Plot","Plot.jpg", size);
-        PlotButton.addActionListener(this);
-        LineButton = new JButton(pnlBtn, "Line","line.png", size);
-        LineButton.addActionListener(this);
-        RectangleButton = new JButton(pnlBtn,"Box","rectangle.png", size);
-        RectangleButton.addActionListener(this);
-        EllipseButton = new JButton(pnlBtn,"Ellipse","ellipse.png", size);
-        EllipseButton.addActionListener(this);
-        PolygonButton = new JButton(pnlBtn,"Polygon", "polygon.png", size);
-        PolygonButton.addActionListener(this);
-        FillButton = new JButton(pnlBtn,"Fill Colour", "fill.png", size);
-        FillButton.addActionListener(this);
-        PenButton = new JButton(pnlBtn,"Pen Colour", "pen.png", size);
-        PenButton.addActionListener(this);
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
         //Layout settings for side buttons
         pnlBtn.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -208,7 +236,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 1;
-        //addShape buttons to panels
+        //add buttons to panels
         addToPanel(pnlBtn, PlotButton, constraints, 0, 0, 2,1);
         addToPanel(pnlBtn, LineButton, constraints, 0, 1, 2, 1);
         addToPanel(pnlBtn, RectangleButton, constraints, 0, 2, 2, 1);
@@ -217,6 +245,18 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         addToPanel(pnlBtn, FillButton, constraints, 0, 5, 2, 1);
         addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
     }
+
+    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints,
+                            int x, int y, int w, int h) {
+        //adding buttons to panel
+        constraints.gridx = x;
+        constraints.gridy = y;
+        constraints.gridwidth = w;
+        constraints.gridheight = h;
+        jp.add(c, constraints);
+    }
+
+
     private void createTopMenu() {
         //top navigation bar buttons
         cut = new JMenuItem("Cut");
@@ -227,13 +267,16 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
+        fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
         gridBtn = new JMenuItem("Grid");
         helpBtn = new JMenuItem("help");
 
-        // add action listeners to MenuBar Buttons
+        //gridButt = new JMenuItem("Grid for real");
+        //adding action listeners to MenuBar Buttons
         gridBtn.addActionListener(this);
         helpBtn.addActionListener(this);
+
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -243,8 +286,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen.addActionListener(this);
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
+        fileExport.addActionListener(this);
+        //gridButt = new JMenuItem("Grid");
 
-        // Setup menu bar
+
         JMenuBar mb = new JMenuBar();
         file = new JMenu("File");
         edit = new JMenu("Edit");
@@ -255,47 +300,46 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileSave);
         file.add(fileNew);
         file.add(fileSaveAs);
-
+        file.add(fileExport);
+        //add these buttons to
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
         edit.add(selectAll);
         edit.add(undo);
-
         grid.add(gridBtn);
         help.add(helpBtn);
-
+        //help.add(gridButt);
         mb.add(file);
         mb.add(edit);
         mb.add(help);
         mb.add(grid);
 
-        //addShape to GUI and set visible
+        //add to GUI and set visible
         add(mb);
         setJMenuBar(mb);
         setVisible(true);
     }
 
-    // Add a component to a JPanel
-    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
-        //adding buttons to panel
-        constraints.gridx = x;
-        constraints.gridy = y;
-        constraints.gridwidth = w;
-        constraints.gridheight = h;
-        jp.add(c, constraints);
-    }
-
     private void createGUI() {
+        String imgPath = "./img/";
         //set size of GUI
-        setSize(prevScreenWidth, prevScreenHeight);
+        setSize(WIDTH, HEIGHT);
         //setPreferredSize(new Dimension(1000, 3000));
         //close operation on exit button click
         setLayout(new BorderLayout());
         //create side button panel
+        pnlBtn = createPanel(Color.GRAY);
         //Drawing canvas creation
-        JPanel pnlDisplay = new JPanel();
-        pnlDisplay.setBackground(Color.WHITE);
+        JPanel pnlDisplay = createPanel(Color.WHITE);
+        //initializes all buttons
+        PlotButton = JButtonImage("Plot",imgPath + "buttons/Plot.jpg");
+        LineButton = JButtonImage("Line",imgPath + "buttons/line.png");
+        RectangleButton = JButtonImage("Box",imgPath + "buttons/rectangle.png");
+        EllipseButton = JButtonImage("Ellipse",imgPath + "buttons/ellipse.png");
+        PolygonButton = JButtonImage("Polygon", imgPath + "buttons/polygon.png");
+        FillButton = JButtonImage("Fill Colour", imgPath + "buttons/fill.png");
+        PenButton = JButtonImage("Pen Colour", imgPath + "buttons/pen.png");
 
         createLayoutButtonPanel();
         createLayoutHistoryTopPanel();
@@ -303,9 +347,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         getContentPane().add(pnlBtn, BorderLayout.WEST);
         getContentPane().add(historyPanel, BorderLayout.NORTH);
         getContentPane().add(pnlDisplay, BorderLayout.CENTER);
-        display = new GraphicsCanvas(undoHistoryComboBox);
+        display = new GraphicsCanvas();
+        display.setComboBox(undoHistoryComboBox);
         createTopMenu();
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -314,14 +358,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     System.exit(0);
                 }else{
                     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    System.out.println("Number of active windows: " + numWindows);
+                    System.out.println("We up here");
+                    System.out.println(numWindows);
                     numWindows--;
                 }
 
             }
         });
-
-        // addShape mouse listener
+        // add mouse listener
         mouseDraw.setCanvas(display);
         display.addMouseListener(mouseDraw);
         display.addMouseMotionListener(mouseDraw);
@@ -330,18 +374,20 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         display.setBounds(5, 5, 360, 320);
         add(display, BorderLayout.CENTER);
 
+//        areDisplay();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        //addShape keyboard listeners and focus
+        //add keyboard listeners and focus
         addKeyListener(this);
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 Dimension size = display.getSize();
 
                 if(size.width != size.height){
-                    // equalize width and height
+                    //display.setSize(size.width, size.width);
                     if(size.width > size.height){
                         display.setSize(size.height, size.height);
+                        //FIXME I believe that the window should always to square, (Need to check)
                     }
                     else{
                         display.setSize(size.width, size.width);
@@ -351,36 +397,44 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         display.setSize(200, 200);
                     }
                 }
+                /* TODO shapes also have to move with GUI due to vector nature of the GUI
+                 * TODO A background Panel should appear showing where cant draw when window is rectangular
+                  */
+                System.out.println(getSize());
 
+                System.out.println(display.getSize());
                 display.updateScale(
-                        new Dimension(prevScreenWidth, prevScreenHeight),
-                        display.getSize() );
-                prevScreenWidth = display.getSize().width;
+                        display.getSize().width, prevSreenWidth,
+                        display.getSize().height, prevScreenHeight);
+                prevSreenWidth = display.getSize().width;
                 prevScreenHeight = display.getSize().height;
             }
         });
-        if(!shapes.isEmpty()){
-            display.setShapes(shapes);
 
-        }
 
         setFocusable(true);
         requestFocus();
         repaint();
         setVisible(true);
+        if(!shapes.isEmpty()){
+            for(AdvancedShape shape: shapes){
+                display.add(shape);
+
+            }
+        }
 
     }
 
+    // TODO mouse event here using current shape, add to GraphicsCanvas
     //sets the type of shape the user wants to use
     private void setAction(ShapeType type){
         mouseDraw.setType(type);
         setFocusable(true);
         requestFocus();
     }
-
     private void setFillColor(boolean setFill){
         //sets the color
-        Color newColor = JColorChooser.showDialog(this, "Select a color", Color.RED);
+        Color newColor = JColorChooser.showDialog(this, "Select a color", initialcolor);
         if (newColor == null) {
             if (setFill){
                 newColor = new Color(255, 255, 255);
@@ -419,7 +473,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             vec.save();
         }
     }
-
     private void openFile(){
         //opening new file
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -427,11 +480,24 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         int returnValue = jfc.showOpenDialog(this);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            numWindows++;
+              numWindows++;
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
-            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", jfc);
+            File selectedFile = jfc.getSelectedFile();
+            //System.out.println(selectedFile.getAbsolutePath());
+
+            //inputs file location and into vec
+            Vec vec = new Vec(selectedFile.getAbsolutePath());
+            try {
+                vec.read();
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(pnlBtn,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+            GUI_Frame gui = new GUI_Frame("Paint - Assignment2", vec.get());
             SwingUtilities.invokeLater(gui);
         }
     }
@@ -449,6 +515,26 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 "Basic KeyBinds: H for Help, S for Save, Z for Undo",
                 "Help",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void exportAsBMP(){
+        // TODO file save window for location
+        BufferedImage bImg = new BufferedImage(display.getWidth(), display.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D cg = bImg.createGraphics();
+        cg.setComposite(AlphaComposite.Src);
+        cg.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        cg.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+        cg.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        display.paintAll(cg);
+        cg.dispose();
+        try {
+            if (ImageIO.write(bImg, "bmp", new File("./output_image.bmp")))
+            {
+                System.out.println("-- saved");
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     private void gridInput(){
         String errorMessage = "";
@@ -471,28 +557,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         } while (!errorMessage.isEmpty());
     }
-
-    private void newFile(){
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
-        numWindows++;
-        System.out.println(numWindows);
-    }
-
-    private void refreshWindow(){
-        repaint(); // repaint every timer expiry\
-        // check display still square
-        int width = display.getSize().width;
-        int height = display.getSize().height;
-        if (height != width){
-            // set to lowest if not
-            if (height > width) display.setSize(width, width);
-            else display.setSize(height, height);
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         //Get event source
@@ -505,20 +569,54 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == PolygonButton) setAction(ShapeType.Polygon);
         else if (src == FillButton) setFillColor(true);
         else if (src == PenButton) setFillColor(false);
-            // MENU ITEMS
+        // MENU ITEMS
         else if (src == gridBtn) gridInput();
         else if (src == helpBtn) helpMessage();
+
         else if (src == fileSave || src == fileSaveAs) saveFile();
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
         else if (src == undoButton) undo();
-        else if (src == fileNew) newFile();
+        else if (src == fileExport) exportAsBMP();
+        else if (src == fileNew) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {}
+            SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
+            numWindows++;
+            System.out.println(numWindows);
+        }
+
+//
+
+
+
         // WINDOW REFRESH
-        if (e.getSource()==timer) refreshWindow();
+        if (e.getSource()==timer) {
+
+            repaint(); // repaint every timer expiry\
+            // check display still square
+
+                int width = display.getSize().width;
+                int height = display.getSize().height;
+                if (height != width) {
+                    // set to lowest if not
+                    if (height > width) display.setSize(width, width);
+                    else display.setSize(height, height);
+                }
+
+        }
     }
 
     @Override
     public void run() {
         createGUI();
+    }
+
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {}
+        SwingUtilities.invokeLater(new GUI_Frame("Paint - Assignment"));
     }
 }

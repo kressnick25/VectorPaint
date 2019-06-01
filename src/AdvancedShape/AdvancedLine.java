@@ -2,6 +2,7 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 /**
  * Shape AdvancedLine, initiate a color, fill color, and transparency.
@@ -10,6 +11,11 @@ import java.awt.geom.Line2D;
 public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     private Color fillColor = new Color(255,255,255);
     private Color penColor = new Color(0, 0, 0);
+    private boolean isTransparent = true;
+    double startX1;
+    double startY1;
+    double endX2;
+    double endY2;
 
     /**
      * AdvancedLine draws a Line at the x1 and y1 starting coordinates
@@ -21,12 +27,16 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
      */
     public AdvancedLine(double x1, double y1, double x2, double y2) {
         super(x1, y1, x2, y2);
+        this.startX1 = x1;
+        this.startY1 = y1;
+        this.endX2 = x2;
+        this.endY2 = y2;
     }
 
     /**
-     * Updates the size of the line based on the size of the window
-     * @param screenWidthDiffPercent % difference as a decimal between old -> new window width.
-     * @param screenHeightDiffPercent % difference as a decimal between old -> new window height.
+     * updates the size of the line based on the size of the screen
+     * @param screenWidthDiffPercent
+     * @param screenHeightDiffPercent
      */
     public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
         this.x1 -= x1 * screenWidthDiffPercent;
@@ -36,63 +46,73 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     *
-     * @return gets the current fill Color
+     * used for testing the constructor
+     * gets array of start and end points of line
+     * @return
+     */
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startX1);
+        listA.add(startY1);
+        listA.add(endX2);
+        listA.add(endY2);
+        return listA;
+    }
+
+    /**
+     * returns the current fill color
+     * @return
      */
     public Color getFillColor() {
         return fillColor;
     }
-
     /**
-     *
-     * @param fillColor sets fill to a new Color
+     * sets the fill color when changed
+     * @param fillColor
      */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }
 
     /**
-     *
-     * @return the current Color of the pen
+     * returns the current pen color
+     * @return
      */
     public Color getPenColor() {
         return penColor;
     }
-
     /**
-     *
-     * @param penColor sets the pen to a new Color
+     * sets the pen color
+     * @param penColor
      */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
-
     /**
-     *
-     * @return always false because Line cannot be transparent
+     * returns if the ellipse is transparent or not
+     * @return
      */
     public boolean isTransparent() {
-        return false;
+        return isTransparent;
     }
-
     /**
-     *
-     * @param transparent does nothing, because Line cannot be transparent
+     * sets the transparency status of the class
+     * @param transparent
      */
-    public void setTransparent(boolean transparent){}
+    public void setTransparent(boolean transparent) {
 
+    }
     /**
-     * Updates the size of the line with new end co-ords
-     * @param x X pixel at end of line
-     * @param y Y pixel at end of line
+     * updates the size of the Line
+     * @param x
+     * @param y
      */
     public void updateSize(int x, int y){
         this.setLine(this.getX1(), this.getY1(), x, y);
     }
-
     /**
-     * Draws the Line with color to a Graphics2D object
-     * @param g2d Graphics2D object to draw to
+     * renders the Line depending on transparency
+     * @param g2d
      */
     public void render(Graphics2D g2d){
         g2d.setPaint(this.getPenColor());
@@ -100,10 +120,10 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * Outputs the Line in VEC format
-     * @param screenWidth current width of window
-     * @param screenHeight current height of window
-     * @return a string in VEC formatting eg: (LINE 0.1 0.1 0.6 0.7)
+     * returns the string type of the shape and starting and ending coordinates
+     * @param screenWidth
+     * @param screenHeight
+     * @return
      */
     public String toString(int screenWidth, int screenHeight) {
         //converts location details to string

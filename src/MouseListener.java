@@ -1,8 +1,12 @@
 import AdvancedShape.*;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class MouseListener extends MouseInputAdapter {
@@ -10,7 +14,7 @@ public class MouseListener extends MouseInputAdapter {
     // default as plot
     private ShapeType type = ShapeType.Plot;
     private GraphicsCanvas display;
-    private Color fillColor;
+    private Color fillColor = new Color(255, 255, 255);
     private Color penColor = new Color(0,0,0);
     //selected grid interval
     private double intervalUserX = 0;
@@ -69,7 +73,7 @@ public class MouseListener extends MouseInputAdapter {
                 case Polygon:
                     if (!(shape instanceof AdvancedPolygon)) {
                         shape = new AdvancedPolygon();
-                        display.addShape(shape);
+                        display.add(shape);
                     }
                     break;
                 default:
@@ -79,7 +83,7 @@ public class MouseListener extends MouseInputAdapter {
             shape.setFillColor(fillColor);
             shape.setPenColor(penColor);
             if (!(shape instanceof AdvancedPolygon)){
-                display.addShape(shape);
+                display.add(shape);
             }
         } catch (Exception e1){
             // TODO popup
@@ -102,48 +106,48 @@ public class MouseListener extends MouseInputAdapter {
             if(x > width && y > height) {
                 shape.updateSize(width - 5 , height - 5);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(x < 0 && y > height){
                 shape.updateSize(5, height-5);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(x > width && y < 0){
                 shape.updateSize(width-5, 5);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(x < 0 && y < 0) {
                 shape.updateSize(2,2);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(x < 0){
                 shape.updateSize(2, y);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
 
             }
             else if(y < 0){
                 shape.updateSize(x, 2);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(x > width) {
                 shape.updateSize(width - 5 , y);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else if(y > height) {
                 shape.updateSize(x, height - 5);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
             else{
                 shape.updateSize(x , y);
                 display.clearLast();
-                display.addShape(shape);
+                display.add(shape);
             }
         }
     }
@@ -176,50 +180,52 @@ public class MouseListener extends MouseInputAdapter {
         if(x > width && y > height) {
             shape.updateSize(width - 5 , height - 5);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(x < 0 && y < 0) {
             shape.updateSize(2,2);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(x > width && y < 0){
             shape.updateSize(width-5, 5);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(x < 0 && y > height){
             shape.updateSize(5, height-5);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(x < 0){
             shape.updateSize(2, (int)roundOffY);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
 
         }
         else if(y < 0){
             shape.updateSize((int)roundOffX, 2);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(x > width) {
             shape.updateSize(width - 5 , (int)roundOffY);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else if(y > height) {
             shape.updateSize((int)roundOffX, height - 5);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
         else{
             shape.updateSize((int)roundOffX , (int)roundOffY);
             display.clearLast();
-            display.addShape(shape);
+            display.add(shape);
         }
-//        display.updateComboBox();
+        System.out.println("Before combo:" + display.getSize().width + " , " + display.getSize().height);
+        display.updateComboBox();
+        System.out.println("After combo:" + display.getSize().width + " , " + display.getSize().height);
 
     }
 

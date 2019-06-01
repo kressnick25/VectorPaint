@@ -2,6 +2,7 @@ package AdvancedShape;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 /**
  * Shape AdvancedEllipse, initiate a color, fill color, and transparency.
@@ -11,84 +12,84 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
     private Color penColor = new Color(0, 0, 0);
     private Color fillColor = new Color(255,255,255);
     private boolean isTransparent = false;
-    private double startx;
-    private double starty;
+    double startx;
+    double starty;
 
     /**
-     * Construct a new AdvancedEllipse with position
-     * @param x the x-coordinate of the top left corner
-     * @param y the y-coordinate of the top left corder
-     * @param w inital width
-     * @param h initial height
+     * AdvancedEllipse draws a Ellipse at the x and y parameters, with the width (w) and height (h)
+     * parameters specified
+     * @param x
+     * @param y
+     * @param w
+     * @param h
      */
     public AdvancedEllipse(double x, double y, double w, double h) {
         super(x, y, w, h);
         this.startx = x;
-        this.starty= y;
+        this.starty = y;
+    }
+    /**
+     * adds the starting x and y coordinates
+     * @return
+     */
+    public ArrayList startGetter(){
+        ArrayList listA = new ArrayList();
+        listA.add(startx);
+        listA.add(starty);
+        return listA;
     }
 
     /**
-     *
-     * @return gets the current fill color.
+     * returns the current fill color
+     * @return
      */
     public Color getFillColor() {
         return fillColor;
     }
-
     /**
-     *
-     * @param fillColor sets the current fill color
+     * sets the fill color when changed
+     * @param fillColor
      */
     public void setFillColor(Color fillColor) {
-        if (fillColor == null){
-            this.isTransparent = true;
-        }
-        else {
-            this.fillColor = fillColor;
-            this.isTransparent = false;
-        }
+        this.fillColor = fillColor;
+        this.isTransparent = false;
     }
-
     /**
-     *
-     * @return get the current pen Color
+     * returns the current pen color
      */
     public Color getPenColor() {
         return penColor;
     }
-
     /**
-     *
-     * @param penColor set the pen color to a new Color
+     * sets the pen color
+     * @param penColor
      */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
-
     /**
-     *
-     * @return true if transparent, false if not
+     * returns if the ellipse is transparent or not
+     * @return
      */
     public boolean isTransparent() {
         return isTransparent;
     }
-
     /**
-     *
-     * @param transparent set the transparency true/false
+     * sets the transparency status of the class
+     * @param transparent
      */
     public void setTransparent(boolean transparent) {
         isTransparent = transparent;
         this.fillColor = null;
     }
     /**
-     * Updates the size of the ellipse wth new co-ordinates
-     * @param x new X co-ord
-     * @param y new Y co-ord
+     * updates the size of the ellipse
+     * @param x
+     * @param y
      */
     public void updateSize(int x, int y) {
-        double width;
-        double height;
+        double width = 0;
+        double height = 0;
 
         if (startx >= x && starty >= y) {
             width = startx - x;
@@ -110,8 +111,8 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         }
     }
     /**
-     * Draws to the ellipse a graphics canvas, applying fill and pen Color.
-     * @param g2d the Graphics2D object to draw to.
+     * renders the ellipse depending on transparency
+     * @param g2d
      */
     public void render(Graphics2D g2d){
         if (!this.isTransparent()){
@@ -122,10 +123,10 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         g2d.draw(this);
     }
     /**
-     * Outputs a string for VEC formatting.
-     * @param screenWidth current width in pixels of the GUI window
-     * @param screenHeight current height in pixels of the GUI window
-     * @return string a String in VEC format eg: (ELLIPSE 0.2 0.1 0.4 0.1)
+     * returns the string type of the shape and size
+     * @param screenWidth width of the GUI window
+     * @param screenHeight height of the GUI window
+     * @return string
      */
     public String toString(int screenWidth, int screenHeight) {
         return String.format(
@@ -136,7 +137,7 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
                 (this.y + this.height) / screenHeight);
     }
     /**
-     * Updates the scale of the ellipse when the GUI window is being dragged
+     * updates the scale of the ellipse when the GUI window is being dragged
      * @param screenWidthDiffPercent difference in screen width after resizing the GUI window
      * @param screenHeightDiffPercent difference in screen height after resizing the GUI window
      */
