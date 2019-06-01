@@ -550,24 +550,29 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     private void gridInput(){
         String errorMessage = "";
-        do {
-            // Show input dialog with current error message, if any
-            String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
-            try {
-                Double number = Double.parseDouble(stringInput);
-                if (number > 1 || number < 0) {
-                    errorMessage = "That number is not within the \n" + "allowed range!\n";
-                } else {
-                    JOptionPane
-                            .showMessageDialog(null, "The number you chose is " + number + ".");
-                    errorMessage = ""; // no more error
-                    mouseDraw.setInterval(number);
+        try {
+            do {
+                // Show input dialog with current error message, if any
+                String stringInput = JOptionPane.showInputDialog(errorMessage + "Enter number between 0 and 1. 0 for no Grid");
+                try {
+                    Double number = Double.parseDouble(stringInput);
+                    if (number > 1 || number < 0) {
+                        errorMessage = "That number is not within the \n" + "allowed range!\n";
+                    } else {
+                        JOptionPane
+                                .showMessageDialog(null, "The number you chose is " + number + ".");
+                        errorMessage = ""; // no more error
+                        mouseDraw.setInterval(number);
+                    }
+                } catch (NumberFormatException err) {
+                    // The typed text was not an integer
+                    errorMessage = "The text you typed is not a number.\n";
                 }
-            } catch (NumberFormatException err) {
-                // The typed text was not an integer
-                errorMessage = "The text you typed is not a number.\n";
-            }
-        } while (!errorMessage.isEmpty());
+            } while (!errorMessage.isEmpty());
+        }
+        catch(Exception errorM){
+
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
