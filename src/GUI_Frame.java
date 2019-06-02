@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
-//import java.awt.event.KeyEvent;
 import java.awt.event.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /*
@@ -58,10 +55,21 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private MouseListener mouseDraw = new MouseListener();
     private Color initialcolor = Color.RED;
 
+    /**
+     * Construct new empty window
+     * @param title
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
         timer.start();
     }
+    /**
+     * Construct new window, load components from file.
+     * @param title
+     * @param jfc a JFileChooser object to select file
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title, ArrayList shapes) throws HeadlessException {
         super(title);
         timer.start();
@@ -185,7 +193,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
     public void keyReleased(KeyEvent e){
-        //System.out.println("dfd");
         if(!pressed.isEmpty()) {
             pressed.remove(0);
         }
