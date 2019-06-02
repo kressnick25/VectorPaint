@@ -18,9 +18,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 
 
-/*
-ShapeType enum used to differiatate between shapes
- */
+    /**
+    * ShapeType enum used to differiatate between shapes
+    */
 enum ShapeType {
     Rectangle,
     Ellipse,
@@ -229,6 +229,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         });
 
     }
+
     private void createLayoutButtonPanel() {
         //create side button panel
         pnlBtn = createPanel(new Color(0xBFE3FF));
