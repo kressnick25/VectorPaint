@@ -38,7 +38,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private static int HEIGHT = 1000;
     private int prevScreenHeight = 1000;
     private int prevSreenWidth = 1000;
-    private int keyCode;
     private JPanel pnlBtn, historyPanel;
     private GraphicsCanvas display;
     private JMenu file, edit, help, grid;
@@ -395,7 +394,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     //display.setSize(size.width, size.width);
                     if(size.width > size.height){
                         display.setSize(size.height, size.height);
-                        //FIXME I believe that the window should always to square, (Need to check)
                     }
                     else{
                         display.setSize(size.width, size.width);
@@ -405,9 +403,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         display.setSize(200, 200);
                     }
                 }
-                /* TODO shapes also have to move with GUI due to vector nature of the GUI
-                 * TODO A background Panel should appear showing where cant draw when window is rectangular
-                  */
+
                 System.out.println(getSize());
 
                 System.out.println(display.getSize());
@@ -433,7 +429,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
 
-    // TODO mouse event here using current shape, add to GraphicsCanvas
     //sets the type of shape the user wants to use
     private void setAction(ShapeType type){
         mouseDraw.setType(type);

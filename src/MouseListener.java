@@ -82,7 +82,7 @@ public class MouseListener extends MouseInputAdapter {
                 display.add(shape);
             }
         } catch (Exception e1){
-            // TODO popup
+
         }
     }
     public void setInterval(double interval){

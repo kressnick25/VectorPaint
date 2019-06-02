@@ -116,8 +116,6 @@ public class GraphicsCanvas extends JPanel {
     /**
      * Used to scale shapes with window on resize.
      * Calculates the percentage scaling difference between and applies scale to all shapes in canvas.
-     * @param prevScreen dimensions of previous window size
-     * @param newScreen dimensions of new window size
      */
     public void updateScale(int newScreenWidth, int previousScreenWidth, int newScreenHeight, int previousScreenHeight){
         double screenWidthDiffPercent = ((double)previousScreenWidth - (double)newScreenWidth) / (double)previousScreenWidth;

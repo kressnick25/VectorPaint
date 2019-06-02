@@ -112,7 +112,10 @@ public class Vec{
         // referenced from
         // https://stackoverflow.com/questions/3607858/convert-a-rgb-color-value-to-a-hexadecimal-string
         // PenColor
-        if (!penColor.equals(recentPenColor)){
+        if (fillColor.equals(new Color(0,0,0,0))) {
+            outString.append("FILL OFF\n");
+        } else {
+        if (!penColor.equals(recentPenColor)) {
             String penHex = String.format(
                     "PEN #%02x%02x%02x\n", penColor.getRed(),
                     penColor.getGreen(), penColor.getBlue());
@@ -120,12 +123,13 @@ public class Vec{
             outString.append(penHex);
         }
         // FillColor
-        if (!fillColor.equals(recentFillColor)){
+        if (!fillColor.equals(recentFillColor)) {
             String fillHex = String.format(
                     "FILL #%02x%02x%02x\n", fillColor.getRed(),
                     fillColor.getGreen(), fillColor.getBlue());
             recentFillColor = fillColor;
             outString.append(fillHex);
+        }
         }
         //Shape
         outString.append( shape.toString(WIDTH, HEIGHT) );
@@ -224,7 +228,7 @@ public class Vec{
                 }
                 case "FILL": {
                     if (components[1].equals("OFF")) {
-                        Color col = new Color(0,0,0,255);
+                        Color col = new Color(0,0,0,0);
                         this.recentFillColor = col;
                     } else {
                         Color myFillColour = hexToRgb(components[1]);
