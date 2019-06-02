@@ -56,10 +56,22 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private MouseListener mouseDraw = new MouseListener();
     private Color initialcolor = Color.RED;
 
+    /**
+     * Constructs a new GUI_Frame
+     * @param title Title to appear at top of window
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title) throws HeadlessException {
         super(title);
         timer.start();
     }
+
+    /**
+     * Constructs a new GUI_Frame
+     * @param title Title to appear at top of window
+     * @param shapes An array of shapes to pre-draw to canvas
+     * @throws HeadlessException
+     */
     public GUI_Frame(String title, ArrayList shapes) throws HeadlessException {
         super(title);
         timer.start();
@@ -68,6 +80,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         requestFocus();
 
     }
+
+    /**
+     * Create a new panel with a color
+     * @param c a new Color
+     * @return
+     */
     private JPanel createPanel(Color c) {  //Creates new Jpanel
         JPanel newPnl = new JPanel();
         //Sets background of the JPanel
@@ -75,6 +93,12 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         return newPnl;
     }
 
+    /**
+     * Create a new JButton with an Image and Text
+     * @param buttonText Text to appear on button
+     * @param imagePath Path to image for button
+     * @return returns a JButton
+     */
     private JButton JButtonImage(String buttonText, String imagePath) {
         try {
             //creates new button
@@ -98,6 +122,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             return null;
         }
     }
+
+    /**
+     * Handle events of keys pressed
+     * @param e new KeyEvent
+     */
     public void keyPressed(KeyEvent e) {
         //Get pressed keyCode
         int keyCodeNew = e.getKeyCode();
@@ -181,15 +210,28 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
 
     }
+
+    /**
+     * Handle event when key is released
+     * @param e new KeyEvent
+     */
     public void keyReleased(KeyEvent e){
         if(!pressed.isEmpty()) {
             pressed.remove(0);
         }
 
     }
-    //TODO remove unused
+
+    /**
+     *
+     * @param e
+     */
     public void keyTyped(KeyEvent e){
     }
+
+    /**
+     * Build the top panel of the frame
+     */
     private void createLayoutHistoryTopPanel(){
         //History Panel
         historyPanel = createPanel(new Color(0xBFE3FF));
@@ -221,6 +263,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         });
 
     }
+
+    /**
+     * Build the left side panel with control buttons.
+     */
     private void createLayoutButtonPanel() {
         //create side button panel
         pnlBtn = createPanel(new Color(0xBFE3FF));
@@ -250,6 +296,16 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         addToPanel(pnlBtn, PenButton, constraints, 0, 6, 2, 1);
     }
 
+    /**
+     * Adds specified component to specified JPanel
+     * @param jp the JPanel to add to
+     * @param c the Component to add
+     * @param constraints any GridBag Constraints
+     * @param x x position on panel
+     * @param y y position on panel
+     * @param w width
+     * @param h height
+     */
     private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints,
                             int x, int y, int w, int h) {
         //adding buttons to panel
@@ -260,7 +316,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         jp.add(c, constraints);
     }
 
-
+    /**
+     * Build the top menu of the frame
+     */
     private void createTopMenu() {
         //top navigation bar buttons
         undo = new JMenuItem("Undo");
@@ -310,6 +368,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         setVisible(true);
     }
 
+    /**
+     * Build the full GUI
+     */
     private void createGUI() {
         String imgPath = "./img/";
         //set size of GUI
@@ -408,19 +469,29 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
 
-    //sets the type of shape the user wants to use
+
+    /**
+     * sets the type of shape the user wants to use
+     * @param type
+     */
     private void setAction(ShapeType type){
         mouseDraw.setType(type);
         requestFocus();
         setFocusable(true);
         requestFocus();
     }
+
+    /**
+     * Set the Pen and Fill color with a colorChooser
+     * @param setFill true -> setFill, false -> setPen
+     */
     private void setFillColor(boolean setFill){
         //sets the color
         Color newColor = JColorChooser.showDialog(this, "Select a color", initialcolor);
         if (newColor == null) {
             if (setFill){
-                newColor = new Color(255, 255, 255);
+                // set transparent if no color selected
+                newColor = new Color(0,0,0,0);
             } else {
                 newColor = new Color(0);
             }
@@ -441,6 +512,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         requestFocus();
     }
 
+    /**
+     * Save a vec file with a file chooser dialog
+     */
     private void saveFile(){
         //save button
         //opens file chooser
@@ -456,6 +530,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             vec.save();
         }
     }
+
+    /**
+     * Open a vec file with a file chooser dialog
+     */
     private void openFile(){
         //opening new file
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -483,6 +561,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             SwingUtilities.invokeLater(gui);
         }
     }
+
+    /**
+     * Undo the last shape added to the array
+     */
     private void undo(){
         Shape latest = display.getLatest();
         if (latest != null) {
@@ -491,6 +573,10 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             }
         }
     }
+
+    /**
+     * Display the help message popup
+     */
     private void helpMessage(){
         //Dialog help Message
         JOptionPane.showMessageDialog(pnlBtn,
@@ -499,6 +585,9 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Set the current grid snap with a dialog popup
+     */
     private void gridInput(){
         String errorMessage = "";
         try {
@@ -525,6 +614,23 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
         }
     }
+
+    /**
+     * Ensures that screen panel is always square
+     */
+    private void forceScreenSize(){
+        int width = display.getSize().width;
+        int height = display.getSize().height;
+        if (height != width) {
+            // set to lowest if not
+            if (height > width) display.setSize(width, width);
+            else display.setSize(height, height);
+        }
+    }
+    /**
+     * Handle GUI controls on select
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         //Get event source
@@ -553,24 +659,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
             numWindows++;
             System.out.println(numWindows);
         }
-
-//
-
-
-
         // WINDOW REFRESH
         if (e.getSource()==timer) {
             repaint(); // repaint every timer expiry\
-            // check display still square
+            forceScreenSize();
 
-
-                int width = display.getSize().width;
-                int height = display.getSize().height;
-                if (height != width) {
-                    // set to lowest if not
-                    if (height > width) display.setSize(width, width);
-                    else display.setSize(height, height);
-                }
 
         }
     }
