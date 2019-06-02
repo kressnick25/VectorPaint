@@ -278,7 +278,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
         gridBtn = new JMenuItem("Grid");
-        helpBtn = new JMenuItem("help");
+        helpBtn = new JMenuItem("Help");
 
         //gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons
