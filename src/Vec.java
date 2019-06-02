@@ -47,7 +47,7 @@ public class Vec{
     public void save(){
         try {
             // Open file
-            filename = filename + ".vec";
+            filename = filename + ".VEC";
             FileWriter file = new FileWriter(filename);
             PrintWriter writer = new PrintWriter(file);
 
