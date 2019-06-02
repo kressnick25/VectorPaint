@@ -34,9 +34,9 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * updates the size of the line based on the size of the screen
-     * @param screenWidthDiffPercent
-     * @param screenHeightDiffPercent
+     * Updates the size of the line based on the size of the window
+     * @param screenWidthDiffPercent % difference as a decimal between old -> new window width.
+     * @param screenHeightDiffPercent % difference as a decimal between old -> new window height.
      */
     public void updateScale(double screenWidthDiffPercent, double screenHeightDiffPercent){
         this.x1 -= x1 * screenWidthDiffPercent;
@@ -60,59 +60,59 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * returns the current fill color
-     * @return
+     *
+     * @return gets the current fill Color
      */
     public Color getFillColor() {
         return fillColor;
     }
     /**
-     * sets the fill color when changed
-     * @param fillColor
+     *
+     * @param fillColor sets fill to a new Color
      */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }
 
     /**
-     * returns the current pen color
-     * @return
+     *
+     * @return the current Color of the pen
      */
     public Color getPenColor() {
         return penColor;
     }
     /**
-     * sets the pen color
-     * @param penColor
+     *
+     * @param penColor sets the pen to a new Color
      */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
     /**
-     * returns if the ellipse is transparent or not
-     * @return
+     *
+     * @return always false because Line cannot be transparent
      */
     public boolean isTransparent() {
         return isTransparent;
     }
     /**
-     * sets the transparency status of the class
-     * @param transparent
+     *
+     * @param transparent does nothing, because Line cannot be transparent
      */
     public void setTransparent(boolean transparent) {
 
     }
     /**
-     * updates the size of the Line
-     * @param x
-     * @param y
+     * Updates the size of the line with new end co-ords
+     * @param x X pixel at end of line
+     * @param y Y pixel at end of line
      */
     public void updateSize(int x, int y){
         this.setLine(this.getX1(), this.getY1(), x, y);
     }
     /**
-     * renders the Line depending on transparency
-     * @param g2d
+     * Draws the Line with color to a Graphics2D object
+     * @param g2d Graphics2D object to draw to
      */
     public void render(Graphics2D g2d){
         g2d.setPaint(this.getPenColor());
@@ -120,10 +120,10 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * returns the string type of the shape and starting and ending coordinates
-     * @param screenWidth
-     * @param screenHeight
-     * @return
+     * Outputs the Line in VEC format
+     * @param screenWidth current width of window
+     * @param screenHeight current height of window
+     * @return a string in VEC formatting eg: (LINE 0.1 0.1 0.6 0.7)
      */
     public String toString(int screenWidth, int screenHeight) {
         //converts location details to string
