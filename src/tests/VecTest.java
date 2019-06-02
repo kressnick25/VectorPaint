@@ -11,14 +11,15 @@ class VecTest {
     Vec vec;
     int[] listA = new int[]{10,20,30,40,50,60,70,80,90,100};
     int[] listB = new int[]{10,20,30,40,50,60,70,80,90,100};
+    String path = "src/tests/VecTestSamples/";
     @BeforeEach
     void setUp() {
         vec = null;
     }
     @Test
     void VecConstructorTest1(){
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
-        assertEquals("tests/VecTestSamples/test.VEC", vec.getFileName());
+        Vec vec = new Vec(path + "test.VEC");
+        assertEquals(path + "test.VEC", vec.getFileName());
     }
     @Test
     void VecConstructorTest2(){
@@ -34,13 +35,13 @@ class VecTest {
         shapes.add(line);
         shapes.add(polygon);
         shapes.add(plot);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC", shapes);
+        Vec vec = new Vec(path + "test.VEC", shapes);
         assertEquals(shapes, vec.getShapes());
     }
     @Test
     void parseShapeToStringRecTest(){
         AdvancedRectangle thing = new AdvancedRectangle(100, 100, 100,100);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("RECTANGLE 0.100000 0.100000 0.200000 0.200000", otherThing);
 
@@ -48,7 +49,7 @@ class VecTest {
     @Test
     void parseShapeToStringEllipseTest(){
         AdvancedEllipse thing = new AdvancedEllipse(100, 100, 100, 100);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("ELLIPSE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
@@ -56,7 +57,7 @@ class VecTest {
     @Test
     void parseShapeToStringLineTest(){
         AdvancedLine thing = new AdvancedLine(100, 100, 200, 200);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("LINE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
@@ -64,7 +65,7 @@ class VecTest {
     @Test
     void parseShapeToStringPlotTest(){
         AdvancedPlot thing = new AdvancedPlot(100, 100);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PLOT 0.100000 0.100000", otherThing);
     }
@@ -76,7 +77,7 @@ class VecTest {
         points[1] = 200;
         points[2] = 300;
         AdvancedPolygon thing = new AdvancedPolygon(points, points, 3);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("POLYGON 0.1 0.1 0.2 0.2 0.3 0.3", otherThing);
     }
@@ -86,7 +87,7 @@ class VecTest {
         AdvancedRectangle thing = new AdvancedRectangle(100, 100, 100,100);
         thing.setPenColor(Color.blue);
         thing.setFillColor(Color.black);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PEN #0000ff\nFILL #000000\nRECTANGLE 0.100000 0.100000 0.200000 0.200000", otherThing);
 
@@ -96,7 +97,7 @@ class VecTest {
         AdvancedEllipse thing = new AdvancedEllipse(100, 100, 100, 100);
         thing.setPenColor(Color.blue);
         thing.setFillColor(Color.black);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PEN #0000ff\nFILL #000000\nELLIPSE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
@@ -106,7 +107,7 @@ class VecTest {
         AdvancedLine thing = new AdvancedLine(100, 100, 200, 200);
         thing.setPenColor(Color.blue);
         thing.setFillColor(Color.black);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PEN #0000ff\nFILL #000000\nLINE 0.100000 0.100000 0.200000 0.200000", otherThing);
     }
@@ -116,7 +117,7 @@ class VecTest {
         AdvancedPlot thing = new AdvancedPlot(100, 100);
         thing.setPenColor(Color.blue);
         thing.setFillColor(Color.black);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PEN #0000ff\nFILL #000000\nPLOT 0.100000 0.100000", otherThing);
     }
@@ -130,7 +131,7 @@ class VecTest {
         AdvancedPolygon thing = new AdvancedPolygon(points, points, 3);
         thing.setPenColor(Color.blue);
         thing.setFillColor(Color.black);
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String otherThing = vec.parseShapeToString(thing);
         assertEquals("PEN #0000ff\nFILL #000000\nPOLYGON 0.1 0.1 0.2 0.2 0.3 0.3", otherThing);
     }
@@ -140,7 +141,7 @@ class VecTest {
 //        int numberOfShapes = (int )(Math.random() * 5 + 1);
         int numberOfShapes = 5;
 
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         String saveString = "";
 
         for (var i = 0; i < numberOfShapes; i++) {
@@ -167,7 +168,7 @@ class VecTest {
     void testSaveThenReadFile() {
         int numberOfShapes = 5;
 
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test");
         ArrayList<AdvancedShape> shapes = new ArrayList<>();
         for (var i = 0; i < numberOfShapes; i++) {
             AdvancedRectangle shape = new AdvancedRectangle(i * 100, i * 100, 100, 100);
@@ -201,14 +202,14 @@ class VecTest {
 
     @Test
     void fileNameTest() {
-        Vec vec = new Vec("tests/VecTestSamples/test.VEC");
+        Vec vec = new Vec(path + "test.VEC");
         testSaveThenReadFile();
-        assertEquals("tests/VecTestSamples/test.VEC", vec.getFileName());
+        assertEquals(path + "test.VEC", vec.getFileName());
     }
 
     @Test
     void largeFileTest() {
-        Vec vec = new Vec("tests/VecTestSamples/LargeFile.VEC");
+        Vec vec = new Vec(path + "LargeFile.VEC");
         try {
             vec.read();
         } catch (Exception e) {
@@ -222,7 +223,7 @@ class VecTest {
 
     @Test
     void loadExample1FromBlackboard() {
-        Vec vec = new Vec("tests/VecTestSamples/blackboardExample1.VEC");
+        Vec vec = new Vec(path + "blackboardExample1.VEC");
         try {
             vec.read();
         } catch (Exception e) {
@@ -236,7 +237,7 @@ class VecTest {
 
     @Test
     void loadExample2FromBlackboard() {
-        Vec vec = new Vec("tests/VecTestSamples/blackboardExample2.VEC");
+        Vec vec = new Vec(path + "blackboardExample2.VEC");
         try {
             vec.read();
         } catch (Exception e) {
@@ -250,7 +251,7 @@ class VecTest {
 
     @Test
     void loadExample3FromBlackboard() {
-        Vec vec = new Vec("tests/VecTestSamples/blackboardExample3.VEC");
+        Vec vec = new Vec(path + "blackboardExample3.VEC");
         try {
             vec.read();
         } catch (Exception e) {

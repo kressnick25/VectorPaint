@@ -58,7 +58,6 @@ public class GraphicsCanvas extends JPanel {
             // Format shape with leading index number
             list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
         }
-        //String[] stringArray = list.toArray(new String[0]);
         return list;
     }
 
@@ -70,7 +69,6 @@ public class GraphicsCanvas extends JPanel {
 
     public void add(AdvancedShape shape){
         shapes.add(shape);
-        System.out.println(shapes);
         //updateComboBox();
 
     }
@@ -116,8 +114,6 @@ public class GraphicsCanvas extends JPanel {
     /**
      * Used to scale shapes with window on resize.
      * Calculates the percentage scaling difference between and applies scale to all shapes in canvas.
-     * @param prevScreen dimensions of previous window size
-     * @param newScreen dimensions of new window size
      */
     public void updateScale(int newScreenWidth, int previousScreenWidth, int newScreenHeight, int previousScreenHeight){
         double screenWidthDiffPercent = ((double)previousScreenWidth - (double)newScreenWidth) / (double)previousScreenWidth;

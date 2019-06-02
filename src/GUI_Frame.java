@@ -35,16 +35,14 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private static int HEIGHT = 1000;
     private int prevScreenHeight = 1000;
     private int prevSreenWidth = 1000;
-    private int keyCode;
     private JPanel pnlBtn, historyPanel;
     private GraphicsCanvas display;
     private JMenu file, edit, help, grid;
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton, undoButton;
     private JComboBox undoHistoryComboBox;
-    private JMenuItem   cut, copy, paste, selectAll,
-            fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport, gridBtn;
+    private JMenuItem fileOpen, fileSave, fileSaveAs,
+            fileNew, helpBtn, undo, gridBtn;
     private boolean focus = true;
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
@@ -149,7 +147,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     } catch (Exception ignored) {
                     }
                     File selectedFile = jfc.getSelectedFile();
-                    //System.out.println(selectedFile.getAbsolutePath());
 
                     //inputs file location and into vec
                     Vec vec = new Vec(selectedFile.getAbsolutePath());
@@ -200,7 +197,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     //TODO remove unused
     public void keyTyped(KeyEvent e){
-        //System.out.println("dfd");
     }
     private void createLayoutHistoryTopPanel(){
         //History Panel
@@ -224,7 +220,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 String[] split = selectedItem.split(" ");
                 int historyIndex = Integer.parseInt(split[0]);
                 // remove all items in array up to history index
-                System.out.println("dfsd");
                 display.trimToIndex(historyIndex);
                 requestFocus();
                 requestFocusInWindow();
@@ -232,7 +227,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
             }
         });
-        System.out.println("dfsdfsfd");
 
     }
     private void createLayoutButtonPanel() {
@@ -277,16 +271,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     private void createTopMenu() {
         //top navigation bar buttons
-        cut = new JMenuItem("Cut");
-        copy = new JMenuItem("Copy");
-        paste = new JMenuItem("Paste");
         undo = new JMenuItem("Undo");
         fileNew = new JMenuItem("New");
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
-        fileExport =  new JMenuItem("Export as BMP");
-        selectAll = new JMenuItem("Select All");
         gridBtn = new JMenuItem("Grid");
         helpBtn = new JMenuItem("help");
 
@@ -295,16 +284,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         gridBtn.addActionListener(this);
         helpBtn.addActionListener(this);
 
-        cut.addActionListener(this);
-        copy.addActionListener(this);
-        paste.addActionListener(this);
         undo.addActionListener(this);
-        selectAll.addActionListener(this);
         fileNew.addActionListener(this);
         fileOpen.addActionListener(this);
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
-        fileExport.addActionListener(this);
         //gridButt = new JMenuItem("Grid");
 
 
@@ -318,12 +302,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileSave);
         file.add(fileNew);
         file.add(fileSaveAs);
-        file.add(fileExport);
         //add these buttons to
-        edit.add(cut);
-        edit.add(copy);
-        edit.add(paste);
-        edit.add(selectAll);
         edit.add(undo);
         grid.add(gridBtn);
         help.add(helpBtn);
@@ -376,7 +355,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     System.exit(0);
                 }else{
                     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    System.out.println("We up here");
                     System.out.println(numWindows);
                     numWindows--;
                 }
@@ -405,7 +383,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     //display.setSize(size.width, size.width);
                     if(size.width > size.height){
                         display.setSize(size.height, size.height);
-                        //FIXME I believe that the window should always to square, (Need to check)
                     }
                     else{
                         display.setSize(size.width, size.width);
@@ -415,12 +392,8 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                         display.setSize(200, 200);
                     }
                 }
-                /* TODO shapes also have to move with GUI due to vector nature of the GUI
-                 * TODO A background Panel should appear showing where cant draw when window is rectangular
-                  */
-                System.out.println(getSize());
 
-                System.out.println(display.getSize());
+
                 display.updateScale(
                         display.getSize().width, prevSreenWidth,
                         display.getSize().height, prevScreenHeight);
@@ -443,7 +416,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
 
-    // TODO mouse event here using current shape, add to GraphicsCanvas
     //sets the type of shape the user wants to use
     private void setAction(ShapeType type){
         mouseDraw.setType(type);
@@ -504,7 +476,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
             File selectedFile = jfc.getSelectedFile();
-            //System.out.println(selectedFile.getAbsolutePath());
 
             //inputs file location and into vec
             Vec vec = new Vec(selectedFile.getAbsolutePath());
@@ -535,26 +506,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-    private void exportAsBMP(){
-        // TODO file save window for location
-        BufferedImage bImg = new BufferedImage(display.getWidth(), display.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D cg = bImg.createGraphics();
-        cg.setComposite(AlphaComposite.Src);
-        cg.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        cg.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-        cg.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        display.paintAll(cg);
-        cg.dispose();
-        try {
-            if (ImageIO.write(bImg, "bmp", new File("./output_image.bmp")))
-            {
-                System.out.println("-- saved");
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+
     private void gridInput(){
         String errorMessage = "";
         try {
@@ -601,7 +553,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
         else if (src == undoButton) undo();
-        else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -637,10 +588,4 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         createGUI();
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        SwingUtilities.invokeLater(new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM"));
-    }
 }
