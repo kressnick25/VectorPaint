@@ -47,7 +47,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JComboBox undoHistoryComboBox;
     private JMenuItem   cut, copy, paste, selectAll,
             fileOpen, fileSave, fileSaveAs,
-            fileNew, helpBtn, undo, fileExport, gridBtn;
+            fileNew, helpBtn, undo, gridBtn;
     private boolean focus = true;
     private static int numWindows = 0;
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
@@ -278,7 +278,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
-        fileExport =  new JMenuItem("Export as BMP");
         selectAll = new JMenuItem("Select All");
         gridBtn = new JMenuItem("Grid");
         helpBtn = new JMenuItem("help");
@@ -297,7 +296,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileOpen.addActionListener(this);
         fileSave.addActionListener(this);
         fileSaveAs.addActionListener(this);
-        fileExport.addActionListener(this);
         //gridButt = new JMenuItem("Grid");
 
 
@@ -311,7 +309,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileSave);
         file.add(fileNew);
         file.add(fileSaveAs);
-        file.add(fileExport);
         //add these buttons to
         edit.add(cut);
         edit.add(copy);
@@ -528,26 +525,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-    private void exportAsBMP(){
-        // TODO file save window for location
-        BufferedImage bImg = new BufferedImage(display.getWidth(), display.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D cg = bImg.createGraphics();
-        cg.setComposite(AlphaComposite.Src);
-        cg.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        cg.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-        cg.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        display.paintAll(cg);
-        cg.dispose();
-        try {
-            if (ImageIO.write(bImg, "bmp", new File("./output_image.bmp")))
-            {
-                System.out.println("-- saved");
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+
     private void gridInput(){
         String errorMessage = "";
         try {
@@ -594,7 +572,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         else if (src == fileOpen) openFile();
         else if (src == undo) undo();
         else if (src == undoButton) undo();
-        else if (src == fileExport) exportAsBMP();
         else if (src == fileNew) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
