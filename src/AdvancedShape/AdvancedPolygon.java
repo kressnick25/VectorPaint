@@ -28,13 +28,6 @@ public class AdvancedPolygon extends java.awt.Polygon implements AdvancedShape {
      */
     public AdvancedPolygon() {
     }
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startx);
-        listA.add(starty);
-        return listA;
-    }
-
     /**
      *
      * @return get the current fill Color

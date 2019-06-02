@@ -28,17 +28,6 @@ public class AdvancedEllipse extends Ellipse2D.Double implements AdvancedShape{
         this.starty = y;
     }
     /**
-     * adds the starting x and y coordinates
-     * @return
-     */
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startx);
-        listA.add(starty);
-        return listA;
-    }
-
-    /**
      *
      * @return gets the current fill color.
      */

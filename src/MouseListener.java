@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 
 public class MouseListener extends MouseInputAdapter {
+
     private AdvancedShape shape;
     // default as plot
     private ShapeType type = ShapeType.Plot;
@@ -16,16 +17,29 @@ public class MouseListener extends MouseInputAdapter {
     private double intervalUserX = 0;
     private double intervalUserY = 0;
 
+    /**
+     *
+     * @param type Sets an Enum for the type of shape
+     */
     public void setType(ShapeType type) {
         //type of shape
         this.type = type;
     }
 
+    /**
+     *
+     * @param gc Sets the drawing canvas area
+     */
     public void setCanvas(GraphicsCanvas gc){
         //sets canvas
         this.display = gc;
     }
 
+    /**
+     *
+     * @param e Listens for a mouse pressed on the canvas
+     *          creates new shape based on type enum user selected
+     */
     public void mousePressed(MouseEvent e) {
         //Gets x and y coords of mouse
         int x = e.getX();
@@ -85,11 +99,21 @@ public class MouseListener extends MouseInputAdapter {
 
         }
     }
+
+    /**
+     *
+     * @param interval sets the grid spacing from vec format, as specified by the user
+     */
     public void setInterval(double interval){
         //sets grid interval
         this.intervalUserX = interval*10;
         this.intervalUserY = interval*10;
     }
+
+    /**
+     *
+     * @param e Listens for mouse dragged on canvas, updates the shapes details
+     */
     public void mouseDragged(MouseEvent e) {
         //check if shape is not polygon or plot
         if (!(shape instanceof AdvancedPolygon) && !(shape instanceof AdvancedPlot)) {
@@ -148,6 +172,10 @@ public class MouseListener extends MouseInputAdapter {
         }
     }
 
+    /**
+     *
+     * @param e Listens for mouse released on graphic canvas, sets the final specification of the shape
+     */
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
@@ -222,10 +250,18 @@ public class MouseListener extends MouseInputAdapter {
         display.updateComboBox();
     }
 
+    /**
+     *
+     * @param penColor Sets the pen color
+     */
     public void setPenColor(Color penColor) {
         this.penColor = penColor;
     }
 
+    /**
+     *
+     * @param fillColor sets the fill colour of the shape
+     */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
     }

@@ -36,20 +36,6 @@ class AdvancedPlotTest {
         AdvancedPlot Plottest = new AdvancedPlot(0.1,0.1);
         assertEquals(5, Plottest.getHeight());
     }
-    @Test
-    void constructorTestStartX(){
-        AdvancedPlot Plottest = new AdvancedPlot(0.2,0.1);
-        ArrayList startList = Plottest.startGetter();
-        Object startX = startList.get(0);
-        assertEquals(0.2, startX);
-    }
-    @Test
-    void constructorTestStartY(){
-        AdvancedPlot Plottest = new AdvancedPlot(0.1,0.2);
-        ArrayList startList = Plottest.startGetter();
-        Object startY = startList.get(1);
-        assertEquals(0.2, startY);
-    }
 
     @Test
     void fillColorTest(){

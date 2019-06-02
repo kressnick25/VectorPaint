@@ -30,17 +30,6 @@ public class AdvancedRectangle extends Rectangle2D.Double implements AdvancedSha
         this.starty = y;
     }
     /**
-     * adds the starting x and y coordinates
-     * @return
-     */
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startx);
-        listA.add(starty);
-        return listA;
-    }
-
-    /**
      *
      * @return get the current fill Color
      */

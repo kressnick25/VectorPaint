@@ -20,12 +20,7 @@ public class AdvancedPlot extends Ellipse2D.Double implements AdvancedShape{
         this.startX = x;
         this.startY = y;
     }
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startX);
-        listA.add(startY);
-        return listA;
-    }
+
 
 
     /**

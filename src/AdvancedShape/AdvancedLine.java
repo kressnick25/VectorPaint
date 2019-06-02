@@ -46,20 +46,6 @@ public class AdvancedLine extends Line2D.Double implements AdvancedShape {
     }
 
     /**
-     * used for testing the constructor
-     * gets array of start and end points of line
-     * @return
-     */
-    public ArrayList startGetter(){
-        ArrayList listA = new ArrayList();
-        listA.add(startX1);
-        listA.add(startY1);
-        listA.add(endX2);
-        listA.add(endY2);
-        return listA;
-    }
-
-    /**
      *
      * @return gets the current fill Color
      */

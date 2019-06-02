@@ -15,15 +15,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
-//import java.awt.event.KeyEvent;
 import java.awt.event.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
-/*
-ShapeType enum used to differiatate between shapes
- */
+    /**
+    * ShapeType enum used to differiatate between shapes
+    */
 enum ShapeType {
     Rectangle,
     Ellipse,
@@ -327,7 +324,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
         gridBtn = new JMenuItem("Grid");
-        helpBtn = new JMenuItem("help");
+        helpBtn = new JMenuItem("Help");
 
         //gridButt = new JMenuItem("Grid for real");
         //adding action listeners to MenuBar Buttons

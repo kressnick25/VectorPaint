@@ -37,20 +37,6 @@ class AdvancedRectangleTest {
         AdvancedRectangle Rectangletest = new AdvancedRectangle(0.1,0.1,0.1,0.4);
         assertEquals(0.4, Rectangletest.getHeight());
     }
-    @Test
-    void constructorTestStartX(){
-        AdvancedRectangle Rectangletest = new AdvancedRectangle(0.2,0.1,0.1,0.1);
-        ArrayList startList = Rectangletest.startGetter();
-        Object startX = startList.get(0);
-        assertEquals(0.2, startX);
-    }
-    @Test
-    void constructorTestStartY(){
-        AdvancedRectangle Rectangletest = new AdvancedRectangle(0.1,0.2,0.1,0.1);
-        ArrayList startList = Rectangletest.startGetter();
-        Object startY = startList.get(1);
-        assertEquals(0.2, startY);
-    }
 
     @Test
     void fillColorTest(){
