@@ -5,7 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
-
+/**
+ * GraphicsCanvas is an extended JPanel that draws an array of AdvancedShapes to the Panel.
+ */
 public class GraphicsCanvas extends JPanel {
     private ArrayList<AdvancedShape> shapes = new ArrayList<>();
     private JComboBox comboBox;
@@ -20,7 +22,10 @@ public class GraphicsCanvas extends JPanel {
         setSize(500, 500);
         setVisible(true);
     }
-
+    /**
+     * Re-render the current AdvancedShape array to the canvas
+     * @param g a Graphics object
+     */
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         // Anti-Aliasing Setting, turn off for better performance
@@ -34,8 +39,16 @@ public class GraphicsCanvas extends JPanel {
     public void setComboBox(JComboBox comboBox){
         this.comboBox = comboBox;
     }
+    /**
+     *
+     * @return the current AdvancedShapes in the canvas
+     */
     public ArrayList<AdvancedShape> getShapes() { return this.shapes; }
-
+    /**
+     * Outputs an String List formatting every shape in the current array as [INDEX SHAPETYPE].
+     * Used for formatting to the UndoHistory ComboBox
+     * @return ArrayList of Strings
+     */
     public ArrayList<String> toStringArray() {
         ArrayList<String> list = new ArrayList<>();
         ArrayList<AdvancedShape> sh = this.getShapes();
@@ -61,25 +74,36 @@ public class GraphicsCanvas extends JPanel {
         //updateComboBox();
 
     }
+    /**
+     * Removes all shapes from canvas with index greater than provided index.
+     * Then updates the comboBox to reflect changes.
+     * @param index the index of the array to trim to
+     */
     public void trimToIndex(int index){
         shapes.subList(index, shapes.size()).clear();
         updateComboBox();
 
     }
-    //remove last element in list
-    // TODO convert use datatype that natively supports this
-    public void clearLast(){
+    /**
+     * Remove the last/ most recently added shape from the canvas.
+     * Update the comboBox to reflect changes.
+     */    public void clearLast(){
         if (shapes.size() != 0) {
             shapes.remove(shapes.size() - 1);
         }
         updateComboBox();
     }
-
+    /**
+     * Clear the canvas of all shapes.
+     */
     public void clear(){
         shapes.clear();
         updateComboBox();
     }
-
+    /**
+     *
+     * @return the latest/ most recently added AdvancedShape
+     */
     public Shape getLatest() {
         if (!shapes.isEmpty()) {
             if (shapes.size() == 0) {
@@ -89,7 +113,12 @@ public class GraphicsCanvas extends JPanel {
         }
         return null;
     }
-
+    /**
+     * Used to scale shapes with window on resize.
+     * Calculates the percentage scaling difference between and applies scale to all shapes in canvas.
+     * @param prevScreen dimensions of previous window size
+     * @param newScreen dimensions of new window size
+     */
     public void updateScale(int newScreenWidth, int previousScreenWidth, int newScreenHeight, int previousScreenHeight){
         double screenWidthDiffPercent = ((double)previousScreenWidth - (double)newScreenWidth) / (double)previousScreenWidth;
         double screenHeightDiffPercent = ((double)previousScreenHeight - (double)newScreenHeight) / (double)previousScreenHeight;
