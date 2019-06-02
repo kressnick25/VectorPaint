@@ -219,10 +219,7 @@ public class MouseListener extends MouseInputAdapter {
             display.clearLast();
             display.add(shape);
         }
-        System.out.println("Before combo:" + display.getSize().width + " , " + display.getSize().height);
         display.updateComboBox();
-        System.out.println("After combo:" + display.getSize().width + " , " + display.getSize().height);
-
     }
 
     public void setPenColor(Color penColor) {

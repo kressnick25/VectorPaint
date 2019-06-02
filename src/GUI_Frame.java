@@ -44,8 +44,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     private JButton LineButton, RectangleButton, EllipseButton,
             PolygonButton, FillButton, PenButton, PlotButton, undoButton;
     private JComboBox undoHistoryComboBox;
-    private JMenuItem   cut, copy, paste, selectAll,
-            fileOpen, fileSave, fileSaveAs,
+    private JMenuItem fileOpen, fileSave, fileSaveAs,
             fileNew, helpBtn, undo, gridBtn;
     private boolean focus = true;
     private static int numWindows = 0;
@@ -140,7 +139,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     } catch (Exception ignored) {
                     }
                     File selectedFile = jfc.getSelectedFile();
-                    //System.out.println(selectedFile.getAbsolutePath());
 
                     //inputs file location and into vec
                     Vec vec = new Vec(selectedFile.getAbsolutePath());
@@ -184,7 +182,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     }
     public void keyReleased(KeyEvent e){
-        //System.out.println("dfd");
         if(!pressed.isEmpty()) {
             pressed.remove(0);
         }
@@ -192,7 +189,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
     }
     //TODO remove unused
     public void keyTyped(KeyEvent e){
-        //System.out.println("dfd");
     }
     private void createLayoutHistoryTopPanel(){
         //History Panel
@@ -216,7 +212,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 String[] split = selectedItem.split(" ");
                 int historyIndex = Integer.parseInt(split[0]);
                 // remove all items in array up to history index
-                System.out.println("dfsd");
                 display.trimToIndex(historyIndex);
                 requestFocus();
                 requestFocusInWindow();
@@ -224,7 +219,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
             }
         });
-        System.out.println("dfsdfsfd");
 
     }
     private void createLayoutButtonPanel() {
@@ -269,15 +263,11 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
 
     private void createTopMenu() {
         //top navigation bar buttons
-        cut = new JMenuItem("Cut");
-        copy = new JMenuItem("Copy");
-        paste = new JMenuItem("Paste");
         undo = new JMenuItem("Undo");
         fileNew = new JMenuItem("New");
         fileOpen = new JMenuItem("Open");
         fileSave = new JMenuItem("Save");
         fileSaveAs = new JMenuItem("Save As");
-        selectAll = new JMenuItem("Select All");
         gridBtn = new JMenuItem("Grid");
         helpBtn = new JMenuItem("help");
 
@@ -286,11 +276,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         gridBtn.addActionListener(this);
         helpBtn.addActionListener(this);
 
-        cut.addActionListener(this);
-        copy.addActionListener(this);
-        paste.addActionListener(this);
         undo.addActionListener(this);
-        selectAll.addActionListener(this);
         fileNew.addActionListener(this);
         fileOpen.addActionListener(this);
         fileSave.addActionListener(this);
@@ -309,10 +295,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         file.add(fileNew);
         file.add(fileSaveAs);
         //add these buttons to
-        edit.add(cut);
-        edit.add(copy);
-        edit.add(paste);
-        edit.add(selectAll);
         edit.add(undo);
         grid.add(gridBtn);
         help.add(helpBtn);
@@ -365,7 +347,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     System.exit(0);
                 }else{
                     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    System.out.println("We up here");
                     System.out.println(numWindows);
                     numWindows--;
                 }
@@ -404,9 +385,7 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                     }
                 }
 
-                System.out.println(getSize());
 
-                System.out.println(display.getSize());
                 display.updateScale(
                         display.getSize().width, prevSreenWidth,
                         display.getSize().height, prevScreenHeight);
@@ -489,7 +468,6 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {}
             File selectedFile = jfc.getSelectedFile();
-            //System.out.println(selectedFile.getAbsolutePath());
 
             //inputs file location and into vec
             Vec vec = new Vec(selectedFile.getAbsolutePath());
@@ -602,10 +580,4 @@ public class GUI_Frame extends JFrame implements ActionListener, Runnable, KeyLi
         createGUI();
     }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {}
-        SwingUtilities.invokeLater(new GUI_Frame("CAB230 - VECTOR DRAWING PROGRAM"));
-    }
 }

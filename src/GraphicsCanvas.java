@@ -58,7 +58,6 @@ public class GraphicsCanvas extends JPanel {
             // Format shape with leading index number
             list.add(shapes.indexOf(s)+ " " + shapeParts[0]);
         }
-        //String[] stringArray = list.toArray(new String[0]);
         return list;
     }
 
@@ -70,7 +69,6 @@ public class GraphicsCanvas extends JPanel {
 
     public void add(AdvancedShape shape){
         shapes.add(shape);
-        System.out.println(shapes);
         //updateComboBox();
 
     }
